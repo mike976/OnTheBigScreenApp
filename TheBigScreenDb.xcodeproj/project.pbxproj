@@ -25,10 +25,10 @@
 		2E9EB4B22457061400C2C488 /* NSTimer+Closure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9EB4AD2457061400C2C488 /* NSTimer+Closure.swift */; };
 		2E9EB4B82457074E00C2C488 /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9EB4B72457074E00C2C488 /* Dynamic.swift */; };
 		2E9EB4BB24571C2600C2C488 /* MoviesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9EB4BA24571C2600C2C488 /* MoviesService.swift */; };
-		2E9EB4BF24571E7A00C2C488 /* HTTPNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9EB4BE24571E7A00C2C488 /* HTTPNetworking.swift */; };
 		2E9EB4C124571ED200C2C488 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9EB4C024571ED200C2C488 /* Endpoint.swift */; };
 		2E9EB4C32457332600C2C488 /* RestAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9EB4C22457332600C2C488 /* RestAPIClient.swift */; };
 		2E9EB4C52457334400C2C488 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9EB4C42457334400C2C488 /* Movie.swift */; };
+		2EB2969B2458422D00E0D018 /* MoviesNowPlayingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2969A2458422D00E0D018 /* MoviesNowPlayingViewModel.swift */; };
 		584984E7E8B8D3E1D20004CF /* Pods_TheBigScreenDb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 618EA47A53A8A5197DD9FAE9 /* Pods_TheBigScreenDb.framework */; };
 		EBF085A5E6F1C2051E3280D6 /* Pods_TheBigScreenDb_TheBigScreenDbUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFCB6DB6BC29C79EECF6C411 /* Pods_TheBigScreenDb_TheBigScreenDbUITests.framework */; };
 /* End PBXBuildFile section */
@@ -75,10 +75,10 @@
 		2E9EB4AD2457061400C2C488 /* NSTimer+Closure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSTimer+Closure.swift"; sourceTree = "<group>"; };
 		2E9EB4B72457074E00C2C488 /* Dynamic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dynamic.swift; sourceTree = "<group>"; };
 		2E9EB4BA24571C2600C2C488 /* MoviesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesService.swift; sourceTree = "<group>"; };
-		2E9EB4BE24571E7A00C2C488 /* HTTPNetworking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPNetworking.swift; sourceTree = "<group>"; };
 		2E9EB4C024571ED200C2C488 /* Endpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		2E9EB4C22457332600C2C488 /* RestAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestAPIClient.swift; sourceTree = "<group>"; };
 		2E9EB4C42457334400C2C488 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		2EB2969A2458422D00E0D018 /* MoviesNowPlayingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesNowPlayingViewModel.swift; sourceTree = "<group>"; };
 		302AB8C52C575D937068D3C9 /* Pods-TheBigScreenDb-TheBigScreenDbUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheBigScreenDb-TheBigScreenDbUITests.debug.xcconfig"; path = "Target Support Files/Pods-TheBigScreenDb-TheBigScreenDbUITests/Pods-TheBigScreenDb-TheBigScreenDbUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		618EA47A53A8A5197DD9FAE9 /* Pods_TheBigScreenDb.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TheBigScreenDb.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		661B6203734F7C9475FFD543 /* Pods-TheBigScreenDbTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheBigScreenDbTests.debug.xcconfig"; path = "Target Support Files/Pods-TheBigScreenDbTests/Pods-TheBigScreenDbTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -219,6 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				2E9EB4B72457074E00C2C488 /* Dynamic.swift */,
+				2EB2969A2458422D00E0D018 /* MoviesNowPlayingViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -253,7 +254,6 @@
 		2E9EB4A82457054800C2C488 /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
-				2E9EB4BE24571E7A00C2C488 /* HTTPNetworking.swift */,
 				2E9EB4C22457332600C2C488 /* RestAPIClient.swift */,
 			);
 			path = Dependencies;
@@ -306,7 +306,6 @@
 				661B6203734F7C9475FFD543 /* Pods-TheBigScreenDbTests.debug.xcconfig */,
 				BFDAA36568344614E6004BDF /* Pods-TheBigScreenDbTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -580,10 +579,10 @@
 				2E9EB4C124571ED200C2C488 /* Endpoint.swift in Sources */,
 				2E9EB4AF2457061400C2C488 /* UIViewController+Subview.swift in Sources */,
 				2E9EB4AE2457061400C2C488 /* UINib+Loader.swift in Sources */,
-				2E9EB4BF24571E7A00C2C488 /* HTTPNetworking.swift in Sources */,
 				2E9EB4BB24571C2600C2C488 /* MoviesService.swift in Sources */,
 				2E9EB4B22457061400C2C488 /* NSTimer+Closure.swift in Sources */,
 				2E9EB4C52457334400C2C488 /* Movie.swift in Sources */,
+				2EB2969B2458422D00E0D018 /* MoviesNowPlayingViewModel.swift in Sources */,
 				2E9EB4C32457332600C2C488 /* RestAPIClient.swift in Sources */,
 				2E9EB478245703BF00C2C488 /* TheBigScreenDb.xcdatamodeld in Sources */,
 				2E9EB4B12457061400C2C488 /* UIColor+Theme.swift in Sources */,

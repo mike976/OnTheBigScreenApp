@@ -1,57 +1,61 @@
 
 
 import Foundation
-import Alamofire
-//import SwiftyJSON
 //import AlamofireImage
 
 
-class RestAPIClient {
+protocol RestApiClientProtocol {
     
-    typealias completionHandler<T : Codable> = (T?, Error?) -> Void
-    
-    func Get<T : Codable> (_ url: URL, completion: @escaping completionHandler<T>) {
-        
-        AF.request(url, method: .get).validate().responseJSON { (response) in
-                                            
-            if let error = response.error {
-                completion(nil, error)
-            } else if let safeData = response.data {
-                                
-                let decoder = JSONDecoder()
-                                
-                do {
-                    let TData = try decoder.decode(T.self, from: safeData)
-                    completion(TData, nil)
-                    
-                } catch {
-                    print(error.localizedDescription)
-                }
-                
-                // LOOK AT THE EXAMPLE in t.downloadhis link maybe for image downloading
-                //https://www.raywenderlich.com/35-alamofire-tutorial-getting-started
-                
-                //let swiftyJsonVar = JSON(response.value!)
-                
-                
-                //                if let resArray = swiftyJsonVar.arrayObject {
-                //                   completion(resArray as? [[String:Any]], nil)
-                //
-                //                   print("Array")
-                //
-                //                } else if let resDict = swiftyJsonVar.dictionaryObject {
-                //                    completion([resDict], nil)
-                //
-                //                    print("Dictionary")
-                //                }
-            }
-        }
-    }
+    typealias completionHandler<T:Codable> = (Result<T, RestApiError>) -> Void
+    func GetRequest<T : Codable>(url: URL, completion: @escaping completionHandler<T>)
 }
 
-struct Post : Codable {
-    var userId: Int
-    var id: Int
-    var title : String
-    var body : String
+
+enum RestApiError : Error {
+    case noDataAvailable
+    case unableToDecode    
+}
+
+class RestAPIClient : RestApiClientProtocol {
+    
+
+    typealias completionHandler<T:Codable> = (Result<T, RestApiError>) -> Void
+    
+    func GetRequest<T : Codable>(url: URL, completion: @escaping completionHandler<T>) {
+        
+        //1. create request
+        //2. call request
+        //3. check response fail and return completionhandler failur3
+        //4. create jsondecoder and do try decode response data
+        //5. create decodable object and return completionhandler success
+            
+        let dataTask = URLSession.shared.dataTask(with: url) { (data, response, error) in
+                           
+            guard error == nil else {
+                print ("error getting response: \(error!)")
+                return
+            }
+            
+            guard let jsonData = data else {
+                completion(.failure(.noDataAvailable))
+                return
+            }
+
+           
+            let decoder = JSONDecoder()
+            
+            do {
+                let codableResponse = try decoder.decode(T.self, from: jsonData)
+                
+                completion(.success(codableResponse))
+                return
+                
+            } catch {
+                completion(.failure(.unableToDecode))
+            }
+        }
+        
+        dataTask.resume()
+            
+    }
 }

@@ -15,38 +15,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Featured" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="KQZ-1w-vlD">
-                                <rect key="frame" x="20" y="69" width="374" height="455"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="atU-90-oWD" userLabel="Featured Table View">
+                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OZ7-7n-rbt">
-                                <rect key="frame" x="161" y="726" width="92" height="63"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="63" id="EcI-o6-HxF"/>
-                                </constraints>
-                                <state key="normal" title="Execute"/>
-                                <connections>
-                                    <action selector="executePressed:" destination="9pv-A4-QxB" eventType="touchUpInside" id="hdm-PG-LBR"/>
-                                </connections>
-                            </button>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FeaturedCell" id="14Q-Do-44O">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="14Q-Do-44O" id="0aH-hs-BgG">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="KQZ-1w-vlD" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" id="0tz-yP-F8k"/>
-                            <constraint firstAttribute="centerX" secondItem="KQZ-1w-vlD" secondAttribute="centerX" id="6BV-lF-sBN"/>
-                            <constraint firstItem="OZ7-7n-rbt" firstAttribute="leading" secondItem="PQr-Ze-W5v" secondAttribute="leading" constant="161" id="MOF-mM-O3C"/>
-                            <constraint firstItem="KQZ-1w-vlD" firstAttribute="top" secondItem="PQr-Ze-W5v" secondAttribute="top" constant="25" id="dui-WC-Wwy"/>
-                            <constraint firstAttribute="centerY" secondItem="KQZ-1w-vlD" secondAttribute="centerY" constant="151.5" id="exm-UA-ej4"/>
-                            <constraint firstItem="KQZ-1w-vlD" firstAttribute="centerX" secondItem="OZ7-7n-rbt" secondAttribute="centerX" id="pVK-0u-dot"/>
-                            <constraint firstItem="PQr-Ze-W5v" firstAttribute="bottom" secondItem="OZ7-7n-rbt" secondAttribute="bottom" constant="24" id="rA9-2q-tcs"/>
+                            <constraint firstItem="atU-90-oWD" firstAttribute="top" secondItem="PQr-Ze-W5v" secondAttribute="top" id="6v0-eR-War"/>
+                            <constraint firstItem="PQr-Ze-W5v" firstAttribute="trailing" secondItem="atU-90-oWD" secondAttribute="trailing" id="hnV-Lq-w5B"/>
+                            <constraint firstItem="atU-90-oWD" firstAttribute="leading" secondItem="PQr-Ze-W5v" secondAttribute="leading" id="mtz-pN-sE5"/>
+                            <constraint firstItem="PQr-Ze-W5v" firstAttribute="bottom" secondItem="atU-90-oWD" secondAttribute="bottom" id="wfn-dk-hLs"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="PQr-Ze-W5v"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Featured" image="Featured" id="acW-dT-cKf"/>
                     <connections>
-                        <outlet property="textField" destination="KQZ-1w-vlD" id="EiD-DN-Urr"/>
+                        <outlet property="tableView" destination="atU-90-oWD" id="R74-RL-rX3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>

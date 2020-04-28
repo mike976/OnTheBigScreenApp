@@ -9,12 +9,18 @@
 import Foundation
 
 
-class Movie {
+struct MovieResults : Codable {
     
-    let name: String!
+    var results: [Movie]
     
-    init(name: String) {
+    init () {
         
-        self.name = name
+        self.results = [Movie]()
     }
 }
+
+struct Movie : Codable {
+    
+    var title: String
+}
+

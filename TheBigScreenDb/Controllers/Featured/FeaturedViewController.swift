@@ -3,39 +3,71 @@
 import UIKit
 
 class FeaturedViewController: UIViewController {
-
-    @IBOutlet weak var textField: UILabel!
-
     
-    private let restApiClient = RestAPIClient()
+    @IBOutlet weak var tableView: UITableView!
+    
+    private let movieService = MoviesService()
+    
+    private var moviesNowPlayingList = MovieResults() {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
-
-    @IBAction func executePressed(_ sender: UIButton) {
         
-        guard let urlToExecute = URL(string: "https://jsonplaceholder.typicode.com/posts/1") else {
-            return
-        }
-        
-
-        restApiClient.Get(urlToExecute) { (json: Post?, error) in
-            if let error = error {
-                self.textField.text = error.localizedDescription
-            } else {
-                
-                if let safejson = json! as Post? {
-                    self.textField.text = String(safejson.id) + " " + safejson.body
-                } else {
-                     self.textField.text = "Unable to decode"
-                }
-            }
-        }
-        
+        self.Initialize()
     }
     
+    private func Initialize() {
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+        
+        movieService.moviesNowPlayingReceivedDelegate = self
+        
+        movieService.getMoviesNowPlaying()
+    }
+}
+
+
+extension FeaturedViewController : MoviesNowPlayingReceivedDelegate {
+    
+    func moviesNowPlayingReceived() {
+        if let moviesNowPlaying = self.movieService.moviesNowPlayingList {
+            self.moviesNowPlayingList = moviesNowPlaying
+        }
+    }
+}
+
+extension FeaturedViewController : UITableViewDataSource {
+   
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.moviesNowPlayingList.results.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "FeaturedCell", for: indexPath)
+        
+        let movie = self.moviesNowPlayingList.results[indexPath.row]
+        cell.textLabel!.text = movie.title
+        
+        return cell
+    }
     
 }
+
+extension FeaturedViewController : UITableViewDelegate {
+    
+}
+    
+    
 
