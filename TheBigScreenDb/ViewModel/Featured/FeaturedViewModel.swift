@@ -15,7 +15,7 @@ protocol FeaturedViewModelProtocol {
 
 class FeaturedViewModel : FeaturedViewModelProtocol {
         
-    var moviesNowPlayingViewModel = MoviesNowPlayingViewModel()
+    private var moviesNowPlayingViewModel: MoviesNowPlayingViewModel
     
     var moviesNowPlayingList: MovieResults! {
         didSet {
@@ -25,7 +25,9 @@ class FeaturedViewModel : FeaturedViewModelProtocol {
 
     var moviesNowPlayingReceivedDelegate: MoviesNowPlayingReceivedDelegate!
 
-    init() {
+    required init(moviesNowPlayingViewModel: MoviesNowPlayingViewModel) {
+        
+        self.moviesNowPlayingViewModel = moviesNowPlayingViewModel
         self.moviesNowPlayingViewModel.moviesNowPlayingReceivedDelegate = self
     }
     

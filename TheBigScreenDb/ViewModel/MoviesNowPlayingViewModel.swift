@@ -16,7 +16,7 @@ protocol MoviesNowPlayingViewModelProtocol {
 
 class MoviesNowPlayingViewModel : MoviesNowPlayingViewModelProtocol {
     
-    private let movieService = MoviesService() //should be injected in by IOC
+    private var movieService: MoviesService
 
     var moviesNowPlayingList: MovieResults! {
         didSet {
@@ -26,8 +26,9 @@ class MoviesNowPlayingViewModel : MoviesNowPlayingViewModelProtocol {
     
     var moviesNowPlayingReceivedDelegate: MoviesNowPlayingReceivedDelegate!
     
-    init() {
+    required init(movieService: MoviesService) {
 
+        self.movieService = movieService
         self.movieService.moviesNowPlayingReceivedDelegate = self
     }
         

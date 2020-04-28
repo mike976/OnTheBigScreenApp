@@ -11,11 +11,6 @@ target 'TheBigScreenDb' do
     pod 'Alamofire', '~> 5.1'
     pod 'AlamofireImage', '~> 4.1'
     pod 'SwiftyJSON'
-
-    
-    # Dependency Injection APIS
-    pod 'Swinject'
-    pod 'SwinjectAutoregistration'  # Very important as allows for autoregister of types in
     
     # Create UI by code API
     pod 'PureLayout'
@@ -32,10 +27,6 @@ target 'TheBigScreenDb' do
     pod 'AlamofireImage', '~> 4.1'
     pod 'SwiftyJSON'
     
-    # Dependency Injection APIS
-    pod 'Swinject'
-    pod 'SwinjectAutoregistration'  # Very important as allows for autoregister of types in
-    
     # Create UI by code API
     pod 'PureLayout'
 
@@ -50,10 +41,7 @@ target 'TheBigScreenDb' do
     pod 'Alamofire', '~> 5.1'
     pod 'AlamofireImage', '~> 4.1'
     pod 'SwiftyJSON'
-    
-    # Dependency Injection APIS
-    pod 'Swinject'
-    pod 'SwinjectAutoregistration'  # Very important as allows for autoregister of types in
+
     
     # Create UI by code API
     pod 'PureLayout'

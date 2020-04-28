@@ -36,11 +36,17 @@ class MoviesService : MoviesServiceProtocol {
     private let language = "&language=en-US"
     private let baseUrl = "https://api.themoviedb.org/3/movie"
     
-    let restApiClient = RestAPIClient()
+    private var restApiClient: RestAPIClient
         
     var moviesNowPlayingReceivedDelegate: MoviesNowPlayingReceivedDelegate?
     
     var moviesNowPlayingList: MovieResults?
+    
+    required init(restApiClient: RestAPIClient) {
+        self.restApiClient = restApiClient
+    }
+    
+    
     
     func getMoviesNowPlaying () {
 

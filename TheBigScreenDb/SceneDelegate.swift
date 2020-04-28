@@ -18,6 +18,29 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
+        
+               
+        simulateAnIOCContainer()        
+    }
+    
+    
+    //Due to issues using SwinInject and tabbarcontroller for dependency injection IOC registration.
+    //I've created this function that is essentially a makeshift way of resolving dependencies via initializer injection, and this indrectly shows the object graph had this been an actual IOC container
+    func simulateAnIOCContainer () {
+        
+        //Featured Tab Section Dependencies Resolved
+        if let viewController = self.window?.rootViewController {
+                        
+            if let featuredViewController = viewController.children[0] as? FeaturedViewController {
+
+                let restApiClient = RestAPIClient()
+                let movieService = MoviesService(restApiClient: restApiClient)
+                let moviesNowPlayingViewModel = MoviesNowPlayingViewModel(movieService: movieService)
+                let featureViewModel = FeaturedViewModel(moviesNowPlayingViewModel: moviesNowPlayingViewModel)
+                
+                featuredViewController.featuredViewModel = featureViewModel
+            }
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

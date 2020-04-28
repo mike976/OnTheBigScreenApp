@@ -20,7 +20,7 @@ class FeaturedViewController: UIViewController {
         self.Initialize()
     }
     
-    private var featuredViewModel = FeaturedViewModel()
+    var featuredViewModel: FeaturedViewModel!
     
     private func Initialize() {
         
