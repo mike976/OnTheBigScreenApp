@@ -1,5 +1,5 @@
 //
-//  MoviesNowPlayingViewModel.swift
+//  FeaturedViewModel.swift
 //  TheBigScreenDb
 //
 //  Created by Michael Bullock on 28/04/2020.
@@ -8,48 +8,44 @@
 
 import Foundation
 
-protocol MoviesNowPlayingViewModelProtocol {
-
+protocol FeaturedViewModelProtocol {
     var moviesNowPlayingReceivedDelegate: MoviesNowPlayingReceivedDelegate! { get }
     func getMoviesNowPlaying ()
 }
 
-class MoviesNowPlayingViewModel : MoviesNowPlayingViewModelProtocol {
+class FeaturedViewModel : FeaturedViewModelProtocol {
+        
+    var moviesNowPlayingViewModel = MoviesNowPlayingViewModel()
     
-    private let movieService = MoviesService() //should be injected in by IOC
-
     var moviesNowPlayingList: MovieResults! {
         didSet {
             self.moviesNowPlayingReceivedDelegate?.moviesNowPlayingReceived()
         }
     }
-    
-    var moviesNowPlayingReceivedDelegate: MoviesNowPlayingReceivedDelegate!
-    
-    init() {
 
-        self.movieService.moviesNowPlayingReceivedDelegate = self
+    var moviesNowPlayingReceivedDelegate: MoviesNowPlayingReceivedDelegate!
+
+    init() {
+        self.moviesNowPlayingViewModel.moviesNowPlayingReceivedDelegate = self
     }
-        
+    
     func getMoviesNowPlaying () {
         
-        self.movieService.getMoviesNowPlaying()
+        self.moviesNowPlayingViewModel.getMoviesNowPlaying()
     }
     
 }
 
-extension MoviesNowPlayingViewModel : MoviesNowPlayingReceivedDelegate {
+extension FeaturedViewModel : MoviesNowPlayingReceivedDelegate {
     
     func moviesNowPlayingReceived() {
-        if let moviesNowPlaying = self.movieService.moviesNowPlayingList {
-            
-//            print("received movies in MoviewNowPlayingViewModel \(moviesNowPlaying)")
-
+        if let moviesNowPlaying = self.moviesNowPlayingViewModel.moviesNowPlayingList {
+            //print("received movies in FeaturedViewModel \(moviesNowPlaying)")
             self.moviesNowPlayingList = moviesNowPlaying
-            
         }
     }
 }
+
 
 
 

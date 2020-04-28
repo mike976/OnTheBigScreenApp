@@ -6,8 +6,6 @@ class FeaturedViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    private let movieService = MoviesService()
-    
     private var moviesNowPlayingList = MovieResults() {
         didSet {
             DispatchQueue.main.async {
@@ -15,33 +13,26 @@ class FeaturedViewController: UIViewController {
             }
         }
     }
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.Initialize()
     }
     
+    private var featuredViewModel = FeaturedViewModel()
+    
     private func Initialize() {
         
         tableView.dataSource = self
         tableView.delegate = self
         
-        movieService.moviesNowPlayingReceivedDelegate = self
-        
-        movieService.getMoviesNowPlaying()
+        self.featuredViewModel.moviesNowPlayingReceivedDelegate = self
+        self.featuredViewModel.getMoviesNowPlaying()
+
     }
 }
 
-
-extension FeaturedViewController : MoviesNowPlayingReceivedDelegate {
-    
-    func moviesNowPlayingReceived() {
-        if let moviesNowPlaying = self.movieService.moviesNowPlayingList {
-            self.moviesNowPlayingList = moviesNowPlaying
-        }
-    }
-}
 
 extension FeaturedViewController : UITableViewDataSource {
    
@@ -67,6 +58,15 @@ extension FeaturedViewController : UITableViewDataSource {
 
 extension FeaturedViewController : UITableViewDelegate {
     
+}
+
+extension FeaturedViewController : MoviesNowPlayingReceivedDelegate {
+    func moviesNowPlayingReceived() {
+        if let moviesNowPlaying = self.featuredViewModel.moviesNowPlayingList {
+            self.moviesNowPlayingList = moviesNowPlaying
+            print("received movies in FeaturedViewController")
+        }
+    }
 }
     
     
