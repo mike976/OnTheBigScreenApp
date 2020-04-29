@@ -9,46 +9,34 @@
 import Foundation
 
 protocol FeaturedViewModelProtocol {
-    var moviesNowPlayingReceivedDelegate: MoviesNowPlayingReceivedDelegate! { get }
-    func getMoviesNowPlaying ()
+     
+    typealias getNowPlayingMoviesOnComplete = ([Movie], WebResponse) -> Void
+    func getNowPlayingMovies(page : Int, onComplete : @escaping getNowPlayingMoviesOnComplete)
+    
 }
 
 class FeaturedViewModel : FeaturedViewModelProtocol {
-        
-    private var moviesNowPlayingViewModel: MoviesNowPlayingViewModel
     
-    var moviesNowPlayingList: MovieResults! {
-        didSet {
-            self.moviesNowPlayingReceivedDelegate?.moviesNowPlayingReceived()
-        }
+    deinit {
+        print("OS reclaiming memory - FeaturedViewModel - no retain cycle/memory leaks here")
     }
+        
+    private var moviesNowPlayingViewModel: NowPlayingViewModel
+    
 
-    var moviesNowPlayingReceivedDelegate: MoviesNowPlayingReceivedDelegate!
-
-    required init(moviesNowPlayingViewModel: MoviesNowPlayingViewModel) {
+    required init(moviesNowPlayingViewModel: NowPlayingViewModel) {
         
         self.moviesNowPlayingViewModel = moviesNowPlayingViewModel
-        self.moviesNowPlayingViewModel.moviesNowPlayingReceivedDelegate = self
     }
-    
-    func getMoviesNowPlaying () {
         
-        self.moviesNowPlayingViewModel.getMoviesNowPlaying()
-    }
-    
-}
+    typealias getNowPlayingMoviesOnComplete = ([Movie], WebResponse) -> Void
+    func getNowPlayingMovies(page : Int = 1, onComplete : @escaping getNowPlayingMoviesOnComplete){
 
-extension FeaturedViewModel : MoviesNowPlayingReceivedDelegate {
-    
-    func moviesNowPlayingReceived() {
-        if let moviesNowPlaying = self.moviesNowPlayingViewModel.moviesNowPlayingList {
-            //print("received movies in FeaturedViewModel \(moviesNowPlaying)")
-            self.moviesNowPlayingList = moviesNowPlaying
+        self.moviesNowPlayingViewModel.getNowPlayingMovies(page: page)  { (movies, webResponse) in
+            if !webResponse.isError{
+
+                onComplete(movies, webResponse)
+            }
         }
-    }
+    }    
 }
-
-
-
-
-

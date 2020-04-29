@@ -18,9 +18,37 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="atU-90-oWD" userLabel="Featured Table View">
                                 <rect key="frame" x="0.0" y="44" width="414" height="769"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="X52-5s-03p" customClass="FeaturedHeaderView" customModule="TheBigScreenDb" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="179"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MainHeaderImage" translatesAutoresizingMaskIntoConstraints="NO" id="mRc-wP-9Se">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="179"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What's on the Big Screen?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xqH-b1-iqu">
+                                            <rect key="frame" x="20" y="46" width="394" height="29"/>
+                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    <constraints>
+                                        <constraint firstItem="xqH-b1-iqu" firstAttribute="top" secondItem="X52-5s-03p" secondAttribute="top" constant="46" id="7iw-sa-6d8"/>
+                                        <constraint firstAttribute="trailing" secondItem="xqH-b1-iqu" secondAttribute="trailing" id="CLr-0A-9de"/>
+                                        <constraint firstAttribute="trailing" secondItem="mRc-wP-9Se" secondAttribute="trailing" id="Cbf-30-xxn"/>
+                                        <constraint firstAttribute="bottom" secondItem="mRc-wP-9Se" secondAttribute="bottom" id="H4c-pE-A21"/>
+                                        <constraint firstItem="mRc-wP-9Se" firstAttribute="top" secondItem="X52-5s-03p" secondAttribute="top" id="YXL-Nz-mZt"/>
+                                        <constraint firstItem="mRc-wP-9Se" firstAttribute="leading" secondItem="X52-5s-03p" secondAttribute="leading" id="n92-YY-TqK"/>
+                                        <constraint firstItem="xqH-b1-iqu" firstAttribute="leading" secondItem="X52-5s-03p" secondAttribute="leading" constant="20" id="tAk-Ze-GZq"/>
+                                    </constraints>
+                                    <connections>
+                                        <outlet property="imageView" destination="mRc-wP-9Se" id="rQP-Kg-6d3"/>
+                                    </connections>
+                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FeaturedCell" id="14Q-Do-44O">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="207" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="14Q-Do-44O" id="0aH-hs-BgG">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -97,6 +125,7 @@
     </scenes>
     <resources>
         <image name="Featured" width="30" height="30"/>
+        <image name="MainHeaderImage" width="2736" height="1824"/>
         <image name="Search" width="30" height="30"/>
     </resources>
 </document>

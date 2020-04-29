@@ -21,53 +21,74 @@ protocol MoviesServiceProtocol {
 }
 
 
-protocol MoviesNowPlayingReceivedDelegate {
-    
-    func moviesNowPlayingReceived()
-}
-
 enum MovieEndpoints : String {
     case now_playing = "now_playing?"
 }
 
 class MoviesService : MoviesServiceProtocol {
     
-    private let apiKey = "?api_key=5cd88ad1ae9b1b0d53d5e8467fe9c9bb"
-    private let language = "&language=en-US"
-    private let baseUrl = "https://api.themoviedb.org/3/movie"
+    deinit {
+        print("OS reclaiming memory - MoviesService - no retain cycle/memory leaks here")
+    }
+                
+    let webClient = WebClient()
+            
+    var nextPage = 1
     
-    private var restApiClient: RestAPIClient
+    private enum Path : String {
+        case nowplaying_movies = "/movie/now_playing"
+        case discover_movies = "/discover/movie"
+        case search_movies = "/search/movie"
+    }
+    
+    private struct Parameters{
+        static let language = ["language" : "en-GB"]
+        static let api_key = ["api_key" : "5cd88ad1ae9b1b0d53d5e8467fe9c9bb"]
+        static let sort_by = ["sort_by" : "popularity.desc"]
+        static let page = ["page" : "1"]
+    }
+    
+    private struct Parameter{
+        var rawValue : Dictionary<String, String>
+        init(parameter : Dictionary<String, String>){
+            self.rawValue = parameter
+        }
+    }
+    
+    private struct Url{
+        let baseUrl = "https://api.themoviedb.org/3"
+        var path : Path
+        var parameters : [Parameter]
         
-    var moviesNowPlayingReceivedDelegate: MoviesNowPlayingReceivedDelegate?
+        init(path : Path, parameters : [Parameter]) {
+            self.path = path
+            self.parameters = parameters
+        }
+    }
+        
     
-    var moviesNowPlayingList: MovieResults?
+    private func fillUrl(url : Url) -> URL?{
+        var urlComponents = URLComponents(string: url.baseUrl + url.path.rawValue)
+        var queryItens = [URLQueryItem]()
+        
+        url.parameters.forEach({ (parameter) in
+            queryItens.append(URLQueryItem(name: (parameter.rawValue.first?.key)!, value: parameter.rawValue.first?.value))
+        })
+        
+        urlComponents?.queryItems = queryItens
+        return urlComponents?.url
+    }
     
-    required init(restApiClient: RestAPIClient) {
-        self.restApiClient = restApiClient
+    // MARK: Methods that calls API
+    typealias getNowPlayingMoviesOnComplete = ([Movie], WebResponse) -> Void
+    func getNowPlayingMovies(page : Int = 1, onComplete : @escaping getNowPlayingMoviesOnComplete){
+        
+        let url = Url(path: .nowplaying_movies, parameters: [Parameter(parameter: Parameters.language), Parameter(parameter: Parameters.api_key), Parameter(parameter: Parameters.sort_by), Parameter(parameter : ["page" : "\(page)"])])
+        
+        webClient.request(url: fillUrl(url: url)) { (webResponse) in            
+            onComplete(Movie.returnMovies(json: webResponse.json!), webResponse)
+        }
     }
     
     
-    
-    func getMoviesNowPlaying () {
-
-        /*
-         1. form url
-         2. call restapi
-         3. ensure we have collection of movie models that we return
-         */
-        
-        let url = URL(string: "\(baseUrl)/\(MovieEndpoints.now_playing)\(apiKey)\(language)")!
-        
-        restApiClient.GetRequest(url: url, completion: { [weak self] (result: Result<MovieResults, RestApiError> ) in
-            
-            switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
-            case .success(let result):
-                self?.moviesNowPlayingList = result
-                self?.moviesNowPlayingReceivedDelegate?.moviesNowPlayingReceived()
-            }
-            
-        })
-    }    
 }

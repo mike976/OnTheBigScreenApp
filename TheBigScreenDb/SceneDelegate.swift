@@ -32,10 +32,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let viewController = self.window?.rootViewController {
                         
             if let featuredViewController = viewController.children[0] as? FeaturedViewController {
-
-                let restApiClient = RestAPIClient()
-                let movieService = MoviesService(restApiClient: restApiClient)
-                let moviesNowPlayingViewModel = MoviesNowPlayingViewModel(movieService: movieService)
+                
+                let movieService = MoviesService()
+                let moviesNowPlayingViewModel = NowPlayingViewModel(movieService: movieService)
                 let featureViewModel = FeaturedViewModel(moviesNowPlayingViewModel: moviesNowPlayingViewModel)
                 
                 featuredViewController.featuredViewModel = featureViewModel
