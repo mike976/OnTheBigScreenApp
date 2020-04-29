@@ -2,22 +2,42 @@
 
 import UIKit
 
+
 class FeaturedViewController: UIViewController {
     
     deinit {
         print("OS reclaiming memory - FeaturedViewController - no retain cycle/memory leaks here")
     }
     
+    //MARK: - IB Outlets
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var headerCollectionVIew = collectionViews.collectionViewOne()
+    @IBOutlet weak var headerPageControl: UIPageControl!
 
+    
     private var nextPage = 2
     private var nowPlayingMovies = [Movie]()
 
     
-    private let tableHeaderHeight: CGFloat = 250.0
-    private var tableHeaderCutAway: CGFloat = 50.0
+    //MARK: - Featured Header properties
+    private let tableHeaderHeight: CGFloat = 200.0
+    private var tableHeaderCutAway: CGFloat = 30.0
+    private var headerPageView: UIPageControl!
     private var headerView: FeaturedHeaderView!
     private var headerMaskLayer: CAShapeLayer!
+    var timer = Timer()
+    var counter = 0
+    var imgArr = [  UIImage(named:"FeaturedHeaderImage1"),    
+    UIImage(named:"FeaturedHeaderImage2") ,
+    UIImage(named:"FeaturedHeaderImage3") ,
+    UIImage(named:"FeaturedHeaderImage4") ,
+    UIImage(named:"FeaturedHeaderImage5") ,
+    UIImage(named:"FeaturedHeaderImage6")
+    ]
+    
+    
+    //MARK: - ViewModels
+    var featuredViewModel: FeaturedViewModel!
      
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,9 +59,33 @@ class FeaturedViewController: UIViewController {
         updateHeaderView()
     }
     
-    func configureTableViewHeader() {
+    private func Initialize() {
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+        
+        getMoviesNowPlaying()
+    }
+    
+    
+    //MARK: - Header functions
+    private func configureTableViewHeader() {
 
         headerView = tableView.tableHeaderView as! FeaturedHeaderView
+        headerView.backgroundColor = .black
+        
+        headerCollectionVIew?.delegate = self
+        headerCollectionVIew?.dataSource = self
+        
+        headerView.collectionView = headerCollectionVIew
+        headerView.collectionView.decelerationRate = .normal
+        
+        headerPageView = headerPageControl
+        headerPageView.numberOfPages = 5
+        headerPageView.currentPage = 0
+        headerView.pageControl = headerPageView
+        
+        
         tableView.tableHeaderView = nil
         tableView.addSubview(headerView)
         
@@ -52,12 +96,18 @@ class FeaturedViewController: UIViewController {
         headerMaskLayer.fillColor = UIColor.black.cgColor
         headerView.layer.mask = headerMaskLayer
         
+
+        
+        DispatchQueue.main.async {
+            self.timer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(self.changeFeaturedHeaderImage), userInfo: nil, repeats: true)
+        }
+        
     }
     
-    func updateHeaderView() {
+    private func updateHeaderView() {
         
         let effectiveHeight = tableHeaderHeight - tableHeaderCutAway / 2
-        var headerRect = CGRect(x: 0, y: -effectiveHeight, width: tableView.bounds.width, height: tableHeaderHeight)
+        var headerRect = CGRect(x: 0, y: -effectiveHeight, width: headerView.collectionView.bounds.width, height: tableHeaderHeight)
         
         if tableView.contentOffset.y < -effectiveHeight {
             headerRect.origin.y = tableView.contentOffset.y
@@ -76,15 +126,23 @@ class FeaturedViewController: UIViewController {
         
     }
     
-    var featuredViewModel: FeaturedViewModel!
+    @objc func changeFeaturedHeaderImage() {
     
-    private func Initialize() {
-        
-        tableView.dataSource = self
-        tableView.delegate = self
-        
-        getMoviesNowPlaying()
+        if counter < imgArr.count {
+            let index = IndexPath.init(item: counter, section: 0)
+            headerView.collectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
+            headerView.pageControl.currentPage = counter
+            counter += 1
+        } else {
+            counter = 0
+            let index = IndexPath.init(item: counter, section: 0)
+            headerView.collectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
+            headerView.pageControl.currentPage = counter
+            counter = 1
+        }
     }
+    
+    //MARK: - Movies functions
     
     private func getMoviesNowPlaying(page : Int = 1){
         self.featuredViewModel.getNowPlayingMovies(page: page)  { [weak self] (movies, response) in
@@ -114,9 +172,11 @@ class FeaturedViewController: UIViewController {
     private func stopPagination(){
         nextPage = -1
     }
+    
 }
 
 
+//MARK: - TableViewController section
 extension FeaturedViewController : UITableViewDataSource, UITableViewDelegate {
    
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -156,4 +216,35 @@ extension FeaturedViewController : UIScrollViewDelegate {
         updateHeaderView()
     }
     
+}
+
+//MARK: - CollectionController section
+extension FeaturedViewController : UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfSections section: Int) -> Int {
+
+        if collectionView == collectionViews.collectionViewOne() {
+                return imgArr.count
+           } else {
+                return 1
+            }
+       }
+
+       func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+           return 5
+       }
+
+       func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
+        //check for cell type for the other movie collections
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "featuredHeaderCell", for: indexPath)
+        
+        
+        if let vc = cell.viewWithTag(111) as? UIImageView {
+            vc.image = imgArr[indexPath.row]
+        }
+        
+        
+        return cell
+       }
 }

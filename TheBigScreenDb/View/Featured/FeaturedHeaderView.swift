@@ -11,16 +11,10 @@ import Foundation
 
 class FeaturedHeaderView : UIView {
  
-    @IBOutlet weak var imageView: UIImageView!
     
-    var image: UIImage? {
-        didSet {
-            if let image = image {
-                imageView.image = image
-            } else {
-                imageView.image = nil
-            }
-        }
-    }
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var pageControl: UIPageControl!
+    
+    
     
 }
