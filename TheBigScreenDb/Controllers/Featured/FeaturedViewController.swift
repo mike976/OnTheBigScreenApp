@@ -27,13 +27,7 @@ class FeaturedViewController: UIViewController {
     private var headerMaskLayer: CAShapeLayer!
     var timer = Timer()
     var counter = 0
-    var imgArr = [  UIImage(named:"FeaturedHeaderImage1"),    
-    UIImage(named:"FeaturedHeaderImage2") ,
-    UIImage(named:"FeaturedHeaderImage3") ,
-    UIImage(named:"FeaturedHeaderImage4") ,
-    UIImage(named:"FeaturedHeaderImage5") ,
-    UIImage(named:"FeaturedHeaderImage6")
-    ]
+    
     
     
     //MARK: - ViewModels
@@ -72,10 +66,11 @@ class FeaturedViewController: UIViewController {
     private func configureTableViewHeader() {
 
         headerView = tableView.tableHeaderView as! FeaturedHeaderView
-        headerView.backgroundColor = .black
+        headerView.backgroundColor = .white
         
         headerCollectionVIew?.delegate = self
         headerCollectionVIew?.dataSource = self
+        headerCollectionVIew?.backgroundColor = .white
         
         headerView.collectionView = headerCollectionVIew
         headerView.collectionView.decelerationRate = .normal
@@ -93,7 +88,7 @@ class FeaturedViewController: UIViewController {
         tableView.contentOffset = CGPoint(x: 0, y: -tableHeaderHeight)
         
         headerMaskLayer = CAShapeLayer()
-        headerMaskLayer.fillColor = UIColor.black.cgColor
+        headerMaskLayer.fillColor = UIColor.white.cgColor
         headerView.layer.mask = headerMaskLayer
         
 
@@ -128,7 +123,7 @@ class FeaturedViewController: UIViewController {
     
     @objc func changeFeaturedHeaderImage() {
     
-        if counter < imgArr.count {
+        if counter < featuredViewModel.featuredHeaderImages.count {
             let index = IndexPath.init(item: counter, section: 0)
             headerView.collectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
             headerView.pageControl.currentPage = counter
@@ -224,7 +219,7 @@ extension FeaturedViewController : UICollectionViewDataSource, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, numberOfSections section: Int) -> Int {
 
         if collectionView == collectionViews.collectionViewOne() {
-                return imgArr.count
+            return featuredViewModel.featuredHeaderImages.count
            } else {
                 return 1
             }
@@ -241,7 +236,7 @@ extension FeaturedViewController : UICollectionViewDataSource, UICollectionViewD
         
         
         if let vc = cell.viewWithTag(111) as? UIImageView {
-            vc.image = imgArr[indexPath.row]
+            vc.image = featuredViewModel.featuredHeaderImages[indexPath.row]
         }
         
         

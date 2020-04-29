@@ -6,6 +6,7 @@
 //  Copyright © 2020 Michael Bullock. All rights reserved.
 //
 
+import UIKit
 import Foundation
 
 protocol FeaturedViewModelProtocol {
@@ -22,6 +23,23 @@ class FeaturedViewModel : FeaturedViewModelProtocol {
     }
         
     private var moviesNowPlayingViewModel: NowPlayingViewModel
+    
+    
+    var featuredHeaderImages: [UIImage] {
+
+        get {
+            let x = [  UIImage(named:"FeaturedHeaderImage1")!,
+            UIImage(named:"FeaturedHeaderImage2")! ,
+            UIImage(named:"FeaturedHeaderImage3")! ,
+            UIImage(named:"FeaturedHeaderImage4")! ,
+            UIImage(named:"FeaturedHeaderImage5")! ,
+            UIImage(named:"FeaturedHeaderImage6")!
+            ]
+            
+            return x
+        }
+            
+    }
     
 
     required init(moviesNowPlayingViewModel: NowPlayingViewModel) {

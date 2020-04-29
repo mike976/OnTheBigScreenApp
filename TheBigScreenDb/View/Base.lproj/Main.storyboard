@@ -24,7 +24,6 @@
                                     <subviews>
                                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="XAS-pu-ruD">
                                             <rect key="frame" x="0.0" y="-21" width="414" height="220"/>
-                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="220" id="p2L-ul-hDL"/>
                                             </constraints>
@@ -58,7 +57,6 @@
                                             <color key="currentPageIndicatorTintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </pageControl>
                                     </subviews>
-                                    <color key="backgroundColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="XAS-pu-ruD" secondAttribute="trailing" id="4Zz-oG-f96"/>
                                         <constraint firstAttribute="bottom" secondItem="XAS-pu-ruD" secondAttribute="bottom" constant="-20" id="MDY-VV-WP6"/>
