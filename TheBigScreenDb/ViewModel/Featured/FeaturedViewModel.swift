@@ -14,6 +14,12 @@ protocol FeaturedViewModelProtocol {
     typealias getNowPlayingMoviesOnComplete = ([Movie], WebResponse) -> Void
     func getNowPlayingMovies(page : Int, onComplete : @escaping getNowPlayingMoviesOnComplete)
     
+    typealias getUpcomingMoviesOnComplete = ([Movie], WebResponse) -> Void
+    func getUpcomingMovies(page: Int, onComplete : @escaping getUpcomingMoviesOnComplete)
+    
+    typealias getTrendingMoviesOnComplete = ([Movie], WebResponse) -> Void
+    func getTrendingMovies(page: Int, onComplete : @escaping getTrendingMoviesOnComplete)
+    
 }
 
 class FeaturedViewModel : FeaturedViewModelProtocol {
@@ -52,9 +58,28 @@ class FeaturedViewModel : FeaturedViewModelProtocol {
 
         self.moviesNowPlayingViewModel.getNowPlayingMovies(page: page)  { (movies, webResponse) in
             if !webResponse.isError{
-
                 onComplete(movies, webResponse)
             }
         }
-    }    
+    }
+    
+    typealias getUpcomingMoviesOnComplete = ([Movie], WebResponse) -> Void
+    func getUpcomingMovies(page : Int = 1, onComplete : @escaping getUpcomingMoviesOnComplete){
+
+        self.moviesNowPlayingViewModel.getUpcomingMovies(page: page)  { (movies, webResponse) in
+            if !webResponse.isError{
+                onComplete(movies, webResponse)
+            }
+        }
+    }
+    
+    typealias getTrendingMoviesOnComplete = ([Movie], WebResponse) -> Void
+    func getTrendingMovies(page : Int = 1, onComplete : @escaping getTrendingMoviesOnComplete){
+
+        self.moviesNowPlayingViewModel.getTrendingMovies(page: page)  { (movies, webResponse) in
+            if !webResponse.isError{
+                onComplete(movies, webResponse)
+            }
+        }
+    }
 }

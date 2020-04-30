@@ -12,12 +12,12 @@ import Foundation
 protocol MoviesServiceProtocol {
     
     //MARK: - return list of movies now playing
-    //MARK: - return list of movies in the spotlight
-    //MARK: - return list of movies Trending
     //MARK: - return list of movies in the Coming Soon
+    //MARK: - return list of movies Trending
     //MARK: - return list of movies By Search
-    //MARK: - return Movie
-    //MARK: - return Cast Member
+    //MARK: - return Movie Metadata
+    //MARK: - return Cast Members for movie
+    //MARK: - return Cast Member details
 }
 
 
@@ -35,8 +35,10 @@ class MoviesService : MoviesServiceProtocol {
             
     var nextPage = 1
     
-    private enum Path : String {
+    enum Path : String {
         case nowplaying_movies = "/movie/now_playing"
+        case upcoming_movies="/movie/upcoming"
+        case trending_movies="/trending/movie/day"
         case discover_movies = "/discover/movie"
         case search_movies = "/search/movie"
     }
@@ -81,14 +83,25 @@ class MoviesService : MoviesServiceProtocol {
     
     // MARK: Methods that calls API
     typealias getNowPlayingMoviesOnComplete = ([Movie], WebResponse) -> Void
-    func getNowPlayingMovies(page : Int = 1, onComplete : @escaping getNowPlayingMoviesOnComplete){
+    func getMovies(page : Int = 1, path: MoviesService.Path, onComplete : @escaping getNowPlayingMoviesOnComplete){
         
-        let url = Url(path: .nowplaying_movies, parameters: [Parameter(parameter: Parameters.language), Parameter(parameter: Parameters.api_key), Parameter(parameter: Parameters.sort_by), Parameter(parameter : ["page" : "\(page)"])])
+        let url = Url(path: path, parameters: [Parameter(parameter: Parameters.language), Parameter(parameter: Parameters.api_key), Parameter(parameter: Parameters.sort_by), Parameter(parameter : ["page" : "\(page)"])])
         
-        webClient.request(url: fillUrl(url: url)) { (webResponse) in            
+        webClient.request(url: fillUrl(url: url)) { (webResponse) in
             onComplete(Movie.returnMovies(json: webResponse.json!), webResponse)
         }
     }
+    
+//    typealias getUpcomingMoviesOnComplete = ([Movie], WebResponse) -> Void
+//    func getUpcomingMovies(page : Int = 1, onComplete : @escaping getUpcomingMoviesOnComplete){
+//
+//        let url = Url(path: .upcoming_movies, parameters: [Parameter(parameter: Parameters.language), Parameter(parameter: Parameters.api_key), Parameter(parameter: Parameters.sort_by), Parameter(parameter : ["page" : "\(page)"])])
+//
+//        webClient.request(url: fillUrl(url: url)) { (webResponse) in
+//            onComplete(Movie.returnMovies(json: webResponse.json!), webResponse)
+//            print(webResponse.json!)
+//        }
+//    }
     
     
 }

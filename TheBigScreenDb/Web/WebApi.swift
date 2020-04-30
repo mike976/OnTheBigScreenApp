@@ -38,6 +38,7 @@ class WebClient : WebClientProtocol {
             //print(json ?? "Cant parse JSON")
             
             onComplete(WebResponse(json: json, error: error))
+            //print(json ?? "Cant parse JSON")
         }
         
         task.resume()

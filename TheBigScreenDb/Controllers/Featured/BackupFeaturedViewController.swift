@@ -1,9 +1,17 @@
+//
+//  BackupFeaturedViewController.swift
+//  TheBigScreenDb
+//
+//  Created by Michael Bullock on 29/04/2020.
+//  Copyright © 2020 Michael Bullock. All rights reserved.
+//
 
-
+import Foundation
 import UIKit
 
+//This class is a backup which demonstrates tableview with pagination
 
-class FeaturedViewController: UIViewController {
+class BackupFeaturedViewController: UIViewController {
     
     deinit {
         print("OS reclaiming memory - FeaturedViewController - no retain cycle/memory leaks here")
@@ -17,8 +25,6 @@ class FeaturedViewController: UIViewController {
     
     private var nextPage = 2
     private var nowPlayingMovies = [Movie]()
-    private var upComingMovies = [Movie]()
-    private var trendingMovies = [Movie]()
 
     
     //MARK: - Featured Header properties
@@ -30,7 +36,6 @@ class FeaturedViewController: UIViewController {
     var timer = Timer()
     var counter = 0
     
-    var categories = ["Now Playing", "Coming Soon", "Trending Movies", "Trending TV Shows"]
     
     
     //MARK: - ViewModels
@@ -38,9 +43,7 @@ class FeaturedViewController: UIViewController {
      
     override func viewDidLoad() {
         super.viewDidLoad()
-     
-        self.automaticallyAdjustsScrollViewInsets = false
-        
+            
         configureTableViewHeader()
         updateHeaderView()
         
@@ -64,9 +67,6 @@ class FeaturedViewController: UIViewController {
         tableView.delegate = self
         
         getMoviesNowPlaying()
-        getUpcomingMoviews()
-        getTrendingMovies()
-        
     }
     
     
@@ -111,14 +111,14 @@ class FeaturedViewController: UIViewController {
         
         let effectiveHeight = tableHeaderHeight - tableHeaderCutAway / 2
         var headerRect = CGRect(x: 0, y: -effectiveHeight, width: headerView.collectionView.bounds.width, height: tableHeaderHeight)
-//
+        
         if tableView.contentOffset.y < -effectiveHeight {
             headerRect.origin.y = tableView.contentOffset.y
             headerRect.size.height = -tableView.contentOffset.y + tableHeaderCutAway/2
         }
-
+        
         headerView.frame = headerRect
-
+        
         //cut away
         let path = UIBezierPath()
         path.move(to: CGPoint(x: 0, y: 0))
@@ -126,7 +126,7 @@ class FeaturedViewController: UIViewController {
         path.addLine(to: CGPoint(x: headerRect.width, y: headerRect.height))
         path.addLine(to: CGPoint(x: 0, y: headerRect.height - tableHeaderCutAway))
         headerMaskLayer?.path = path.cgPath
-
+        
     }
     
     @objc func changeFeaturedHeaderImage() {
@@ -151,7 +151,11 @@ class FeaturedViewController: UIViewController {
         self.featuredViewModel.getNowPlayingMovies(page: page)  { [weak self] (movies, response) in
             if !response.isError{
                 
-                self?.nowPlayingMovies = movies
+                if movies.count < 20{
+                    self?.stopPagination()
+                }
+                
+                self?.nowPlayingMovies = self!.mergeMovies(currentMovies: self!.nowPlayingMovies, newMovies: movies, page: page)
                 
                 DispatchQueue.main.async {
                     self?.tableView.reloadData()
@@ -160,32 +164,13 @@ class FeaturedViewController: UIViewController {
         }
     }
     
-    private func getUpcomingMoviews(page : Int = 1){
-        self.featuredViewModel.getUpcomingMovies(page: page)  { [weak self] (movies, response) in
-            if !response.isError{
-                
-                self?.upComingMovies = movies
-                
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                }
-            }
+    private func mergeMovies(currentMovies : [Movie], newMovies : [Movie], page : Int) -> [Movie]{
+        if page == 1{
+            return newMovies
+        }else{
+            return currentMovies + newMovies
         }
     }
-    
-    private func getTrendingMovies(page : Int = 1){
-        self.featuredViewModel.getTrendingMovies(page: page)  { [weak self] (movies, response) in
-            if !response.isError{
-                
-                self?.trendingMovies = movies
-                
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                }
-            }
-        }
-    }
-        
     
     private func stopPagination(){
         nextPage = -1
@@ -195,55 +180,49 @@ class FeaturedViewController: UIViewController {
 
 
 //MARK: - TableViewController section
-extension FeaturedViewController : UITableViewDataSource, UITableViewDelegate {
+extension BackupFeaturedViewController : UITableViewDataSource, UITableViewDelegate {
    
     func numberOfSections(in tableView: UITableView) -> Int {
-        return categories.count
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return categories[section]
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.nowPlayingMovies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-       let cell = tableView.dequeueReusableCell(withIdentifier: "FeaturedCategoryCell", for: indexPath) as! FeaturedCategoryCell
-       
-        cell.movies = [Movie]()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "FeaturedCell", for: indexPath)
         
-        print("\(categories[indexPath.section])")
+        let movie = self.nowPlayingMovies[indexPath.row]
+        cell.textLabel!.text = movie.title
         
-        if indexPath.section == 0 {
-            cell.categoryName = categories[indexPath.section]
-             cell.movies = self.nowPlayingMovies
-        } else if indexPath.section == 1 {
-            cell.categoryName = categories[indexPath.section]
-             cell.movies = self.upComingMovies
-        } else if indexPath.section == 2 {
-            cell.categoryName = categories[indexPath.section]
-            cell.movies = self.trendingMovies
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        if nextPage == -1{
+            return
         }
 
-        
-
-       return cell
+        if indexPath.row == nowPlayingMovies.count - 1{
+            getMoviesNowPlaying(page: nextPage)
+            nextPage += 1
+        }
     }
 }
 
-extension FeaturedViewController : UIScrollViewDelegate {
-
+extension BackupFeaturedViewController : UIScrollViewDelegate {
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         updateHeaderView()
     }
-
+    
 }
 
 //MARK: - CollectionController section
-extension FeaturedViewController : UICollectionViewDataSource, UICollectionViewDelegate {
+extension BackupFeaturedViewController : UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfSections section: Int) -> Int {
 

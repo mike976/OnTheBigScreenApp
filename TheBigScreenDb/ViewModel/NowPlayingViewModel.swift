@@ -11,7 +11,13 @@ import Foundation
 protocol NowPlayingViewModelProtocol {
 
     typealias getNowPlayingMoviesOnComplete = ([Movie], WebResponse) -> Void
-    func getNowPlayingMovies(page : Int, onComplete : @escaping getNowPlayingMoviesOnComplete)
+    func getNowPlayingMovies(page: Int, onComplete : @escaping getNowPlayingMoviesOnComplete)
+    
+    typealias getUpcomingMoviesOnComplete = ([Movie], WebResponse) -> Void
+    func getUpcomingMovies(page: Int, onComplete : @escaping getUpcomingMoviesOnComplete)
+    
+    typealias getTrendingMoviesOnComplete = ([Movie], WebResponse) -> Void
+    func getTrendingMovies(page : Int, onComplete : @escaping getTrendingMoviesOnComplete)
 }
 
 class NowPlayingViewModel : NowPlayingViewModelProtocol {
@@ -32,11 +38,30 @@ class NowPlayingViewModel : NowPlayingViewModelProtocol {
     typealias getNowPlayingMoviesOnComplete = ([Movie], WebResponse) -> Void
     func getNowPlayingMovies(page : Int = 1, onComplete : @escaping getNowPlayingMoviesOnComplete){
 
-        self.movieService.getNowPlayingMovies(page: page)  { (movies, webResponse) in
+        self.movieService.getMovies(page: page, path: MoviesService.Path.nowplaying_movies)  { (movies, webResponse) in
             if !webResponse.isError{
-
                 onComplete(movies, webResponse)
             }        
+        }
+    }
+    
+    typealias getUpcomingMoviesOnComplete = ([Movie], WebResponse) -> Void
+    func getUpcomingMovies(page : Int = 1, onComplete : @escaping getUpcomingMoviesOnComplete){
+
+        self.movieService.getMovies(page: page, path: MoviesService.Path.upcoming_movies)  { (movies, webResponse) in
+            if !webResponse.isError{
+                onComplete(movies, webResponse)
+            }
+        }
+    }
+    
+    typealias getTrendingMoviesOnComplete = ([Movie], WebResponse) -> Void
+    func getTrendingMovies(page : Int = 1, onComplete : @escaping getTrendingMoviesOnComplete){
+
+        self.movieService.getMovies(page: page, path: MoviesService.Path.trending_movies)  { (movies, webResponse) in
+            if !webResponse.isError{
+                onComplete(movies, webResponse)
+            }
         }
     }
 }
