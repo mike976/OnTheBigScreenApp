@@ -38,8 +38,14 @@ class FeaturedViewController: UIViewController {
         self.Initialize()
     }
         
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadMoviesAndTvShows()
+    }
 
     private func Initialize() {
+       
+       loadMoviesAndTvShows()
         
        tableView.dataSource = self
        tableView.delegate = self
@@ -54,15 +60,29 @@ class FeaturedViewController: UIViewController {
        tableView.rowHeight = 200
        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         
-       getMoviesNowPlayingAsync()
-       getUpcomingMoviesAsync()
-       getTrendingMoviesAsync()
-       getTrendingTvShowsAsync()
+      
         
         
         self.timer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(self.changeFeaturedHeaderImage), userInfo: nil, repeats: true)
         
         
+    }
+    
+    func loadMoviesAndTvShows() {
+        
+        if self.nowPlayingMovies.count == 0 && self.trendingTvShows.count == 0
+            && self.trendingMovies.count == 0 && self.upComingMovies.count == 0 {
+
+            let dq = DispatchQueue.global(qos: .background)
+            
+            dq.async { [weak self] in
+                self?.getMoviesNowPlayingAsync()
+                self?.getUpcomingMoviesAsync()
+                self?.getTrendingMoviesAsync()
+                self?.getTrendingTvShowsAsync()
+            }
+
+        }
     }
     
     
@@ -84,7 +104,7 @@ class FeaturedViewController: UIViewController {
     private func getMoviesNowPlayingAsync(page : Int = 1){
         if let nowplayingMovies = self.moviesViewModel.getMoviesAsync(page: page, endpoint: MovieEndPoint.nowplaying_movies) {
             self.nowPlayingMovies = nowplayingMovies
-            
+            print("now playing movies", self.nowPlayingMovies.count)
             DispatchQueue.main.async {
                 self.tableView.reloadData()
                 
@@ -107,7 +127,7 @@ class FeaturedViewController: UIViewController {
 
         if let trendingMovies = self.moviesViewModel.getMoviesAsync(page: page, endpoint: MovieEndPoint.trending_movies) {
             self.trendingMovies = trendingMovies
-            
+            print("trending shows", self.trendingMovies.count)
             DispatchQueue.main.async {
                 self.tableView.reloadData()
                 

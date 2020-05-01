@@ -60,4 +60,18 @@ class VideoCell : UICollectionViewCell {
             }
         }
 
+    func run() {
+        
+        if let movie = movie,
+            let url = movie.poster_path {
+            //let placeholderImage = UIImage(named: "placeholder")!
+            title = movie.title
+
+            //let filter = AspectScaledToFillSizeFilter(size: CGSize(width: 100, height: 150))
+            imageView.af.setImage(withURL: url, placeholderImage: placeholderImage) //, filter: filter)
+        } else {
+            title = nil
+        }
+    }
+    
 }

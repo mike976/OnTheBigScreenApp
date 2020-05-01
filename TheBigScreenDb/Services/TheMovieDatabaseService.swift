@@ -30,7 +30,7 @@ enum MovieEndPoint : String {
    }
 
 enum TvShowEndPont : String {
-    case trending_tvshows = "/trending/tv/day"
+    case trending_tvshows = "/trending/tv/week"
 }
 
 class TheMovieDatabaseService {
