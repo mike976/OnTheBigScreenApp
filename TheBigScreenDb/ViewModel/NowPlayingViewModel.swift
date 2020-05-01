@@ -10,14 +10,7 @@ import Foundation
 
 protocol NowPlayingViewModelProtocol {
 
-    typealias getNowPlayingMoviesOnComplete = ([Movie], WebResponse) -> Void
-    func getNowPlayingMovies(page: Int, onComplete : @escaping getNowPlayingMoviesOnComplete)
-    
-    typealias getUpcomingMoviesOnComplete = ([Movie], WebResponse) -> Void
-    func getUpcomingMovies(page: Int, onComplete : @escaping getUpcomingMoviesOnComplete)
-    
-    typealias getTrendingMoviesOnComplete = ([Movie], WebResponse) -> Void
-    func getTrendingMovies(page : Int, onComplete : @escaping getTrendingMoviesOnComplete)
+    func getMoviesAsync(page : Int, endpoint: MovieEndPoint) -> [Movie]?
 }
 
 class NowPlayingViewModel : NowPlayingViewModelProtocol {
@@ -33,36 +26,34 @@ class NowPlayingViewModel : NowPlayingViewModelProtocol {
 
         self.movieService = movieService
     }
-        
-        
-    typealias getNowPlayingMoviesOnComplete = ([Movie], WebResponse) -> Void
-    func getNowPlayingMovies(page : Int = 1, onComplete : @escaping getNowPlayingMoviesOnComplete){
-
-        self.movieService.getMovies(page: page, path: MoviesService.Path.nowplaying_movies)  { (movies, webResponse) in
-            if !webResponse.isError{
-                onComplete(movies, webResponse)
-            }        
-        }
-    }
+            
     
-    typealias getUpcomingMoviesOnComplete = ([Movie], WebResponse) -> Void
-    func getUpcomingMovies(page : Int = 1, onComplete : @escaping getUpcomingMoviesOnComplete){
+    // Async-Await Task
+    func getMoviesAsync(page : Int = 1, endpoint: MovieEndPoint) -> [Movie]? {
 
-        self.movieService.getMovies(page: page, path: MoviesService.Path.upcoming_movies)  { (movies, webResponse) in
-            if !webResponse.isError{
-                onComplete(movies, webResponse)
+        var movies:[Movie]? = nil
+
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        let dispatchQueue = DispatchQueue.global(qos: .background)
+        
+        dispatchQueue.async {
+
+            self.movieService.getMovies(page: page, path: endpoint)  { (moviesList, webResponse) in
+                if !webResponse.isError{
+                    movies = moviesList
+                } else {
+                    print("NowPlayingViewModel - getMovies - \(endpoint) - Error:", webResponse.error?.localizedDescription ?? "no error description found")
+                }
+                
+                semaphore.signal()
             }
         }
-    }
-    
-    typealias getTrendingMoviesOnComplete = ([Movie], WebResponse) -> Void
-    func getTrendingMovies(page : Int = 1, onComplete : @escaping getTrendingMoviesOnComplete){
-
-        self.movieService.getMovies(page: page, path: MoviesService.Path.trending_movies)  { (movies, webResponse) in
-            if !webResponse.isError{
-                onComplete(movies, webResponse)
-            }
-        }
+        
+        let timeoutInSecs = Double(5)
+        _ = semaphore.wait(timeout: .now() + timeoutInSecs)
+        
+        return movies
     }
 }
 

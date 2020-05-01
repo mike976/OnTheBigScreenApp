@@ -63,9 +63,9 @@ class FeaturedViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        getMoviesNowPlaying()
-        getUpcomingMoviews()
-        getTrendingMovies()
+        getMoviesNowPlayingAsync()
+        getUpcomingMoviesAsync()
+        getTrendingMoviesAsync()
         
     }
     
@@ -147,45 +147,39 @@ class FeaturedViewController: UIViewController {
     
     //MARK: - Movies functions
     
-    private func getMoviesNowPlaying(page : Int = 1){
-        self.featuredViewModel.getNowPlayingMovies(page: page)  { [weak self] (movies, response) in
-            if !response.isError{
+    private func getMoviesNowPlayingAsync(page : Int = 1){
+        if let nowplayingMovies = self.featuredViewModel.getMoviesAsync(page: page, endpoint: MovieEndPoint.nowplaying_movies) {
+            self.nowPlayingMovies = nowplayingMovies
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
                 
-                self?.nowPlayingMovies = movies
-                
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                }
             }
         }
     }
     
-    private func getUpcomingMoviews(page : Int = 1){
-        self.featuredViewModel.getUpcomingMovies(page: page)  { [weak self] (movies, response) in
-            if !response.isError{
+    private func getUpcomingMoviesAsync(page : Int = 1){
+        if let upComingMovies = self.featuredViewModel.getMoviesAsync(page: page, endpoint: MovieEndPoint.upcoming_movies) {
+            self.upComingMovies = upComingMovies
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
                 
-                self?.upComingMovies = movies
-                
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                }
             }
         }
     }
     
-    private func getTrendingMovies(page : Int = 1){
-        self.featuredViewModel.getTrendingMovies(page: page)  { [weak self] (movies, response) in
-            if !response.isError{
+    private func getTrendingMoviesAsync(page : Int = 1){
+
+        if let trendingMovies = self.featuredViewModel.getMoviesAsync(page: page, endpoint: MovieEndPoint.trending_movies) {
+            self.trendingMovies = trendingMovies
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
                 
-                self?.trendingMovies = movies
-                
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                }
             }
-        }
-    }
-        
+        }        
+    }        
     
     private func stopPagination(){
         nextPage = -1

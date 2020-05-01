@@ -11,15 +11,7 @@ import Foundation
 
 protocol FeaturedViewModelProtocol {
      
-    typealias getNowPlayingMoviesOnComplete = ([Movie], WebResponse) -> Void
-    func getNowPlayingMovies(page : Int, onComplete : @escaping getNowPlayingMoviesOnComplete)
-    
-    typealias getUpcomingMoviesOnComplete = ([Movie], WebResponse) -> Void
-    func getUpcomingMovies(page: Int, onComplete : @escaping getUpcomingMoviesOnComplete)
-    
-    typealias getTrendingMoviesOnComplete = ([Movie], WebResponse) -> Void
-    func getTrendingMovies(page: Int, onComplete : @escaping getTrendingMoviesOnComplete)
-    
+    func getMoviesAsync(page: Int, endpoint: MovieEndPoint) -> [Movie]?
 }
 
 class FeaturedViewModel : FeaturedViewModelProtocol {
@@ -46,40 +38,29 @@ class FeaturedViewModel : FeaturedViewModelProtocol {
         }
             
     }
-    
 
     required init(moviesNowPlayingViewModel: NowPlayingViewModel) {
         
         self.moviesNowPlayingViewModel = moviesNowPlayingViewModel
     }
+    
+    // Async-Await Task
+    func getMoviesAsync(page : Int = 1, endpoint: MovieEndPoint) -> [Movie]? {
+
+        var movies: [Movie]?
         
-    typealias getNowPlayingMoviesOnComplete = ([Movie], WebResponse) -> Void
-    func getNowPlayingMovies(page : Int = 1, onComplete : @escaping getNowPlayingMoviesOnComplete){
-
-        self.moviesNowPlayingViewModel.getNowPlayingMovies(page: page)  { (movies, webResponse) in
-            if !webResponse.isError{
-                onComplete(movies, webResponse)
-            }
+        let semaphore = DispatchSemaphore(value: 0)
+        let dispatchQueue = DispatchQueue.global(qos: .background)
+                
+        dispatchQueue.async {
+            movies = self.moviesNowPlayingViewModel.getMoviesAsync(page: page, endpoint: endpoint)
+            semaphore.signal()
         }
-    }
-    
-    typealias getUpcomingMoviesOnComplete = ([Movie], WebResponse) -> Void
-    func getUpcomingMovies(page : Int = 1, onComplete : @escaping getUpcomingMoviesOnComplete){
+        
+        let timeoutInSecs = Double(5)
+        _ = semaphore.wait(timeout: .now() + timeoutInSecs)
 
-        self.moviesNowPlayingViewModel.getUpcomingMovies(page: page)  { (movies, webResponse) in
-            if !webResponse.isError{
-                onComplete(movies, webResponse)
-            }
-        }
-    }
-    
-    typealias getTrendingMoviesOnComplete = ([Movie], WebResponse) -> Void
-    func getTrendingMovies(page : Int = 1, onComplete : @escaping getTrendingMoviesOnComplete){
-
-        self.moviesNowPlayingViewModel.getTrendingMovies(page: page)  { (movies, webResponse) in
-            if !webResponse.isError{
-                onComplete(movies, webResponse)
-            }
-        }
+        
+        return movies
     }
 }

@@ -21,9 +21,13 @@ protocol MoviesServiceProtocol {
 }
 
 
-enum MovieEndpoints : String {
-    case now_playing = "now_playing?"
-}
+enum MovieEndPoint : String {
+       case nowplaying_movies = "/movie/now_playing"
+       case upcoming_movies="/movie/upcoming"
+       case trending_movies="/trending/movie/day"
+       case discover_movies = "/discover/movie"
+       case search_movies = "/search/movie"
+   }
 
 class MoviesService : MoviesServiceProtocol {
     
@@ -34,14 +38,7 @@ class MoviesService : MoviesServiceProtocol {
     let webClient = WebClient()
             
     var nextPage = 1
-    
-    enum Path : String {
-        case nowplaying_movies = "/movie/now_playing"
-        case upcoming_movies="/movie/upcoming"
-        case trending_movies="/trending/movie/day"
-        case discover_movies = "/discover/movie"
-        case search_movies = "/search/movie"
-    }
+       
     
     private struct Parameters{
         static let language = ["language" : "en-GB"]
@@ -59,10 +56,10 @@ class MoviesService : MoviesServiceProtocol {
     
     private struct Url{
         let baseUrl = "https://api.themoviedb.org/3"
-        var path : Path
+        var path : MovieEndPoint
         var parameters : [Parameter]
         
-        init(path : Path, parameters : [Parameter]) {
+        init(path : MovieEndPoint, parameters : [Parameter]) {
             self.path = path
             self.parameters = parameters
         }
@@ -83,7 +80,7 @@ class MoviesService : MoviesServiceProtocol {
     
     // MARK: Methods that calls API
     typealias getNowPlayingMoviesOnComplete = ([Movie], WebResponse) -> Void
-    func getMovies(page : Int = 1, path: MoviesService.Path, onComplete : @escaping getNowPlayingMoviesOnComplete){
+    func getMovies(page : Int = 1, path: MovieEndPoint, onComplete : @escaping getNowPlayingMoviesOnComplete){
         
         let url = Url(path: path, parameters: [Parameter(parameter: Parameters.language), Parameter(parameter: Parameters.api_key), Parameter(parameter: Parameters.sort_by), Parameter(parameter : ["page" : "\(page)"])])
         
@@ -91,17 +88,5 @@ class MoviesService : MoviesServiceProtocol {
             onComplete(Movie.returnMovies(json: webResponse.json!), webResponse)
         }
     }
-    
-//    typealias getUpcomingMoviesOnComplete = ([Movie], WebResponse) -> Void
-//    func getUpcomingMovies(page : Int = 1, onComplete : @escaping getUpcomingMoviesOnComplete){
-//
-//        let url = Url(path: .upcoming_movies, parameters: [Parameter(parameter: Parameters.language), Parameter(parameter: Parameters.api_key), Parameter(parameter: Parameters.sort_by), Parameter(parameter : ["page" : "\(page)"])])
-//
-//        webClient.request(url: fillUrl(url: url)) { (webResponse) in
-//            onComplete(Movie.returnMovies(json: webResponse.json!), webResponse)
-//            print(webResponse.json!)
-//        }
-//    }
-    
     
 }
