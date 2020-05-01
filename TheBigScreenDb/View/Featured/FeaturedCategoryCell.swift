@@ -53,27 +53,27 @@ extension FeaturedCategoryCell : UICollectionViewDataSource {
 
 extension FeaturedCategoryCell : UICollectionViewDelegateFlowLayout {
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-
-        let itemsPerRow:CGFloat = 4
-        let hardCodedPadding:CGFloat = 5
-        let itemWidth = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding
-        let itemHeight = collectionView.bounds.height - (2 * hardCodedPadding)
-
-
-        //print("FeaturedCategoryCell \(itemWidth):\(itemHeight)  -  \(collectionView.bounds.width):\(collectionView.bounds.height)")
-        return CGSize(width: 100, height: 150)
-    }
-    
 //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        //let itemsPerRow:CGFloat = 4
+//
+//        let itemsPerRow:CGFloat = 5
 //        let hardCodedPadding:CGFloat = 5
+//        let itemWidth = (collectionView.frame.width / itemsPerRow) - hardCodedPadding
 //        let itemHeight = collectionView.bounds.height - (2 * hardCodedPadding)
-//        let itemWidth = itemHeight * 300 / 444
+//
+//
 //        print("FeaturedCategoryCell \(itemWidth):\(itemHeight)")
 //        return CGSize(width: itemWidth, height: itemHeight)
-//
-//
 //    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        //let itemsPerRow:CGFloat = 4
+        let hardCodedPadding:CGFloat = 5
+        let itemHeight = collectionView.bounds.height - (2 * hardCodedPadding)
+        let itemWidth = itemHeight * 300 / 444
+        //print("FeaturedCategoryCell \(itemWidth):\(itemHeight)")
+        return CGSize(width: itemWidth, height: itemHeight)
+
+
+    }
 
 }

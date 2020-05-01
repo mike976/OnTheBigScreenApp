@@ -34,7 +34,7 @@ class WebClient : WebClientProtocol {
                 return
             }
             
-            let json = try? JSONSerialization.jsonObject(with: data, options: []) as! [String:Any]
+            let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String:Any]
             //print(json ?? "Cant parse JSON")
             
             onComplete(WebResponse(json: json, error: error))

@@ -47,6 +47,8 @@ class FeaturedViewController: UIViewController {
        featuredHeaderPoster.frame = CGRect(x: 0, y:0, width: view.frame.width, height: 300)
        
        tableView.contentInset = UIEdgeInsets(top: 300, left: 0, bottom: 0, right: 0)
+        tableView.estimatedRowHeight = 300
+        tableView.rowHeight = 200
         
        getMoviesNowPlayingAsync()
        getUpcomingMoviesAsync()

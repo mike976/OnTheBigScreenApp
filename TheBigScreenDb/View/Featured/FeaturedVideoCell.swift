@@ -21,8 +21,9 @@ class FeaturedVideoCell : UICollectionViewCell {
                 //let placeholderImage = UIImage(named: "placeholder")!
                 let placeholderImage = UIImage()
 
-                let filter = AspectScaledToFillSizeFilter(size: CGSize(width: 100, height: 150))
-                imageView.af.setImage(withURL: url, placeholderImage: placeholderImage, filter: filter)
+                //let filter = AspectScaledToFillSizeFilter(size: CGSize(width: 100, height: 150))
+                imageView.af.setImage(withURL: url, placeholderImage: placeholderImage) //, filter: filter)
+                imageView.contentMode = .scaleAspectFill
             } else {
                 imageView.image = UIImage()
             }
