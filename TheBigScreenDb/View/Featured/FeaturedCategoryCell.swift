@@ -61,7 +61,7 @@ extension FeaturedCategoryCell : UICollectionViewDelegateFlowLayout {
         let itemHeight = collectionView.bounds.height - (2 * hardCodedPadding)
 
 
-        print("FeaturedCategoryCell \(itemWidth):\(itemHeight)  -  \(collectionView.bounds.width):\(collectionView.bounds.height)")
+        //print("FeaturedCategoryCell \(itemWidth):\(itemHeight)  -  \(collectionView.bounds.width):\(collectionView.bounds.height)")
         return CGSize(width: 100, height: 150)
     }
     
