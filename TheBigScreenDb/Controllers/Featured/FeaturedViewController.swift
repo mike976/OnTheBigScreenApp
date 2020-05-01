@@ -16,6 +16,8 @@ class FeaturedViewController: UIViewController {
     private var nowPlayingMovies = [Movie]()
     private var upComingMovies = [Movie]()
     private var trendingMovies = [Movie]()
+    
+    private var trendingTvShows = [TvShow]()
 
     
     //MARK: - Featured Header properties
@@ -27,7 +29,8 @@ class FeaturedViewController: UIViewController {
     
     
     //MARK: - ViewModels
-    var featuredViewModel: FeaturedViewModel!
+    var moviesViewModel: MoviesViewModel!
+    var tvShowsViewModel: TvShowsViewModel!
      
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,12 +50,14 @@ class FeaturedViewController: UIViewController {
        featuredHeaderPoster.frame = CGRect(x: 0, y:0, width: view.frame.width, height: 300)
        
        tableView.contentInset = UIEdgeInsets(top: 300, left: 0, bottom: 0, right: 0)
-        tableView.estimatedRowHeight = 300
-        tableView.rowHeight = 200
+       tableView.estimatedRowHeight = 300
+       tableView.rowHeight = 200
+       tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         
        getMoviesNowPlayingAsync()
        getUpcomingMoviesAsync()
        getTrendingMoviesAsync()
+       getTrendingTvShowsAsync()
         
         
         self.timer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(self.changeFeaturedHeaderImage), userInfo: nil, repeats: true)
@@ -65,19 +70,19 @@ class FeaturedViewController: UIViewController {
 
         selectedPosterIndex = selectedPosterIndex + 1
         
-        if selectedPosterIndex > featuredViewModel.featuredHeaderImages.count-1 {
+        if selectedPosterIndex > moviesViewModel.featuredHeaderImages.count-1 {
             selectedPosterIndex = 0
         }
         
         DispatchQueue.main.async {
-            self.featuredHeaderPoster.image = self.featuredViewModel.featuredHeaderImages[self.selectedPosterIndex]
+            self.featuredHeaderPoster.image = self.moviesViewModel.featuredHeaderImages[self.selectedPosterIndex]
         }
     }
     
     //MARK: - Movies functions
     
     private func getMoviesNowPlayingAsync(page : Int = 1){
-        if let nowplayingMovies = self.featuredViewModel.getMoviesAsync(page: page, endpoint: MovieEndPoint.nowplaying_movies) {
+        if let nowplayingMovies = self.moviesViewModel.getMoviesAsync(page: page, endpoint: MovieEndPoint.nowplaying_movies) {
             self.nowPlayingMovies = nowplayingMovies
             
             DispatchQueue.main.async {
@@ -88,7 +93,7 @@ class FeaturedViewController: UIViewController {
     }
     
     private func getUpcomingMoviesAsync(page : Int = 1){
-        if let upComingMovies = self.featuredViewModel.getMoviesAsync(page: page, endpoint: MovieEndPoint.upcoming_movies) {
+        if let upComingMovies = self.moviesViewModel.getMoviesAsync(page: page, endpoint: MovieEndPoint.upcoming_movies) {
             self.upComingMovies = upComingMovies
             
             DispatchQueue.main.async {
@@ -100,7 +105,7 @@ class FeaturedViewController: UIViewController {
     
     private func getTrendingMoviesAsync(page : Int = 1){
 
-        if let trendingMovies = self.featuredViewModel.getMoviesAsync(page: page, endpoint: MovieEndPoint.trending_movies) {
+        if let trendingMovies = self.moviesViewModel.getMoviesAsync(page: page, endpoint: MovieEndPoint.trending_movies) {
             self.trendingMovies = trendingMovies
             
             DispatchQueue.main.async {
@@ -108,6 +113,17 @@ class FeaturedViewController: UIViewController {
                 
             }
         }        
+    }
+    
+    private func getTrendingTvShowsAsync(page : Int = 1){
+
+        if let trendingTvShows = self.tvShowsViewModel.getTvShowsAsync(page: page, endpoint: TvShowEndPont.trending_tvshows) {
+            self.trendingTvShows = trendingTvShows
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                
+            }
+        }
     }
 }
 
@@ -132,6 +148,7 @@ extension FeaturedViewController : UITableViewDataSource, UITableViewDelegate {
        let cell = tableView.dequeueReusableCell(withIdentifier: "FeaturedCategoryCell", for: indexPath) as! FeaturedCategoryCell
        
         cell.movies = [Movie]()
+        cell.tvShows = [TvShow]()
         
         //print("\(categories[indexPath.section])")
         
@@ -144,6 +161,9 @@ extension FeaturedViewController : UITableViewDataSource, UITableViewDelegate {
         } else if indexPath.section == 2 {
             cell.categoryName = categories[indexPath.section]
             cell.movies = self.trendingMovies
+        } else if indexPath.section == 3 {
+            cell.categoryName = categories[indexPath.section]
+            cell.tvShows = self.trendingTvShows
         }
         
 

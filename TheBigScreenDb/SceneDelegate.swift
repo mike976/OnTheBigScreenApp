@@ -33,11 +33,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         
             if let featuredViewController = viewController.children[0] as? FeaturedViewController {
                 
-                let movieService = MoviesService()
-                let moviesNowPlayingViewModel = NowPlayingViewModel(movieService: movieService)
-                let featureViewModel = FeaturedViewModel(moviesNowPlayingViewModel: moviesNowPlayingViewModel)
+                let movieDatabaseService = TheMovieDatabaseService()
                 
-                featuredViewController.featuredViewModel = featureViewModel
+                let moviesViewModel = MoviesViewModel(movieDatabaseService: movieDatabaseService)
+                let tvShowsViewModel = TvShowsViewModel(movieDatabaseService: movieDatabaseService)
+
+                featuredViewController.moviesViewModel = moviesViewModel
+                featuredViewController.tvShowsViewModel = tvShowsViewModel
             }
         }
     }

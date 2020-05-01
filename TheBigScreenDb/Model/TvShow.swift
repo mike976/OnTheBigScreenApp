@@ -1,25 +1,24 @@
 //
-//  Movie.swift
+//  TvShow.swift
 //  TheBigScreenDb
 //
-//  Created by Michael Bullock on 27/04/2020.
+//  Created by Michael Bullock on 01/05/2020.
 //  Copyright © 2020 Michael Bullock. All rights reserved.
 //
 
 import Foundation
 
-
-struct Movie{
-    
-    var title : String
-    var release_date : String
+struct TvShow {
+    var name : String
+    var first_air_date : String
     var overview : String
     var poster_path : URL?
     var backdrop_path : URL?
+    var vote_average: String
     
     init(json : [String : Any]) {
-        self.title = json["title"] as? String ?? ""
-        self.release_date = (json["release_date"] as? String ?? "").formatedDate()
+        self.name = json["name"] as? String ?? ""
+        self.first_air_date = (json["first_air_date"] as? String ?? "").formatedDate()
         self.overview = json["overview"] as! String
         if let url = URL(string: "https://image.tmdb.org/t/p/w500\(json["poster_path"] as? String ?? "")"){
             self.poster_path = url
@@ -27,16 +26,17 @@ struct Movie{
         if let url = URL(string: "https://image.tmdb.org/t/p/w500\(json["backdrop_path"] as? String ?? "")"){
             self.backdrop_path = url
         }
+        self.vote_average = json["vote_average"] as? String ?? "0"
     }
     
-    static func returnMovies(json : [String : Any]) -> [Movie]{
+    static func returnTvShows(json : [String : Any]) -> [TvShow]{
         let results = json["results"] as? NSArray
-        var movies = [Movie]()
-        results?.forEach({ (movie) in
-            let parsedMovie = movie as! [String : Any]
-            movies.append(Movie(json: parsedMovie))
+        var tvShows = [TvShow]()
+        results?.forEach({ (tvShow) in
+            let parsedTvShow = tvShow as! [String : Any]
+            tvShows.append(TvShow(json: parsedTvShow))
         })
-        return movies
+        return tvShows
     }
+    
 }
-

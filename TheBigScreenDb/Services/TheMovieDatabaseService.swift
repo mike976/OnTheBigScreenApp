@@ -9,8 +9,7 @@
 import Foundation
 
 
-protocol TheMovieDatabaseServiceProtocol
-{
+protocol TheMovieDatabaseServiceProtocol {
     
     //MARK: - return list of movies now playing
     //MARK: - return list of movies in the Coming Soon
@@ -34,7 +33,7 @@ enum TvShowEndPont : String {
     case trending_tvshows = "/trending/tv/day"
 }
 
-class TheMovieDatabaseService : TheMovieDatabaseServiceProtocol {
+class TheMovieDatabaseService {
     
     deinit {
         print("OS reclaiming memory - MoviesService - no retain cycle/memory leaks here")
