@@ -16,6 +16,7 @@ struct Movie{
     var overview : String
     var poster_path : URL?
     var backdrop_path : URL?
+    var media_Type: MediaType = MediaType.movie
     
     init(json : [String : Any]) {
         self.title = json["title"] as? String ?? ""

@@ -201,11 +201,49 @@ extension FeaturedViewController : UITableViewDataSource, UITableViewDelegate {
        return cell
     }
     
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let y = -scrollView.contentOffset.y
 
         let height = max(y, 200)
 
         featuredHeaderPoster?.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: height)
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let frame = tableView.frame
+        
+        
+        let button = UIButton(frame: CGRect(x: frame.width-80, y: 13, width: 90, height: 15))
+        button.tag = section
+        button.setTitle("View All", for: .normal)
+        button.setTitleColor(.lightGray, for: .normal)
+        button.titleLabel?.font = UIFont(name: "Helvetica", size: CGFloat(12))
+        button.addTarget(self,action:#selector(buttonClicked),for:.touchUpInside)
+
+        button.tag = section //important we tag the section clicked and so we can seque to correct page using this
+    
+                
+        let label = UILabel()
+        label.frame = CGRect.init(x: 10, y: 13, width: 200, height: 17)
+        label.text = categories[section]
+        label.textColor = .lightGray
+        label.font =  UIFont.boldSystemFont(ofSize: 16.0)
+        
+
+        
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height))
+        headerView.addSubview(button)
+        headerView.addSubview(label)
+
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 45
+    }
+        
+    @objc func buttonClicked(sender: UIButton) {
+        print("button click\(sender.tag)")
     }
 }

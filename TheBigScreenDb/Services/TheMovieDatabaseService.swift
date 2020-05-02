@@ -19,7 +19,7 @@ enum MovieEndPoint : String, EndpointProtocol {
    }
 
 enum TvShowEndPont : String, EndpointProtocol {
-    case trending_tvshows = "/trending/tv/week"
+    case trending_tvshows = "/trending/tv/day"
 }
 
 protocol TheMovieDatabaseServiceProtocol {

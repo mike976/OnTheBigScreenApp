@@ -15,6 +15,7 @@ struct TvShow {
     var poster_path : URL?
     var backdrop_path : URL?
     var vote_average: String
+    var media_Type: MediaType = MediaType.tvShow
     
     init(json : [String : Any]) {
         self.name = json["name"] as? String ?? ""
