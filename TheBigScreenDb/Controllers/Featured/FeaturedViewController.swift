@@ -29,8 +29,8 @@ class FeaturedViewController: UIViewController {
     
     
     //MARK: - ViewModels
-    var moviesViewModel: MoviesViewModel!
-    var tvShowsViewModel: TvShowsViewModel!
+    var moviesViewModel: MoviesViewModelProtocol!
+    var tvShowsViewModel: TvShowsViewModelProtocol!
      
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,10 +38,10 @@ class FeaturedViewController: UIViewController {
         self.Initialize()
     }
         
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        loadMoviesAndTvShows()
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        loadMoviesAndTvShows()
+//    }
 
     private func Initialize() {
        
@@ -53,36 +53,34 @@ class FeaturedViewController: UIViewController {
        changeFeaturedHeaderImage()
        view.bringSubviewToFront(featuredHeaderPoster)
           
-       featuredHeaderPoster.frame = CGRect(x: 0, y:0, width: view.frame.width, height: 300)
+       featuredHeaderPoster.frame = CGRect(x: 0, y:0, width: view.frame.width, height: 200)
        
-       tableView.contentInset = UIEdgeInsets(top: 300, left: 0, bottom: 0, right: 0)
+       tableView.contentInset = UIEdgeInsets(top: 200, left: 0, bottom: 0, right: 0)
        tableView.estimatedRowHeight = 300
        tableView.rowHeight = 200
        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         
-      
-        
-        
-        self.timer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(self.changeFeaturedHeaderImage), userInfo: nil, repeats: true)
-        
+       self.timer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(self.changeFeaturedHeaderImage), userInfo: nil, repeats: true)
         
     }
     
     func loadMoviesAndTvShows() {
+                           
+        self.runOnBackgroundThread(page: 1, { page in
+            self.getMoviesNowPlayingAsync(page)
+        })
+
+        self.runOnBackgroundThread(page: 1, { page in
+            self.getUpcomingMoviesAsync(page)
+        })
+
+        self.runOnBackgroundThread(page: 1, { page in
+            self.getTrendingMoviesAsync(page)
+        })
         
-        if self.nowPlayingMovies.count == 0 && self.trendingTvShows.count == 0
-            && self.trendingMovies.count == 0 && self.upComingMovies.count == 0 {
-
-            let dq = DispatchQueue.global(qos: .background)
-            
-            dq.async { [weak self] in
-                self?.getMoviesNowPlayingAsync()
-                self?.getUpcomingMoviesAsync()
-                self?.getTrendingMoviesAsync()
-                self?.getTrendingTvShowsAsync()
-            }
-
-        }
+        self.runOnBackgroundThread(page: 1, { page in
+            self.getTrendingTvShowsAsync(page)
+        })
     }
     
     
@@ -95,16 +93,19 @@ class FeaturedViewController: UIViewController {
         }
         
         DispatchQueue.main.async {
-            self.featuredHeaderPoster.image = self.moviesViewModel.featuredHeaderImages[self.selectedPosterIndex]
+            
+            let imageName = self.moviesViewModel.featuredHeaderImages[self.selectedPosterIndex]
+            self.featuredHeaderPoster.image = UIImage(named: imageName)
         }
     }
     
     //MARK: - Movies functions
     
-    private func getMoviesNowPlayingAsync(page : Int = 1){
+    private func getMoviesNowPlayingAsync(_ page : Int = 1){
+        
+        
         if let nowplayingMovies = self.moviesViewModel.getMoviesAsync(page: page, endpoint: MovieEndPoint.nowplaying_movies) {
             self.nowPlayingMovies = nowplayingMovies
-            print("now playing movies", self.nowPlayingMovies.count)
             DispatchQueue.main.async {
                 self.tableView.reloadData()
                 
@@ -112,7 +113,7 @@ class FeaturedViewController: UIViewController {
         }
     }
     
-    private func getUpcomingMoviesAsync(page : Int = 1){
+    private func getUpcomingMoviesAsync(_ page : Int = 1){
         if let upComingMovies = self.moviesViewModel.getMoviesAsync(page: page, endpoint: MovieEndPoint.upcoming_movies) {
             self.upComingMovies = upComingMovies
             
@@ -123,11 +124,10 @@ class FeaturedViewController: UIViewController {
         }
     }
     
-    private func getTrendingMoviesAsync(page : Int = 1){
+    private func getTrendingMoviesAsync(_ page : Int = 1){
 
         if let trendingMovies = self.moviesViewModel.getMoviesAsync(page: page, endpoint: MovieEndPoint.trending_movies) {
             self.trendingMovies = trendingMovies
-            print("trending shows", self.trendingMovies.count)
             DispatchQueue.main.async {
                 self.tableView.reloadData()
                 
@@ -135,7 +135,7 @@ class FeaturedViewController: UIViewController {
         }        
     }
     
-    private func getTrendingTvShowsAsync(page : Int = 1){
+    private func getTrendingTvShowsAsync(_ page : Int = 1){
 
         if let trendingTvShows = self.tvShowsViewModel.getTvShowsAsync(page: page, endpoint: TvShowEndPont.trending_tvshows) {
             self.trendingTvShows = trendingTvShows
@@ -143,6 +143,17 @@ class FeaturedViewController: UIViewController {
                 self.tableView.reloadData()
                 
             }
+        }
+    }
+    
+    typealias GetMoviesAndTvShowssHandler = (Int) -> Void
+    func runOnBackgroundThread(page: Int, _ getMoviesAnTvShows: @escaping GetMoviesAndTvShowssHandler) {
+        
+        let dispatchQueue = DispatchQueue.global(qos: .background)
+        
+        dispatchQueue.async {
+            
+            getMoviesAnTvShows(page)
         }
     }
 }
@@ -193,7 +204,7 @@ extension FeaturedViewController : UITableViewDataSource, UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let y = -scrollView.contentOffset.y
 
-        let height = max(y, 300)
+        let height = max(y, 200)
 
         featuredHeaderPoster?.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: height)
     }

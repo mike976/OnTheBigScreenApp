@@ -8,20 +8,9 @@
 
 import Foundation
 
+protocol EndpointProtocol { }
 
-protocol TheMovieDatabaseServiceProtocol {
-    
-    //MARK: - return list of movies now playing
-    //MARK: - return list of movies in the Coming Soon
-    //MARK: - return list of movies Trending
-    //MARK: - return list of movies By Search
-    //MARK: - return Movie Metadata
-    //MARK: - return Cast Members for movie
-    //MARK: - return Cast Member details
-}
-
-
-enum MovieEndPoint : String {
+enum MovieEndPoint : String, EndpointProtocol {
        case nowplaying_movies = "/movie/now_playing"
        case upcoming_movies="/movie/upcoming"
        case trending_movies="/trending/movie/day"
@@ -29,21 +18,34 @@ enum MovieEndPoint : String {
        case search_movies = "/search/movie"
    }
 
-enum TvShowEndPont : String {
+enum TvShowEndPont : String, EndpointProtocol {
     case trending_tvshows = "/trending/tv/week"
 }
 
-class TheMovieDatabaseService {
+protocol TheMovieDatabaseServiceProtocol {
+    
+    //MARK: - return list of movies By Search
+    //MARK: - return Movie Metadata
+    //MARK: - return Cast Members for movie
+    //MARK: - return Cast Member details
+    
+    typealias getMoviesOnComplete = ([Movie], WebResponse) -> Void
+    func getMovies(page: Int, path: MovieEndPoint, onComplete : @escaping getMoviesOnComplete)
+    
+    typealias getTvShowsOnComplete = ([TvShow], WebResponse) -> Void
+    func getTvShows(page : Int, path: TvShowEndPont, onComplete : @escaping getTvShowsOnComplete)
+}
+
+class TheMovieDatabaseService : TheMovieDatabaseServiceProtocol {
     
     deinit {
         print("OS reclaiming memory - MoviesService - no retain cycle/memory leaks here")
     }
                 
-    let webClient = WebClient()
+    private var webClient: WebClientProtocol!
             
-    var nextPage = 1
-       
-    
+    private var nextPage = 1
+           
     private struct Parameters{
         static let language = ["language" : "en-GB"]
         static let api_key = ["api_key" : "5cd88ad1ae9b1b0d53d5e8467fe9c9bb"]
@@ -104,6 +106,11 @@ class TheMovieDatabaseService {
         
         urlComponents?.queryItems = queryItens
         return urlComponents?.url
+    }
+    
+    required init(webClient: WebClientProtocol) {
+        
+        self.webClient = webClient
     }
     
     // MARK: Public Functions that call Web API

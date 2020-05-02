@@ -1,23 +1,22 @@
-//
-//  TvShowsViewModel.swift
-//  TheBigScreenDb
-//
-//  Created by Michael Bullock on 01/05/2020.
-//  Copyright © 2020 Michael Bullock. All rights reserved.
-//
 
-import UIKit
+
 import Foundation
 
 
-class TvShowsViewModel {
+protocol TvShowsViewModelProtocol {
+    
+    func getTvShowsAsync(page : Int, endpoint: TvShowEndPont) -> [TvShow]?
+}
+
+
+class TvShowsViewModel : TvShowsViewModelProtocol{
     
 
     //MARK: - private proprties
-    private var movieDatabaseService: TheMovieDatabaseService
+    private var movieDatabaseService: TheMovieDatabaseServiceProtocol!
 
     //MARK: - Initializers
-    required init(movieDatabaseService: TheMovieDatabaseService) {
+    required init(movieDatabaseService: TheMovieDatabaseServiceProtocol) {
 
         self.movieDatabaseService = movieDatabaseService
     }

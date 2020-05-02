@@ -33,9 +33,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         
             if let featuredViewController = viewController.children[0] as? FeaturedViewController {
                 
-                let movieDatabaseService = TheMovieDatabaseService()
+                let webClient: WebClientProtocol = WebClient()
+               
+                let movieDatabaseService: TheMovieDatabaseServiceProtocol = TheMovieDatabaseService(webClient: webClient)
                 
                 let moviesViewModel = MoviesViewModel(movieDatabaseService: movieDatabaseService)
+                
                 let tvShowsViewModel = TvShowsViewModel(movieDatabaseService: movieDatabaseService)
 
                 featuredViewController.moviesViewModel = moviesViewModel
