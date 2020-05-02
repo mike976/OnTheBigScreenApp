@@ -120,13 +120,27 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="ani-ou-hS1">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="VideoCell" id="ani-ou-hS1" customClass="VideoCell" customModule="TheBigScreenDb" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="bL7-s6-XZK">
                                     <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bma-EF-gev">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                        </imageView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="bma-EF-gev" secondAttribute="bottom" id="KFm-s1-Uos"/>
+                                        <constraint firstAttribute="trailing" secondItem="bma-EF-gev" secondAttribute="trailing" id="Yo2-sv-hpn"/>
+                                        <constraint firstItem="bma-EF-gev" firstAttribute="leading" secondItem="bL7-s6-XZK" secondAttribute="leading" id="meq-O1-bfB"/>
+                                        <constraint firstItem="bma-EF-gev" firstAttribute="top" secondItem="bL7-s6-XZK" secondAttribute="top" id="y0C-Lo-B11"/>
+                                    </constraints>
                                 </collectionViewCellContentView>
+                                <connections>
+                                    <outlet property="imageView" destination="bma-EF-gev" id="XSE-xC-Lii"/>
+                                </connections>
                             </collectionViewCell>
                         </cells>
                         <connections>
@@ -135,6 +149,9 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" id="1m7-Od-ocY"/>
+                    <connections>
+                        <outlet property="collectionView" destination="qJq-sq-TpV" id="714-kT-AG6"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ci2-Jl-sPT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

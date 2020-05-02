@@ -11,6 +11,9 @@ import AlamofireImage
 
 class VideoCell : UICollectionViewCell {
     
+ 
+    
+    
     @IBOutlet weak var imageView: UIImageView!
     //@IBOutlet weak var titleLabel: UILabel!
     
@@ -59,6 +62,11 @@ class VideoCell : UICollectionViewCell {
                 
             }
         }
+    
+    override func awakeFromNib() {
+           super.awakeFromNib()
+           // Initialization code
+       }
 
     func run() {
         
