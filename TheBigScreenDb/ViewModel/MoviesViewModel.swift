@@ -4,8 +4,7 @@ import Foundation
 
 protocol MoviesViewModelProtocol {
     
-    func getMoviesAsync(page : Int, endpoint: MovieEndPoint) -> [Movie]?
-    var featuredHeaderImages: [String] { get }
+    func getMoviesAsync(page : Int, endpoint: MovieEndPoint) -> [Movie]?    
 }
 
 class MoviesViewModel : MoviesViewModelProtocol {
@@ -17,22 +16,7 @@ class MoviesViewModel : MoviesViewModelProtocol {
     
     //MARK: - private proprties
     private var movieDatabaseService: TheMovieDatabaseServiceProtocol!
-    
-    
-    //MARK: - Public Properties
-    var featuredHeaderImages: [String] {
         
-        get {
-            let x = [  "FeaturedHeaderImage1",
-                       "FeaturedHeaderImage2",
-                       "FeaturedHeaderImage3",
-                       "FeaturedHeaderImage4",
-                       "FeaturedHeaderImage5",
-                       "FeaturedHeaderImage6"]
-            
-            return x
-        }
-    }
     
     //MARK: - Initializers
     required init(movieDatabaseService: TheMovieDatabaseServiceProtocol) {

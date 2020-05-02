@@ -31,18 +31,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //Featured Tab Section Dependencies Resolved
         if let viewController = self.window?.rootViewController {
                         
-            if let featuredViewController = viewController.children[0] as? FeaturedViewController {
+            if let navigationController = viewController.children[0] as? UINavigationController {
                 
-                let webClient: WebClientProtocol = WebClient()
-               
-                let movieDatabaseService: TheMovieDatabaseServiceProtocol = TheMovieDatabaseService(webClient: webClient)
+                if let featuredViewController = navigationController.children[0] as? FeaturedViewController {
                 
-                let moviesViewModel = MoviesViewModel(movieDatabaseService: movieDatabaseService)
-                
-                let tvShowsViewModel = TvShowsViewModel(movieDatabaseService: movieDatabaseService)
+                    let webClient: WebClientProtocol = WebClient()
+                   
+                    let movieDatabaseService: TheMovieDatabaseServiceProtocol = TheMovieDatabaseService(webClient: webClient)
+                    
+                    let moviesViewModel = MoviesViewModel(movieDatabaseService: movieDatabaseService)
+                    
+                    let tvShowsViewModel = TvShowsViewModel(movieDatabaseService: movieDatabaseService)
 
-                featuredViewController.moviesViewModel = moviesViewModel
-                featuredViewController.tvShowsViewModel = tvShowsViewModel
+                    featuredViewController.moviesViewModel = moviesViewModel
+                    featuredViewController.tvShowsViewModel = tvShowsViewModel
+                }
             }
         }
     }

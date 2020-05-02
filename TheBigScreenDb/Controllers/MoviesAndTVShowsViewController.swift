@@ -10,32 +10,27 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
-class MoviesAndTVShowsCollectionViewController: UICollectionViewController {
+class MoviesAndTVShowsViewController: UICollectionViewController {
 
     
-    private var movies: [Movie]?
-    private var tvShows: [TvShow]?
+    var movies: [Movie]? {
+        didSet {
+            print(movies![0].title)
+        }
+    }
+    var tvShows: [TvShow]? {
+        didSet {
+            print(tvShows![0].name)
+        }
+    }
     
-    
+    var defaultToMovies: Bool = true
+        
     override func viewDidLoad() {
         super.viewDidLoad()
-                
-    }
-    
-    init?(coder: NSCoder, movies: [Movie]?, tvShows: [TvShow]?){
+     
         
-        self.movies = movies
-        self.tvShows = tvShows
-        
-        super.init(coder: coder)
     }
-    
-    
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     
     
     

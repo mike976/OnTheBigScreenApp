@@ -21,32 +21,61 @@ class FeaturedViewController: UIViewController {
 
     
     //MARK: - Featured Header properties
-    var timer = Timer()
+    var timer: Timer? = nil
     var counter = 0
     var selectedPosterIndex = -1
     
     var categories = ["Now Playing", "Coming Soon", "Trending Movies", "Trending TV Shows"]
-    
+    var featuredHeaderImages: [String] {
+        
+        get {
+            let x = [  "FeaturedHeaderImage1",
+                       "FeaturedHeaderImage2",
+                       "FeaturedHeaderImage3",
+                       "FeaturedHeaderImage4",
+                       "FeaturedHeaderImage5",
+                       "FeaturedHeaderImage6"]
+            
+            return x
+        }
+    }
     
     //MARK: - ViewModels
-    var moviesViewModel: MoviesViewModelProtocol!
-    var tvShowsViewModel: TvShowsViewModelProtocol!
+    var moviesViewModel: MoviesViewModelProtocol?
+    {
+        didSet{
+            loadMovies()
+        }
+    }
+    var tvShowsViewModel: TvShowsViewModelProtocol?
+    {
+        didSet{
+            loadTvShows()
+        }
+    }
      
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.Initialize()
+        
+        
     }
         
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        loadMoviesAndTvShows()
-//    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        //restart timer if it was initialised by the viewdidload
+        //if let safeTimer = self.timer {
+        if self.moviesViewModel != nil && self.tvShowsViewModel != nil {
+            self.timer?.invalidate()
+            self.timer?.fire()
+        }
+        //}
+    }
 
     private func Initialize() {
        
-       loadMoviesAndTvShows()
-        
        tableView.dataSource = self
        tableView.delegate = self
         
@@ -62,9 +91,17 @@ class FeaturedViewController: UIViewController {
         
        self.timer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(self.changeFeaturedHeaderImage), userInfo: nil, repeats: true)
         
+        //loadMovies()
+//        loadTvShows()
+         
+        
     }
     
-    func loadMoviesAndTvShows() {
+    func InitializeTimer() {
+        self.timer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(self.changeFeaturedHeaderImage), userInfo: nil, repeats: true)
+    }
+    
+    func loadMovies() {
                            
         self.runOnBackgroundThread(page: 1, { page in
             self.getMoviesNowPlayingAsync(page)
@@ -78,23 +115,27 @@ class FeaturedViewController: UIViewController {
             self.getTrendingMoviesAsync(page)
         })
         
+       
+    }
+    
+    func loadTvShows() {
         self.runOnBackgroundThread(page: 1, { page in
-            self.getTrendingTvShowsAsync(page)
-        })
+                   self.getTrendingTvShowsAsync(page)
+               })
     }
     
     
     @objc func changeFeaturedHeaderImage() {
 
         selectedPosterIndex = selectedPosterIndex + 1
-        
-        if selectedPosterIndex > moviesViewModel.featuredHeaderImages.count-1 {
+
+        if selectedPosterIndex > featuredHeaderImages.count-1 {
             selectedPosterIndex = 0
         }
-        
+
         DispatchQueue.main.async {
-            
-            let imageName = self.moviesViewModel.featuredHeaderImages[self.selectedPosterIndex]
+
+            let imageName = self.featuredHeaderImages[self.selectedPosterIndex]
             self.featuredHeaderPoster.image = UIImage(named: imageName)
         }
     }
@@ -104,7 +145,7 @@ class FeaturedViewController: UIViewController {
     private func getMoviesNowPlayingAsync(_ page : Int = 1){
         
         
-        if let nowplayingMovies = self.moviesViewModel.getMoviesAsync(page: page, endpoint: MovieEndPoint.nowplaying_movies) {
+        if let nowplayingMovies = self.moviesViewModel?.getMoviesAsync(page: page, endpoint: MovieEndPoint.nowplaying_movies) {
             self.nowPlayingMovies = nowplayingMovies
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -114,7 +155,7 @@ class FeaturedViewController: UIViewController {
     }
     
     private func getUpcomingMoviesAsync(_ page : Int = 1){
-        if let upComingMovies = self.moviesViewModel.getMoviesAsync(page: page, endpoint: MovieEndPoint.upcoming_movies) {
+        if let upComingMovies = self.moviesViewModel?.getMoviesAsync(page: page, endpoint: MovieEndPoint.upcoming_movies) {
             self.upComingMovies = upComingMovies
             
             DispatchQueue.main.async {
@@ -126,7 +167,7 @@ class FeaturedViewController: UIViewController {
     
     private func getTrendingMoviesAsync(_ page : Int = 1){
 
-        if let trendingMovies = self.moviesViewModel.getMoviesAsync(page: page, endpoint: MovieEndPoint.trending_movies) {
+        if let trendingMovies = self.moviesViewModel?.getMoviesAsync(page: page, endpoint: MovieEndPoint.trending_movies) {
             self.trendingMovies = trendingMovies
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -137,7 +178,7 @@ class FeaturedViewController: UIViewController {
     
     private func getTrendingTvShowsAsync(_ page : Int = 1){
 
-        if let trendingTvShows = self.tvShowsViewModel.getTvShowsAsync(page: page, endpoint: TvShowEndPont.trending_tvshows) {
+        if let trendingTvShows = self.tvShowsViewModel?.getTvShowsAsync(page: page, endpoint: TvShowEndPont.trending_tvshows) {
             self.trendingTvShows = trendingTvShows
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -156,6 +197,33 @@ class FeaturedViewController: UIViewController {
             getMoviesAnTvShows(page)
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     
+        if let categoryIndex = sender as? Int {
+            let vc = segue.destination as! MoviesAndTVShowsViewController
+
+            switch categoryIndex {
+            case 0:
+                vc.movies = self.nowPlayingMovies
+                break
+            case 1:
+                vc.movies = self.upComingMovies
+                break
+            case 2:
+                vc.movies = self.trendingMovies
+                break
+            case 3:
+                vc.tvShows = self.trendingTvShows
+                break
+            default:
+                vc.movies = self.nowPlayingMovies
+                break
+            }
+            
+        }
+    }
+   
 }
 
 
@@ -244,6 +312,10 @@ extension FeaturedViewController : UITableViewDataSource, UITableViewDelegate {
     }
         
     @objc func buttonClicked(sender: UIButton) {
-        print("button click\(sender.tag)")
+
+        let categoryIndex = Int(sender.tag)
+        performSegue(withIdentifier: "showCollectionIdentifier", sender: categoryIndex)
     }
+    
+    
 }
