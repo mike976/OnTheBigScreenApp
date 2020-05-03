@@ -57,6 +57,8 @@ class FeaturedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.configureNavBar(hideBar: true)
+                
         self.Initialize()
         
         
@@ -64,7 +66,10 @@ class FeaturedViewController: UIViewController {
         
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
+        self.configureNavBar(hideBar: true)
+        
+        
         //restart timer if it was initialised by the viewdidload
         //if let safeTimer = self.timer {
         if self.moviesViewModel != nil && self.tvShowsViewModel != nil {
@@ -72,6 +77,13 @@ class FeaturedViewController: UIViewController {
             self.timer?.fire()
         }
         //}
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.configureNavBar(hideBar: false)
+        
     }
 
     private func Initialize() {
@@ -83,24 +95,32 @@ class FeaturedViewController: UIViewController {
        view.bringSubviewToFront(featuredHeaderPoster)
           
        featuredHeaderPoster.frame = CGRect(x: 0, y:0, width: view.frame.width, height: 200)
-       
-       tableView.contentInset = UIEdgeInsets(top: 200, left: 0, bottom: 0, right: 0)
+        
+       tableView.contentInset = UIEdgeInsets(top: 150, left: 0, bottom: 0, right: 0)
        tableView.estimatedRowHeight = 300
        tableView.rowHeight = 200
        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         
        self.timer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(self.changeFeaturedHeaderImage), userInfo: nil, repeats: true)
-        
-        //loadMovies()
-//        loadTvShows()
-         
-        
     }
     
-    func InitializeTimer() {
-        self.timer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(self.changeFeaturedHeaderImage), userInfo: nil, repeats: true)
+    
+    func configureNavBar(hideBar: Bool = false) {
+        
+        if let navBar = self.navigationController?.navigationBar {
+
+            navBar.setBackgroundImage(nil, for: .default)
+            navBar.setValue(false, forKey: "hidesShadow")
+            
+            if hideBar {
+                
+                navBar.setBackgroundImage(UIImage(), for: .default)
+                navBar.setValue(true, forKey: "hidesShadow")
+            }
+        }
     }
     
+
     func loadMovies() {
                            
         self.runOnBackgroundThread(page: 1, { page in
@@ -273,7 +293,7 @@ extension FeaturedViewController : UITableViewDataSource, UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let y = -scrollView.contentOffset.y
 
-        let height = max(y, 200)
+        let height = y //max(y, 88)
 
         featuredHeaderPoster?.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: height)
     }

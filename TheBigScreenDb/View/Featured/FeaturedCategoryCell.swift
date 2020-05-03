@@ -20,7 +20,7 @@ class FeaturedCategoryCell: UITableViewCell {
     //then we use this to complete code in here
     var movies: [Movie]? = nil {
         didSet {
-            collectionView.backgroundColor = .white
+            collectionView.backgroundColor = .clear
             collectionView.showsHorizontalScrollIndicator = false
             collectionView.reloadData()
             
@@ -29,7 +29,7 @@ class FeaturedCategoryCell: UITableViewCell {
     
     var tvShows: [TvShow]? = nil {
            didSet {
-            collectionView.backgroundColor = .white
+               collectionView.backgroundColor = .clear
                collectionView.showsHorizontalScrollIndicator = false
                collectionView.reloadData()
                
