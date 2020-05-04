@@ -1,10 +1,3 @@
-//
-//  FeaturedVideoCell.swift
-//  TheBigScreenDb
-//
-//  Created by Michael Bullock on 30/04/2020.
-//  Copyright © 2020 Michael Bullock. All rights reserved.
-//
 
 import UIKit
 import AlamofireImage
@@ -12,14 +5,10 @@ import AlamofireImage
 class VideoCell : UICollectionViewCell {
     
  
-    
-    
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     
     var placeholderImage: UIImage?
-      
-    
     
     var movie:Movie? = nil {
         didSet {
@@ -45,8 +34,33 @@ class VideoCell : UICollectionViewCell {
         }
     
     func downloadImage(with url: URL) {
-     
-        imageView.af.setImage(withURL: url, placeholderImage: placeholderImage)
+
+        var label = UILabel()
+        
+        label.text = "Michael Bullock (1976)"
+        label.font = UIFont.init(name: "Helvetica", size: CGFloat(10))
+        label.textAlignment = .center
+        
+        imageView.addSubview(label)
+        imageView.bringSubviewToFront(label)
+        
+//        imageView.af.setImage(withURL: url, placeholderImage: placeholderImage, runImageTransitionIfCached: true, { (response) in
+            
+            
+  //          }
+        
+        imageView.af.setImage(withURL: url, placeholderImage: placeholderImage, runImageTransitionIfCached: true) { (response) in
+            
+            if response.error != nil {
+                print(response.error)
+            }
+        }
+                
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.masksToBounds = true
+        imageView.clipsToBounds = true
+        
+        imageView.sizeToFit()
     }
     
     

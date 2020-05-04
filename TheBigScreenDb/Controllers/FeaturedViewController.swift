@@ -223,6 +223,8 @@ class FeaturedViewController: UIViewController {
         if let categoryIndex = sender as? Int {
             let vc = segue.destination as! MoviesAndTVShowsViewController
 
+            vc.selectedCategoryName = self.categories[categoryIndex]
+            
             switch categoryIndex {
             case 0:
                 vc.movies = self.nowPlayingMovies
@@ -239,7 +241,7 @@ class FeaturedViewController: UIViewController {
             default:
                 vc.movies = self.nowPlayingMovies
                 break
-            }
+            }                    
             
         }
     }
@@ -284,6 +286,10 @@ extension FeaturedViewController : UITableViewDataSource, UITableViewDelegate {
             cell.categoryName = categories[indexPath.section]
             cell.tvShows = self.trendingTvShows
         }
+        
+        cell.collectionView.backgroundColor = .clear
+        cell.collectionView.showsHorizontalScrollIndicator = false
+        cell.collectionView.reloadData()
         
 
        return cell
