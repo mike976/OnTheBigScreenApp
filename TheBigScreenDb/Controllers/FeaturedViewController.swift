@@ -223,7 +223,11 @@ class FeaturedViewController: UIViewController {
         if let categoryIndex = sender as? Int {
             let vc = segue.destination as! MoviesAndTVShowsViewController
 
-            vc.selectedCategoryName = self.categories[categoryIndex]
+            vc.selectedCategoryIndex = categoryIndex
+            vc.categories = self.categories
+            vc.moviesViewModel = self.moviesViewModel
+            vc.tvShowsViewModel = self.tvShowsViewModel
+            
             
             switch categoryIndex {
             case 0:

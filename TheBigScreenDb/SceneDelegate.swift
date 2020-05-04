@@ -44,7 +44,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     let tvShowsViewModel = TvShowsViewModel(movieDatabaseService: movieDatabaseService)
 
                     featuredViewController.moviesViewModel = moviesViewModel
-                    featuredViewController.tvShowsViewModel = tvShowsViewModel
+                    featuredViewController.tvShowsViewModel = tvShowsViewModel                    
                 }
             }
         }

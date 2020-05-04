@@ -10,18 +10,26 @@ class MoviesAndTVShowsViewController: UIViewController {
     
     var collectionViewLayout: UICollectionViewFlowLayout!
     
-    var selectedCategoryName: String!
+    var selectedCategoryIndex: Int!
+    var categories: [String]!
     var movies: [Movie]?
     var tvShows: [TvShow]?    
     var defaultToMovies: Bool = true
+    
+    //MARK: - ViewModels
+    var moviesViewModel: MoviesViewModelProtocol!
+    var tvShowsViewModel: TvShowsViewModelProtocol!
+    
+    private var nextPage = 2
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupCollectionView()
         
-        if let categoryName = selectedCategoryName {
-            navigationItem.title = categoryName
+        if let _ = selectedCategoryIndex,
+            let categories = categories {
+            navigationItem.title = categories[selectedCategoryIndex]
         }
         
         collectionView.reloadData()
@@ -39,6 +47,136 @@ class MoviesAndTVShowsViewController: UIViewController {
         super.viewWillLayoutSubviews()
 
     }
+    
+    typealias GetMoviesAndTvShowssHandler = (Int) -> Void
+    func runOnBackgroundThread(page: Int, _ getMoviesAnTvShows: @escaping GetMoviesAndTvShowssHandler) {
+       
+       let dispatchQueue = DispatchQueue.global(qos: .background)
+       
+       dispatchQueue.async {
+           
+           getMoviesAnTvShows(page)
+       }
+    }
+    
+    func loadData() {
+        let nextPage = self.nextPage
+        
+        switch selectedCategoryIndex {
+        case 0:
+            self.runOnBackgroundThread(page: nextPage, { page in
+                self.getMoviesNowPlayingAsync(page)
+            })
+            break;
+        case 1:
+            self.runOnBackgroundThread(page: nextPage, { page in
+                self.getUpcomingMoviesAsync(page)
+            })
+            break;
+        case 2:
+            self.runOnBackgroundThread(page: nextPage, { page in
+                       self.getTrendingMoviesAsync(page)
+                   })
+            break;
+        case 3:
+            self.runOnBackgroundThread(page: nextPage, { page in
+                self.getTrendingTvShowsAsync(page)
+            })
+            break;
+        default:
+            print("no category found")
+        }
+    }
+    
+    
+    private func getMoviesNowPlayingAsync(_ page : Int = 1){
+                
+        if let nowplayingMovies = self.moviesViewModel?.getMoviesAsync(page: page, endpoint: MovieEndPoint.nowplaying_movies) {
+            
+            if self.movies!.count < 20{
+                self.stopPagination()
+            }
+            
+            self.movies = self.mergeMovies(currentMovies: self.movies!, newMovies: nowplayingMovies, page: page)
+            
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+                
+            }
+        }
+    }
+    
+    private func getUpcomingMoviesAsync(_ page : Int = 1){
+        if let upComingMovies = self.moviesViewModel?.getMoviesAsync(page: page, endpoint: MovieEndPoint.upcoming_movies) {
+                        
+            if self.movies!.count < 20{
+                self.stopPagination()
+            }
+            
+            self.movies = self.mergeMovies(currentMovies: self.movies!, newMovies: upComingMovies, page: page)
+            
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+                
+            }
+        }
+    }
+    
+    private func getTrendingMoviesAsync(_ page : Int = 1){
+
+        if let trendingMovies = self.moviesViewModel?.getMoviesAsync(page: page, endpoint: MovieEndPoint.trending_movies) {
+            
+            if self.movies!.count < 20{
+                self.stopPagination()
+            }
+            
+            self.movies = self.mergeMovies(currentMovies: self.movies!, newMovies: trendingMovies, page: page)
+            
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+                
+            }
+        }
+    }
+    
+    private func getTrendingTvShowsAsync(_ page : Int = 1){
+
+        if let trendingTvShows = self.tvShowsViewModel?.getTvShowsAsync(page: page, endpoint: TvShowEndPont.trending_tvshows) {
+            
+            if tvShows!.count < 20{
+                self.stopPagination()
+            }
+            
+            self.tvShows = self.mergeTvShows(currentTvShows: self.tvShows!, newTvShows: trendingTvShows, page: page)
+            
+            
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+                
+            }
+        }
+    }
+    
+    private func mergeMovies(currentMovies : [Movie], newMovies : [Movie], page : Int) -> [Movie]{
+           if page == 1{
+               return newMovies
+           }else{
+               return currentMovies + newMovies
+           }
+       }
+    
+    private func mergeTvShows(currentTvShows : [TvShow], newTvShows : [TvShow], page : Int) -> [TvShow]{
+              if page == 1{
+                  return newTvShows
+              }else{
+                  return currentTvShows + newTvShows
+              }
+          }
+       
+       private func stopPagination(){
+           nextPage = -1
+       }
+        
 }
 
 
@@ -121,13 +259,31 @@ extension MoviesAndTVShowsViewController : UICollectionViewDataSource, UICollect
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
-}
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
 
+       if nextPage == -1{
+           return
+       }
 
-extension UIImage {
-    func getCropRation() -> CGFloat {
-        let widthRatio = CGFloat(self.size.width / self.size.height)
-        return widthRatio
-        
+        if self.movies != nil {
+            if indexPath.row == self.movies!.count - 1{
+                self.loadData()
+                nextPage += 1
+            }
+            return
+        }
+
+        if self.tvShows != nil {
+            if indexPath.row == self.tvShows!.count - 1{
+                self.loadData()
+                nextPage += 1
+            }
+        }
     }
+    
+    
 }
+
+
+
