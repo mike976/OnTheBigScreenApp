@@ -39,12 +39,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                    
                     let movieDatabaseService: TheMovieDatabaseServiceProtocol = TheMovieDatabaseService(webClient: webClient)
                     
-                    let moviesViewModel = MoviesViewModel(movieDatabaseService: movieDatabaseService)
-                    
-                    let tvShowsViewModel = TvShowsViewModel(movieDatabaseService: movieDatabaseService)
+                    let mediaListViewModel = MediaListViewModel(movieDatabaseService: movieDatabaseService)
 
-                    featuredViewController.moviesViewModel = moviesViewModel
-                    featuredViewController.tvShowsViewModel = tvShowsViewModel                    
+                    featuredViewController.mediaListViewModel = mediaListViewModel
+                                    
                 }
             }
         }

@@ -41,16 +41,10 @@ class FeaturedViewController: UIViewController {
     }
     
     //MARK: - ViewModels
-    var moviesViewModel: MoviesViewModelProtocol?
+    var mediaListViewModel: MediaListViewModelProtocol?
     {
         didSet{
-            loadMovies()
-        }
-    }
-    var tvShowsViewModel: TvShowsViewModelProtocol?
-    {
-        didSet{
-            loadTvShows()
+            loadMediaList()
         }
     }
      
@@ -72,7 +66,7 @@ class FeaturedViewController: UIViewController {
         
         //restart timer if it was initialised by the viewdidload
         //if let safeTimer = self.timer {
-        if self.moviesViewModel != nil && self.tvShowsViewModel != nil {
+        if self.mediaListViewModel != nil {
             self.timer?.invalidate()
             self.timer?.fire()
         }
@@ -121,7 +115,7 @@ class FeaturedViewController: UIViewController {
     }
     
 
-    func loadMovies() {
+    func loadMediaList() {
                            
         self.runOnBackgroundThread(page: 1, { page in
             self.getMoviesNowPlayingAsync(page)
@@ -134,14 +128,11 @@ class FeaturedViewController: UIViewController {
         self.runOnBackgroundThread(page: 1, { page in
             self.getTrendingMoviesAsync(page)
         })
-        
-       
-    }
-    
-    func loadTvShows() {
+
         self.runOnBackgroundThread(page: 1, { page in
-                   self.getTrendingTvShowsAsync(page)
-               })
+            self.getTrendingTvShowsAsync(page)
+        })
+       
     }
     
     
@@ -165,8 +156,10 @@ class FeaturedViewController: UIViewController {
     private func getMoviesNowPlayingAsync(_ page : Int = 1){
         
         
-        if let nowplayingMovies = self.moviesViewModel?.getMoviesAsync(page: page, endpoint: MovieEndPoint.nowplaying_movies) {
+        if let nowplayingMovies:[Movie] = self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.nowplaying_movies) {
             self.nowPlayingMovies = nowplayingMovies
+                    
+            
             DispatchQueue.main.async {
                 self.tableView.reloadData()
                 
@@ -175,81 +168,79 @@ class FeaturedViewController: UIViewController {
     }
     
     private func getUpcomingMoviesAsync(_ page : Int = 1){
-        if let upComingMovies = self.moviesViewModel?.getMoviesAsync(page: page, endpoint: MovieEndPoint.upcoming_movies) {
+        if let upComingMovies:[Movie] = self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.upcoming_movies) {
             self.upComingMovies = upComingMovies
-            
+
             DispatchQueue.main.async {
                 self.tableView.reloadData()
-                
+
             }
         }
     }
-    
+
     private func getTrendingMoviesAsync(_ page : Int = 1){
 
-        if let trendingMovies = self.moviesViewModel?.getMoviesAsync(page: page, endpoint: MovieEndPoint.trending_movies) {
+        if let trendingMovies:[Movie] = self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.trending_movies) {
             self.trendingMovies = trendingMovies
             DispatchQueue.main.async {
                 self.tableView.reloadData()
-                
+
             }
-        }        
+        }
     }
-    
+
     private func getTrendingTvShowsAsync(_ page : Int = 1){
 
-        if let trendingTvShows = self.tvShowsViewModel?.getTvShowsAsync(page: page, endpoint: TvShowEndPont.trending_tvshows) {
+        if let trendingTvShows:[TvShow] = self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.trending_tvshows) {
             self.trendingTvShows = trendingTvShows
             DispatchQueue.main.async {
                 self.tableView.reloadData()
-                
+
             }
         }
     }
     
-    typealias GetMoviesAndTvShowssHandler = (Int) -> Void
-    func runOnBackgroundThread(page: Int, _ getMoviesAnTvShows: @escaping GetMoviesAndTvShowssHandler) {
+    typealias GetMediaListHandler = (Int) -> Void
+    func runOnBackgroundThread(page: Int, _ getMediaList: @escaping GetMediaListHandler) {
         
         let dispatchQueue = DispatchQueue.global(qos: .background)
         
         dispatchQueue.async {
             
-            getMoviesAnTvShows(page)
+            getMediaList(page)
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      
         if let categoryIndex = sender as? Int {
-            let vc = segue.destination as! MoviesAndTVShowsViewController
+            let vc = segue.destination as! MediaViewController
 
             vc.selectedCategoryIndex = categoryIndex
             vc.categories = self.categories
-            vc.moviesViewModel = self.moviesViewModel
-            vc.tvShowsViewModel = self.tvShowsViewModel
+            vc.mediaListViewModel = self.mediaListViewModel            
             
             
             switch categoryIndex {
             case 0:
-                vc.movies = self.nowPlayingMovies
+                vc.mediaList = self.nowPlayingMovies
                 break
             case 1:
-                vc.movies = self.upComingMovies
+                vc.mediaList = self.upComingMovies
                 break
             case 2:
-                vc.movies = self.trendingMovies
+                vc.mediaList = self.trendingMovies
                 break
             case 3:
-                vc.tvShows = self.trendingTvShows
+                vc.mediaList = self.trendingTvShows
                 break
             default:
-                vc.movies = self.nowPlayingMovies
+                vc.mediaList = self.nowPlayingMovies
                 break
             }                    
             
         }
     }
-   
 }
 
 
@@ -272,23 +263,20 @@ extension FeaturedViewController : UITableViewDataSource, UITableViewDelegate {
         
        let cell = tableView.dequeueReusableCell(withIdentifier: "FeaturedCategoryCell", for: indexPath) as! FeaturedCategoryCell
        
-        cell.movies = [Movie]()
-        cell.tvShows = [TvShow]()
-        
-        //print("\(categories[indexPath.section])")
-        
+        cell.mediaList = [Media]()
+               
         if indexPath.section == 0 {
             cell.categoryName = categories[indexPath.section]
-             cell.movies = self.nowPlayingMovies
+             cell.mediaList = self.nowPlayingMovies
         } else if indexPath.section == 1 {
             cell.categoryName = categories[indexPath.section]
-             cell.movies = self.upComingMovies
+             cell.mediaList = self.upComingMovies
         } else if indexPath.section == 2 {
             cell.categoryName = categories[indexPath.section]
-            cell.movies = self.trendingMovies
+            cell.mediaList = self.trendingMovies
         } else if indexPath.section == 3 {
             cell.categoryName = categories[indexPath.section]
-            cell.tvShows = self.trendingTvShows
+            cell.mediaList = self.trendingTvShows
         }
         
         cell.collectionView.backgroundColor = .clear

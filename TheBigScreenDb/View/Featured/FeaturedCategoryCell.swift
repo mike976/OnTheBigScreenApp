@@ -15,8 +15,7 @@ class FeaturedCategoryCell: UITableViewCell {
     
     var categoryName:String?
         
-    var movies: [Movie]? = nil
-    var tvShows: [TvShow]? = nil
+    var mediaList: [Media]? = nil
        
 }
 
@@ -48,30 +47,21 @@ extension FeaturedCategoryCell : UICollectionViewDataSource {
         cell.layer.masksToBounds = false;
         cell.contentView.clipsToBounds = true
         cell.layer.shadowPath = UIBezierPath(roundedRect:cell.bounds, cornerRadius:cell.contentView.layer.cornerRadius).cgPath;
-
-        
-        if let movies = self.movies {
-                       
-            if movies.count > 0 {
+                        
+        if let mediaList = self.mediaList {
+            if mediaList.count > 0 {
                 cell.imageView.image = placeholder
-                cell.movie = movies[indexPath.row]
+                cell.media = mediaList[indexPath.row]
                 return cell
-            } else if let tvShows = self.tvShows {
-
-                if tvShows.count > 0 {
-                    cell.imageView.image = placeholder
-                    cell.tvShow = tvShows[indexPath.row]
-                    return cell
-                }
             }
         }
         
 
         cell.imageView.image = placeholder
-        cell.movie = nil
+        cell.media = nil
         
         return cell
-    }    
+    }
 }
 
 extension FeaturedCategoryCell : UICollectionViewDelegateFlowLayout {

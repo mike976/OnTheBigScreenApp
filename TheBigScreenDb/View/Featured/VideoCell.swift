@@ -10,28 +10,26 @@ class VideoCell : UICollectionViewCell {
     
     var placeholderImage: UIImage?
     
-    var movie:Movie? = nil {
-        didSet {
-            if let movie = movie,
-                let url = movie.poster_path {
-                downloadImage(with: url)
-                
-                titleLabel?.text = movie.title
-            }
-        }
-    }
+    private let singleTap = UITapGestureRecognizer(target: self, action: #selector(tapDetected))
     
-    var tvShow:TvShow? = nil {
+    var imageTapped : (()->())?
+    
+    var media:Media? = nil {
         didSet {
-            if let tvShow = tvShow,
-                let url = tvShow.poster_path {
+            
+            if let media = media,
+                let url = media.poster_path {
+                imageView.isUserInteractionEnabled = true
+                imageView.addGestureRecognizer(singleTap)
+
                 downloadImage(with: url)
                 
-                titleLabel?.text = tvShow.name
-                
+                titleLabel?.text = media.title
+                            
             }
         }
     }
+           
     
     func downloadImage(with url: URL) {
         
@@ -50,6 +48,12 @@ class VideoCell : UICollectionViewCell {
         imageView.af.cancelImageRequest()
         imageView.layer.removeAllAnimations()
         imageView.image = nil
+    }
+    
+
+    //Action
+    @objc func tapDetected() {
+        imageTapped?()
     }
     
 }

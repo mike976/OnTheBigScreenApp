@@ -2,12 +2,12 @@
 
 import Foundation
 
-protocol MoviesViewModelProtocol {
+protocol MediaListViewModelProtocol {
     
-    func getMoviesAsync(page : Int, endpoint: MovieEndPoint) -> [Movie]?    
+    func getMediaListAsync(page : Int, endpoint: MediaEndpoint) -> [Media]?
 }
 
-class MoviesViewModel : MoviesViewModelProtocol {
+class MediaListViewModel : MediaListViewModelProtocol {
     
     //MARK: - Destructor
     deinit {
@@ -28,9 +28,9 @@ class MoviesViewModel : MoviesViewModelProtocol {
     //MARK: - Public Functions
     
     // Async-Await Task
-    func getMoviesAsync(page : Int = 1, endpoint: MovieEndPoint) -> [Movie]? {
+    func getMediaListAsync(page : Int = 1, endpoint: MediaEndpoint) -> [Media]? {
         
-        var movies:[Movie]? = nil
+        var mediaList:[Media]? = nil
         
         let semaphore = DispatchSemaphore(value: 0)
         
@@ -38,11 +38,11 @@ class MoviesViewModel : MoviesViewModelProtocol {
         
         dispatchQueue.async {
             
-            self.movieDatabaseService.getMovies(page: page, path: endpoint)  { (moviesList, webResponse) in
+            self.movieDatabaseService.getMediaList(page: page, path: endpoint)  { (mediaResults, webResponse) in
                 if !webResponse.isError{
-                    movies = moviesList
+                    mediaList = mediaResults
                 } else {
-                    print("MoviesViewModel - getMovies - \(endpoint) - Error:", webResponse.error?.localizedDescription ?? "no error description found")
+                    print("MoviesViewModel - getMediaList - \(endpoint) - Error:", webResponse.error?.localizedDescription ?? "no error description found")
                 }
                 
                 semaphore.signal()
@@ -52,7 +52,7 @@ class MoviesViewModel : MoviesViewModelProtocol {
         let timeoutInSecs = Double(5)
         _ = semaphore.wait(timeout: .now() + timeoutInSecs)
         
-        return movies
+        return mediaList
     }
 }
 

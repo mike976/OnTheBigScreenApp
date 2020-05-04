@@ -8,19 +8,17 @@
 
 import Foundation
 
-protocol EndpointProtocol { }
+protocol MediaEndpointProtocol { }
 
-enum MovieEndPoint : String, EndpointProtocol {
+enum MediaEndpoint : String, MediaEndpointProtocol {
        case nowplaying_movies = "/movie/now_playing"
        case upcoming_movies="/movie/upcoming"
        case trending_movies="/trending/movie/day"
        case discover_movies = "/discover/movie"
        case search_movies = "/search/movie"
+       case trending_tvshows = "/trending/tv/day"
    }
 
-enum TvShowEndPont : String, EndpointProtocol {
-    case trending_tvshows = "/trending/tv/day"
-}
 
 protocol TheMovieDatabaseServiceProtocol {
     
@@ -29,11 +27,8 @@ protocol TheMovieDatabaseServiceProtocol {
     //MARK: - return Cast Members for movie
     //MARK: - return Cast Member details
     
-    typealias getMoviesOnComplete = ([Movie], WebResponse) -> Void
-    func getMovies(page: Int, path: MovieEndPoint, onComplete : @escaping getMoviesOnComplete)
-    
-    typealias getTvShowsOnComplete = ([TvShow], WebResponse) -> Void
-    func getTvShows(page : Int, path: TvShowEndPont, onComplete : @escaping getTvShowsOnComplete)
+    typealias getMediaOnComplete<T:MediaProtocol> = ([T], WebResponse) -> Void
+    func getMediaList<T:MediaProtocol>(page: Int, path: MediaEndpoint, onComplete : @escaping getMediaOnComplete<T>)
 }
 
 class TheMovieDatabaseService : TheMovieDatabaseServiceProtocol {
@@ -60,31 +55,19 @@ class TheMovieDatabaseService : TheMovieDatabaseServiceProtocol {
         }
     }
     
-    //TODO Refactor Convert to class and use inheritence
-    private struct MovieUrl{
+       private struct MediaUrl{
         let baseUrl = "https://api.themoviedb.org/3"
-        var path : MovieEndPoint
+        var path : MediaEndpoint
         var parameters : [Parameter]
         
-        init(path : MovieEndPoint, parameters : [Parameter]) {
+        init(path : MediaEndpoint, parameters : [Parameter]) {
             self.path = path
             self.parameters = parameters
         }
     }
     
-    //TODO Refactor Convert to class and use inheritence
-    private struct TvShowUrl{
-        let baseUrl = "https://api.themoviedb.org/3"
-        var path : TvShowEndPont
-        var parameters : [Parameter]
-        
-        init(path : TvShowEndPont, parameters : [Parameter]) {
-            self.path = path
-            self.parameters = parameters
-        }
-    }
             
-    private func fillMovieUrl(url : MovieUrl) -> URL?{
+    private func fillMediaUrl(url : MediaUrl) -> URL?{
         var urlComponents = URLComponents(string: url.baseUrl + url.path.rawValue)
         var queryItens = [URLQueryItem]()
         
@@ -95,43 +78,24 @@ class TheMovieDatabaseService : TheMovieDatabaseServiceProtocol {
         urlComponents?.queryItems = queryItens
         return urlComponents?.url
     }
-    
-    private func fillTvShowUrl(url : TvShowUrl) -> URL?{
-        var urlComponents = URLComponents(string: url.baseUrl + url.path.rawValue)
-        var queryItens = [URLQueryItem]()
-        
-        url.parameters.forEach({ (parameter) in
-            queryItens.append(URLQueryItem(name: (parameter.rawValue.first?.key)!, value: parameter.rawValue.first?.value))
-        })
-        
-        urlComponents?.queryItems = queryItens
-        return urlComponents?.url
-    }
-    
+           
     required init(webClient: WebClientProtocol) {
         
         self.webClient = webClient
     }
     
     // MARK: Public Functions that call Web API
-    typealias getMoviesOnComplete = ([Movie], WebResponse) -> Void
-    func getMovies(page : Int = 1, path: MovieEndPoint, onComplete : @escaping getMoviesOnComplete){
-        
-        let url = MovieUrl(path: path, parameters: [Parameter(parameter: Parameters.language), Parameter(parameter: Parameters.api_key), Parameter(parameter: Parameters.sort_by), Parameter(parameter : ["page" : "\(page)"])])
-        
-        webClient.request(url: fillMovieUrl(url: url)) { (webResponse) in
-            onComplete(Movie.returnMovies(json: webResponse.json!), webResponse)
+   
+    typealias getMediaOnComplete<T:MediaProtocol> = ([T], WebResponse) -> Void
+    func getMediaList<T:MediaProtocol>(page : Int = 1, path: MediaEndpoint, onComplete : @escaping getMediaOnComplete<T>) {
+
+        let url = MediaUrl(path: path, parameters: [Parameter(parameter: Parameters.language), Parameter(parameter: Parameters.api_key), Parameter(parameter: Parameters.sort_by), Parameter(parameter : ["page" : "\(page)"])])
+
+        webClient.request(url: fillMediaUrl(url: url)) { (webResponse) in
+            
+            onComplete(T.returnMediaList(json: webResponse.json!) as [T], webResponse)
         }
     }
     
-    typealias getTvShowsOnComplete = ([TvShow], WebResponse) -> Void
-    func getTvShows(page : Int = 1, path: TvShowEndPont, onComplete : @escaping getTvShowsOnComplete){
-
-        let url = TvShowUrl(path: path, parameters: [Parameter(parameter: Parameters.language), Parameter(parameter: Parameters.api_key), Parameter(parameter: Parameters.sort_by), Parameter(parameter : ["page" : "\(page)"])])
-
-        webClient.request(url: fillTvShowUrl(url: url)) { (webResponse) in
-            onComplete(TvShow.returnTvShows(json: webResponse.json!), webResponse)
-        }
-    }
     
 }
