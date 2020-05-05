@@ -107,5 +107,13 @@ extension SearchViewController : UISearchBarDelegate {
             self.loadMediaList(searchText: searchText)
         
     }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.searchBar.endEditing(true)
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true)
+    }
 
 }
