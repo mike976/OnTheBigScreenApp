@@ -222,28 +222,51 @@
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <color key="tintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="RkQ-UK-xnf">
-                                            <size key="itemSize" width="414" height="80"/>
+                                            <size key="itemSize" width="414" height="85"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
                                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" reuseIdentifier="VideoCell" id="ZrS-yW-rgN" customClass="VideoCell" customModule="TheBigScreenDb" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="81"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="l35-pR-27p">
-                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="81"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
+                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vQP-Ib-Geg">
+                                                            <rect key="frame" x="0.0" y="0.0" width="414" height="0.5"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </view>
+                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iJe-BK-gdE" customClass="STRatingControl" customModule="STRatingControl">
+                                                            <rect key="frame" x="145" y="42" width="69" height="11"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="maxRating">
+                                                                    <integer key="value" value="5"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="rating">
+                                                                    <integer key="value" value="0"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="image" keyPath="filledStarImage" value="star.fill" catalog="system"/>
+                                                                <userDefinedRuntimeAttribute type="image" keyPath="emptyStarImage" value="star" catalog="system"/>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="spacing">
+                                                                    <integer key="value" value="2"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                        </view>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Blj-P1-prL">
-                                                            <rect key="frame" x="8" y="0.0" width="50" height="80"/>
+                                                            <rect key="frame" x="8" y="8" width="55" height="65"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="50" id="4n7-20-6nu"/>
-                                                                <constraint firstAttribute="height" constant="80" id="ZcR-F9-TY8"/>
+                                                                <constraint firstAttribute="width" constant="55" id="4n7-20-6nu"/>
+                                                                <constraint firstAttribute="height" constant="85" id="ZcR-F9-TY8"/>
                                                             </constraints>
                                                         </imageView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="zeR-9m-cLx">
-                                                            <rect key="frame" x="66" y="8" width="68" height="59"/>
+                                                            <rect key="frame" x="71" y="8" width="68" height="59"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JTc-zb-yiw">
                                                                     <rect key="frame" x="0.0" y="0.0" width="23.5" height="12"/>
@@ -271,33 +294,16 @@
                                                                 </label>
                                                             </subviews>
                                                         </stackView>
-                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iJe-BK-gdE" customClass="STRatingControl" customModule="STRatingControl">
-                                                            <rect key="frame" x="136" y="42" width="69" height="11"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            <userDefinedRuntimeAttributes>
-                                                                <userDefinedRuntimeAttribute type="number" keyPath="maxRating">
-                                                                    <integer key="value" value="5"/>
-                                                                </userDefinedRuntimeAttribute>
-                                                                <userDefinedRuntimeAttribute type="number" keyPath="rating">
-                                                                    <integer key="value" value="0"/>
-                                                                </userDefinedRuntimeAttribute>
-                                                                <userDefinedRuntimeAttribute type="image" keyPath="filledStarImage" value="star.fill" catalog="system"/>
-                                                                <userDefinedRuntimeAttribute type="image" keyPath="emptyStarImage" value="star" catalog="system"/>
-                                                                <userDefinedRuntimeAttribute type="number" keyPath="spacing">
-                                                                    <integer key="value" value="2"/>
-                                                                </userDefinedRuntimeAttribute>
-                                                            </userDefinedRuntimeAttributes>
-                                                        </view>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="zeR-9m-cLx" firstAttribute="leading" secondItem="Blj-P1-prL" secondAttribute="trailing" constant="8" id="2iL-ah-43u"/>
                                                         <constraint firstItem="Blj-P1-prL" firstAttribute="leading" secondItem="l35-pR-27p" secondAttribute="leadingMargin" id="A47-lW-hVj"/>
                                                         <constraint firstItem="zeR-9m-cLx" firstAttribute="top" secondItem="l35-pR-27p" secondAttribute="topMargin" id="bUK-M1-K1c"/>
                                                         <constraint firstItem="Blj-P1-prL" firstAttribute="centerY" secondItem="l35-pR-27p" secondAttribute="centerY" id="rPv-o9-xP2"/>
+                                                        <constraint firstItem="Blj-P1-prL" firstAttribute="top" secondItem="zeR-9m-cLx" secondAttribute="top" id="va5-vc-dfD"/>
                                                     </constraints>
                                                 </collectionViewCellContentView>
-                                                <size key="customSize" width="414" height="80"/>
+                                                <size key="customSize" width="414" height="81"/>
                                                 <connections>
                                                     <outlet property="imageView" destination="Blj-P1-prL" id="Ycc-X5-I96"/>
                                                     <outlet property="mediaTypeLabel" destination="JTc-zb-yiw" id="GcY-TX-KdF"/>

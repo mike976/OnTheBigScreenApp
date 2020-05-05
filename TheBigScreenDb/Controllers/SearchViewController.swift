@@ -86,8 +86,8 @@ extension SearchViewController : UICollectionViewDataSource, UICollectionViewDel
         cell.imageView.image = placeholder
         
         cell.media = self.mediaList[indexPath.row]
-        cell.layer.masksToBounds = true;
-    
+        //cell.layer.masksToBounds = true;
+        
     
        return cell
     }
@@ -95,7 +95,7 @@ extension SearchViewController : UICollectionViewDataSource, UICollectionViewDel
     // MARK: UICollectionViewDelegate
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width - 5, height: 80)
+        return CGSize(width: collectionView.frame.width - 5, height:80)
     }
        
 }
