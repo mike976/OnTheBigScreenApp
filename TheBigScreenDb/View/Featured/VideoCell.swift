@@ -1,6 +1,7 @@
 
 import UIKit
 import AlamofireImage
+import STRatingControl
 
 class VideoCell : UICollectionViewCell {
     
@@ -9,6 +10,7 @@ class VideoCell : UICollectionViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var releaseYearLabel: UILabel!
     @IBOutlet weak var mediaTypeLabel: UILabel!
+    @IBOutlet weak var ratingControl: STRatingControl!
     
     
     var placeholderImage: UIImage?
@@ -44,6 +46,10 @@ class VideoCell : UICollectionViewCell {
                 mediaTypeLabel?.clipsToBounds = true
                 mediaTypeLabel?.textColor = .black
                             
+                if let voteavg = media.vote_average {
+                    let rating = Int(floor(voteavg)) / 2
+                    ratingControl?.rating = min(rating, 5)
+                }
                             
             }
         }

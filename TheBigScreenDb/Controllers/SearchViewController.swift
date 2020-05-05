@@ -80,28 +80,11 @@ extension SearchViewController : UICollectionViewDataSource, UICollectionViewDel
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! VideoCell
     
-//        var mediaTypeString = ""
-//        if let mediaType = self.mediaList[indexPath.row].media_Type {
-//
-//            if mediaType == MediaType.movie {
-//                mediaTypeString = "Movie"
-//            }
-//
-//            if mediaType == MediaType.tvShow {
-//                mediaTypeString = "TV"
-//            }
-//
-//        }
-//
-//        var voteAvgStr = ""
-//        if let voteDouble = self.mediaList[indexPath.row].vote_average as? Double {
-//
-//            voteAvgStr = String(voteDouble)
-//
-//        }
-//
-//        cell.titleLabel?.text = self.mediaList[indexPath.row].title
-    
+        let placeholder = UIImage(named: "placeholder")
+
+        cell.placeholderImage = placeholder
+        cell.imageView.image = placeholder
+        
         cell.media = self.mediaList[indexPath.row]
         cell.layer.masksToBounds = true;
     

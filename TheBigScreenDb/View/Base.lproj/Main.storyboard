@@ -220,6 +220,7 @@
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="UoY-eO-CrE">
                                         <rect key="frame" x="0.0" y="56" width="414" height="796"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <color key="tintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="RkQ-UK-xnf">
                                             <size key="itemSize" width="414" height="80"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -270,6 +271,24 @@
                                                                 </label>
                                                             </subviews>
                                                         </stackView>
+                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iJe-BK-gdE" customClass="STRatingControl" customModule="STRatingControl">
+                                                            <rect key="frame" x="136" y="42" width="69" height="11"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="maxRating">
+                                                                    <integer key="value" value="5"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="rating">
+                                                                    <integer key="value" value="0"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="image" keyPath="filledStarImage" value="star.fill" catalog="system"/>
+                                                                <userDefinedRuntimeAttribute type="image" keyPath="emptyStarImage" value="star" catalog="system"/>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="spacing">
+                                                                    <integer key="value" value="2"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                        </view>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="zeR-9m-cLx" firstAttribute="leading" secondItem="Blj-P1-prL" secondAttribute="trailing" constant="8" id="2iL-ah-43u"/>
@@ -282,6 +301,7 @@
                                                 <connections>
                                                     <outlet property="imageView" destination="Blj-P1-prL" id="Ycc-X5-I96"/>
                                                     <outlet property="mediaTypeLabel" destination="JTc-zb-yiw" id="GcY-TX-KdF"/>
+                                                    <outlet property="ratingControl" destination="iJe-BK-gdE" id="wMh-lQ-DnB"/>
                                                     <outlet property="releaseYearLabel" destination="hxV-O8-47a" id="sFB-79-RSu"/>
                                                     <outlet property="titleLabel" destination="b6w-Q8-ycz" id="aR8-o0-XMX"/>
                                                 </connections>
@@ -353,6 +373,7 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
+        <image name="star" catalog="system" width="128" height="116"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>
     </resources>
 </document>

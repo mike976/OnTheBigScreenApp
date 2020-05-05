@@ -14,6 +14,7 @@ target 'TheBigScreenDb' do
     
     # Create UI by code API
     pod 'PureLayout'
+    pod 'STRatingControl'
 
 
 
@@ -29,6 +30,8 @@ target 'TheBigScreenDb' do
     
     # Create UI by code API
     pod 'PureLayout'
+    pod 'STRatingControl'
+        
 
 
   end
@@ -45,6 +48,7 @@ target 'TheBigScreenDb' do
     
     # Create UI by code API
     pod 'PureLayout'
+    pod 'STRatingControl'
 
 
   end
