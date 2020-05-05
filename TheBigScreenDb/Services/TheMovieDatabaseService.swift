@@ -15,7 +15,7 @@ enum MediaEndpoint : String, MediaEndpointProtocol {
        case upcoming_movies="/movie/upcoming"
        case trending_movies="/trending/movie/day"
        case discover_movies = "/discover/movie"
-       case search_movies = "/search/movie"
+       case search_movies = "/search/multi"
        case trending_tvshows = "/trending/tv/day"
    }
 
@@ -28,7 +28,7 @@ protocol TheMovieDatabaseServiceProtocol {
     //MARK: - return Cast Member details
     
     typealias getMediaOnComplete<T:MediaProtocol> = ([T], WebResponse) -> Void
-    func getMediaList<T:MediaProtocol>(page: Int, path: MediaEndpoint, onComplete : @escaping getMediaOnComplete<T>)
+    func getMediaList<T:MediaProtocol>(page: Int, path: MediaEndpoint, searchQuery: String?, onComplete : @escaping getMediaOnComplete<T>)
 }
 
 class TheMovieDatabaseService : TheMovieDatabaseServiceProtocol {
@@ -46,6 +46,7 @@ class TheMovieDatabaseService : TheMovieDatabaseServiceProtocol {
         static let api_key = ["api_key" : "5cd88ad1ae9b1b0d53d5e8467fe9c9bb"]
         static let sort_by = ["sort_by" : "popularity.desc"]
         static let page = ["page" : "1"]
+        static let query = ["query": ""]
     }
     
     private struct Parameter{
@@ -87,12 +88,20 @@ class TheMovieDatabaseService : TheMovieDatabaseServiceProtocol {
     // MARK: Public Functions that call Web API
    
     typealias getMediaOnComplete<T:MediaProtocol> = ([T], WebResponse) -> Void
-    func getMediaList<T:MediaProtocol>(page : Int = 1, path: MediaEndpoint, onComplete : @escaping getMediaOnComplete<T>) {
+    func getMediaList<T:MediaProtocol>(page : Int = 1, path: MediaEndpoint, searchQuery: String?, onComplete : @escaping getMediaOnComplete<T>) {
 
-        let url = MediaUrl(path: path, parameters: [Parameter(parameter: Parameters.language), Parameter(parameter: Parameters.api_key), Parameter(parameter: Parameters.sort_by), Parameter(parameter : ["page" : "\(page)"])])
+        var parameters = [Parameter(parameter: Parameters.language), Parameter(parameter: Parameters.api_key), Parameter(parameter: Parameters.sort_by), Parameter(parameter : ["page" : "\(page)"])]
+        
+        
+        if let searchQueryString = searchQuery {
+            var query = Parameters.query
+            query.updateValue(searchQueryString, forKey: "query")
+            parameters.append(Parameter(parameter: query ))
+        }
+        
+        let url = MediaUrl(path: path, parameters: parameters)
 
         webClient.request(url: fillMediaUrl(url: url)) { (webResponse) in
-            
             onComplete(T.returnMediaList(json: webResponse.json!) as [T], webResponse)
         }
     }

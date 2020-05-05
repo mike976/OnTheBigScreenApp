@@ -151,12 +151,12 @@ class FeaturedViewController: UIViewController {
         }
     }
     
-    //MARK: - Movies functions
+    //MARK: - Media requested from MediaListViewModel
     
     private func getMoviesNowPlayingAsync(_ page : Int = 1){
         
         
-        if let nowplayingMovies:[Movie] = self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.nowplaying_movies) {
+        if let nowplayingMovies:[Movie] = self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.nowplaying_movies, nil) {
             self.nowPlayingMovies = nowplayingMovies
                     
             
@@ -168,7 +168,7 @@ class FeaturedViewController: UIViewController {
     }
     
     private func getUpcomingMoviesAsync(_ page : Int = 1){
-        if let upComingMovies:[Movie] = self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.upcoming_movies) {
+        if let upComingMovies:[Movie] = self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.upcoming_movies, nil) {
             self.upComingMovies = upComingMovies
 
             DispatchQueue.main.async {
@@ -180,7 +180,7 @@ class FeaturedViewController: UIViewController {
 
     private func getTrendingMoviesAsync(_ page : Int = 1){
 
-        if let trendingMovies:[Movie] = self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.trending_movies) {
+        if let trendingMovies:[Movie] = self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.trending_movies, nil) {
             self.trendingMovies = trendingMovies
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -191,7 +191,7 @@ class FeaturedViewController: UIViewController {
 
     private func getTrendingTvShowsAsync(_ page : Int = 1){
 
-        if let trendingTvShows:[TvShow] = self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.trending_tvshows) {
+        if let trendingTvShows:[TvShow] = self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.trending_tvshows, nil) {
             self.trendingTvShows = trendingTvShows
             DispatchQueue.main.async {
                 self.tableView.reloadData()

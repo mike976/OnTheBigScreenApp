@@ -45,9 +45,11 @@ class VideoCell : UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        imageView.af.cancelImageRequest()
-        imageView.layer.removeAllAnimations()
-        imageView.image = nil
+        if imageView != nil {
+            imageView.af.cancelImageRequest()
+            imageView.layer.removeAllAnimations()
+            imageView.image = nil
+        }
     }
     
 

@@ -17,7 +17,9 @@ class TvShow : Media {
         
         self.title = json["name"] as? String ?? ""
         self.release_date = (json["first_air_date"] as? String ?? "").formatedDate()
-        self.overview = json["overview"] as! String
+        self.release_year = (json["first_air_date"] as? String ?? "").formatedYear()
+        self.overview = json["overview"] as? String ?? ""
+        self.media_Type = MediaType.tvShow
     }
     
 }

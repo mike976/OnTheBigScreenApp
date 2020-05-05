@@ -88,7 +88,7 @@ class MediaViewController: UIViewController {
     
     private func getMoviesNowPlayingAsync(_ page : Int = 1){
                 
-        if let nowplayingMovies:[Movie] = self.mediaListViewModel?.getMediaListAsync (page: page, endpoint: MediaEndpoint.nowplaying_movies) {
+        if let nowplayingMovies:[Movie] = self.mediaListViewModel?.getMediaListAsync (page: page, endpoint: MediaEndpoint.nowplaying_movies, nil) {
             
             if self.mediaList!.count < 20{
                 self.stopPagination()
@@ -104,7 +104,7 @@ class MediaViewController: UIViewController {
     }
     
     private func getUpcomingMoviesAsync(_ page : Int = 1){
-        if let upComingMovies:[Movie] = self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.upcoming_movies)  {
+        if let upComingMovies:[Movie] = self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.upcoming_movies, nil)  {
                         
             if self.mediaList!.count < 20{
                 self.stopPagination()
@@ -121,7 +121,7 @@ class MediaViewController: UIViewController {
     
     private func getTrendingMoviesAsync(_ page : Int = 1){
 
-        if let trendingMovies:[Movie] = self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.trending_movies){
+        if let trendingMovies:[Movie] = self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.trending_movies, nil){
             
             if self.mediaList!.count < 20{
                 self.stopPagination()
@@ -138,7 +138,7 @@ class MediaViewController: UIViewController {
     
     private func getTrendingTvShowsAsync(_ page : Int = 1){
 
-        if let trendingTvShows:[TvShow] = self.self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.trending_tvshows) {
+        if let trendingTvShows:[TvShow] = self.self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.trending_tvshows, nil) {
             
             if mediaList!.count < 20{
                 self.stopPagination()

@@ -18,8 +18,9 @@ class Movie: Media {
         super.init(json: json)
         
         self.release_date = (json["release_date"] as? String ?? "").formatedDate()
+        self.release_year = (json["release_date"] as? String ?? "").formatedYear()
         self.title = json["title"] as? String ?? ""
-        self.media_Type = MediaType.tvShow
+        self.media_Type = MediaType.movie
         
     }
            

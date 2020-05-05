@@ -4,7 +4,7 @@ import Foundation
 
 protocol MediaListViewModelProtocol {
     
-    func getMediaListAsync<T: MediaProtocol>(page : Int, endpoint: MediaEndpoint) -> [T]?
+    func getMediaListAsync<T: MediaProtocol>(page : Int, endpoint: MediaEndpoint, _ searchQuery: String?) -> [T]?
 }
 
 class MediaListViewModel : MediaListViewModelProtocol {
@@ -28,50 +28,32 @@ class MediaListViewModel : MediaListViewModelProtocol {
     //MARK: - Public Functions
     
     // Async-Await Task
-    func getMediaListAsync<T: MediaProtocol>(page : Int = 1, endpoint: MediaEndpoint) -> [T]? {
-
-        var mediaList:[Media]? = nil
+    func getMediaListAsync<T: MediaProtocol>(page : Int = 1, endpoint: MediaEndpoint, _ searchQuery: String?) -> [T]? {
+        
+        var mediaList:[T]? = nil
 
         let semaphore = DispatchSemaphore(value: 0)
 
         let dispatchQueue = DispatchQueue.global(qos: .background)
 
         dispatchQueue.async {
-            
-            if endpoint == .trending_tvshows {
-                
-                self.movieDatabaseService.getMediaList(page: page, path: endpoint)  { (mediaResults: [TvShow], webResponse) in
+               
+            self.movieDatabaseService.getMediaList(page: page, path: endpoint, searchQuery: searchQuery)  { (mediaResults: [T], webResponse) in
 
-                    if !webResponse.isError{
-                        mediaList = mediaResults //as! [TvShow]
-                    } else {
-                        print("MediaListViewModel - getMediaList - \(endpoint) - Error:", webResponse.error?.localizedDescription ?? "no error description found")
-                    }
-
-                    semaphore.signal()
+                if !webResponse.isError{
+                    mediaList = mediaResults
+                } else {
+                    print("MediaListViewModel - getMediaList - \(endpoint) - Error:", webResponse.error?.localizedDescription ?? "no error description found")
                 }
-                
-            } else {
 
-                self.movieDatabaseService.getMediaList(page: page, path: endpoint)  { (mediaResults: [Movie], webResponse) in
-
-                    if !webResponse.isError{
-                        mediaList = mediaResults //as! [Movie]
-                    } else {
-                        print("MediaListViewModel - getMediaList - \(endpoint) - Error:", webResponse.error?.localizedDescription ?? "no error description found")
-                    }
-
-                    semaphore.signal()
-                }
-                
+                semaphore.signal()
             }
-
         }
 
         let timeoutInSecs = Double(5)
         _ = semaphore.wait(timeout: .now() + timeoutInSecs)
                     
-        return mediaList as? [T]
+        return mediaList
                
     }
 }

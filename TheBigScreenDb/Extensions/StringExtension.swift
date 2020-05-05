@@ -22,4 +22,16 @@ extension String{
         return dateString
     }
     
+    func formatedYear() -> String{
+        let dateFormatter = DateFormatter()
+        let tempLocale = dateFormatter.locale
+        dateFormatter.locale = Locale(identifier: "en-US")
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        guard let date = dateFormatter.date(from: self) else { return ""}
+        dateFormatter.dateFormat = "yyyy"
+        dateFormatter.locale = tempLocale
+        let dateString = dateFormatter.string(from: date)        
+        return dateString
+    }
+    
 }

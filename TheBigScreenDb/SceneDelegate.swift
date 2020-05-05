@@ -30,20 +30,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         //Featured Tab Section Dependencies Resolved
         if let viewController = self.window?.rootViewController {
-                        
+                
+             let webClient: WebClientProtocol = WebClient()
+             let movieDatabaseService: TheMovieDatabaseServiceProtocol = TheMovieDatabaseService(webClient: webClient)
+             let mediaListViewModel = MediaListViewModel(movieDatabaseService: movieDatabaseService)
+            
             if let navigationController = viewController.children[0] as? UINavigationController {
                 
-                if let featuredViewController = navigationController.children[0] as? FeaturedViewController {
-                
-                    let webClient: WebClientProtocol = WebClient()
-                   
-                    let movieDatabaseService: TheMovieDatabaseServiceProtocol = TheMovieDatabaseService(webClient: webClient)
-                    
-                    let mediaListViewModel = MediaListViewModel(movieDatabaseService: movieDatabaseService)
-
+                if let featuredViewController = navigationController.children[0] as? FeaturedViewController {                
                     featuredViewController.mediaListViewModel = mediaListViewModel
-                                    
                 }
+            }
+            
+            if let searchViewController = viewController.children[1] as? SearchViewController {
+                searchViewController.mediaListViewModel = mediaListViewModel
             }
         }
     }
