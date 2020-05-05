@@ -209,10 +209,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Search_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="ghD-44-NlK">
+                                <rect key="frame" x="182" y="413" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="5M9-Zp-SJL"/>
+                                    <constraint firstAttribute="width" constant="50" id="ckQ-iX-QkW"/>
+                                </constraints>
+                            </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="znf-R4-kMY">
                                 <rect key="frame" x="0.0" y="44" width="414" height="852"/>
                                 <subviews>
-                                    <searchBar contentMode="redraw" placeholder="Search thousands of movies and tv shows" id="scD-CK-bye">
+                                    <searchBar contentMode="redraw" placeholder="Enter search text here" id="scD-CK-bye">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -258,7 +265,7 @@
                                                                 </userDefinedRuntimeAttribute>
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Blj-P1-prL">
+                                                        <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Blj-P1-prL">
                                                             <rect key="frame" x="8" y="8" width="55" height="65"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="55" id="4n7-20-6nu"/>
@@ -320,7 +327,9 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="znf-R4-kMY" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" id="CTY-B7-e2i"/>
+                            <constraint firstItem="ghD-44-NlK" firstAttribute="centerY" secondItem="QS5-Rx-YEW" secondAttribute="centerY" constant="-10" id="UtD-Ya-IY9"/>
                             <constraint firstItem="znf-R4-kMY" firstAttribute="top" secondItem="O1u-W8-tvY" secondAttribute="top" id="cOn-0P-KOr"/>
+                            <constraint firstItem="ghD-44-NlK" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" id="fms-db-BKa"/>
                             <constraint firstItem="znf-R4-kMY" firstAttribute="trailing" secondItem="O1u-W8-tvY" secondAttribute="trailing" id="jFp-dB-KPk"/>
                             <constraint firstAttribute="bottom" secondItem="znf-R4-kMY" secondAttribute="bottom" id="wya-r4-Qz8"/>
                         </constraints>
@@ -330,6 +339,7 @@
                     <connections>
                         <outlet property="collectionView" destination="UoY-eO-CrE" id="F8f-Ju-w2z"/>
                         <outlet property="searchBar" destination="scD-CK-bye" id="nOn-96-Gmq"/>
+                        <outlet property="searchBarIcon" destination="ghD-44-NlK" id="8HV-Kd-2sm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
@@ -378,6 +388,7 @@
         <segue reference="pAo-1B-OGR"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="Search_Icon" width="480" height="480"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="star" catalog="system" width="128" height="116"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>

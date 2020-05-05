@@ -223,6 +223,7 @@
 				2E44B535245982D0003386A9 /* Featured */,
 				2E9EB47B245703C300C2C488 /* LaunchScreen.storyboard */,
 				2E9EB473245703BF00C2C488 /* Main.storyboard */,
+				2EB7B3ED246156DF00A9B029 /* SearchViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -233,7 +234,6 @@
 				2E9EB46F245703BF00C2C488 /* FeaturedViewController.swift */,
 				2EAFF678245D6FEE00B07216 /* MediaViewController.swift */,
 				2EB53F7324603DCD006DCB2F /* MediaDetailViewController.swift */,
-				2EB7B3ED246156DF00A9B029 /* SearchViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

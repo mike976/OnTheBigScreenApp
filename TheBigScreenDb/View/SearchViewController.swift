@@ -1,11 +1,3 @@
-//
-//  SearchViewController.swift
-//  TheBigScreenDb
-//
-//  Created by Michael Bullock on 05/05/2020.
-//  Copyright © 2020 Michael Bullock. All rights reserved.
-//
-
 import UIKit
 
 private let reuseIdentifier = "VideoCell"
@@ -14,11 +6,13 @@ class SearchViewController: UIViewController {
 
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var searchBarIcon: UIImageView!
     
     private var mediaList = [Media]()
     
     var mediaListViewModel: MediaListViewModelProtocol!
 
+    var searchLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +21,16 @@ class SearchViewController: UIViewController {
         self.collectionView.delegate = self
         
         self.searchBar.delegate = self
+        
+        self.searchBarIcon?.isHidden = false
+        self.collectionView?.backgroundColor = .clear
+                
+        searchLabel.text = "Search thousands of films, old and new on TMDb"
+        searchLabel.frame = CGRect(x: 0, y: self.view.bounds.height/2 + 10, width: self.view.bounds.width, height: 50)
+        searchLabel.font = UIFont(name: "Helvetica", size: 14)
+        searchLabel.textAlignment = .center
+        self.view.addSubview(searchLabel)
+        self.view.bringSubviewToFront(searchLabel)
              
     }
 
@@ -44,6 +48,17 @@ class SearchViewController: UIViewController {
            
             DispatchQueue.main.async {                
                self.collectionView.reloadData()
+                
+                // show or hide the search instruction label
+                if self.searchBar.text?.count == 0  {
+                    self.searchLabel.isHidden = false
+                    self.searchBarIcon?.isHidden = false
+                    self.collectionView?.backgroundColor = .clear
+                } else {
+                    self.searchLabel.isHidden = true
+                    self.searchBarIcon?.isHidden = true
+                    self.collectionView.backgroundColor = .systemBackground
+                }
                
             }
         }
@@ -56,6 +71,7 @@ class SearchViewController: UIViewController {
              
             dispatchQueue.asyncAfter(deadline: .now() + Double(0.5), execute: {
                 getMediaList(page)
+                       
             })
          }
 
@@ -103,8 +119,8 @@ extension SearchViewController : UICollectionViewDataSource, UICollectionViewDel
 extension SearchViewController : UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-           
-            self.loadMediaList(searchText: searchText)
+                  
+        self.loadMediaList(searchText: searchText)
         
     }
     
