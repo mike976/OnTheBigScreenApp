@@ -7,8 +7,12 @@ class VideoCell : UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var releaseYearLabel: UILabel!
+    @IBOutlet weak var mediaTypeLabel: UILabel!
+    
     
     var placeholderImage: UIImage?
+    
     
     private let singleTap = UITapGestureRecognizer(target: self, action: #selector(tapDetected))
     
@@ -25,6 +29,21 @@ class VideoCell : UICollectionViewCell {
                 downloadImage(with: url)
                 
                 titleLabel?.text = media.title
+                releaseYearLabel?.text = "Year: \(media.release_year)"
+                
+                if media.media_Type == MediaType.tvShow {
+                    mediaTypeLabel?.text = " TV Show "
+                    mediaTypeLabel?.backgroundColor = .orange
+                } else {
+                    mediaTypeLabel?.text = " Movie "
+                    mediaTypeLabel?.backgroundColor = .green
+                }
+                                
+                mediaTypeLabel?.layer.cornerRadius = 5
+                mediaTypeLabel?.layer.masksToBounds = true
+                mediaTypeLabel?.clipsToBounds = true
+                mediaTypeLabel?.textColor = .black
+                            
                             
             }
         }

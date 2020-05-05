@@ -80,27 +80,31 @@ extension SearchViewController : UICollectionViewDataSource, UICollectionViewDel
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! VideoCell
     
-        var mediaTypeString = ""
-        if let mediaType = self.mediaList[indexPath.row].media_Type {
-        
-            if mediaType == MediaType.movie {
-                mediaTypeString = "Movie"
-            }
-            
-            if mediaType == MediaType.tvShow {
-                mediaTypeString = "TV"
-            }
-        
-        }
-        
-        var voteAvgStr = ""
-        if let voteDouble = self.mediaList[indexPath.row].vote_average as? Double {
-            
-            voteAvgStr = String(voteDouble)
-            
-        }
+//        var mediaTypeString = ""
+//        if let mediaType = self.mediaList[indexPath.row].media_Type {
+//
+//            if mediaType == MediaType.movie {
+//                mediaTypeString = "Movie"
+//            }
+//
+//            if mediaType == MediaType.tvShow {
+//                mediaTypeString = "TV"
+//            }
+//
+//        }
+//
+//        var voteAvgStr = ""
+//        if let voteDouble = self.mediaList[indexPath.row].vote_average as? Double {
+//
+//            voteAvgStr = String(voteDouble)
+//
+//        }
+//
+//        cell.titleLabel?.text = self.mediaList[indexPath.row].title
     
-        cell.titleLabel?.text = self.mediaList[indexPath.row].title + " " + mediaTypeString + "(" + self.mediaList[indexPath.row].release_year  + ")" + " " + voteAvgStr
+        cell.media = self.mediaList[indexPath.row]
+        cell.layer.masksToBounds = true;
+    
     
        return cell
     }
@@ -108,7 +112,7 @@ extension SearchViewController : UICollectionViewDataSource, UICollectionViewDel
     // MARK: UICollectionViewDelegate
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 80)
+        return CGSize(width: collectionView.frame.width - 5, height: 80)
     }
        
 }
