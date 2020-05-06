@@ -11,7 +11,7 @@ class SearchViewController: UIViewController {
     
     private var mediaList = [Media]()
     
-    var mediaListViewModel: MediaListViewModelProtocol!
+    var mediaListViewModel: MediaViewModelProtocol!
     
     override func viewDidLoad() {
         super.viewDidLoad()

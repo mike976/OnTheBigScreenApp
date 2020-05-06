@@ -41,7 +41,7 @@ class FeaturedViewController: UIViewController {
     }
     
     //MARK: - ViewModels
-    var mediaListViewModel: MediaListViewModelProtocol?
+    var mediaListViewModel: MediaViewModelProtocol?
     {
         didSet{
             loadMediaList()

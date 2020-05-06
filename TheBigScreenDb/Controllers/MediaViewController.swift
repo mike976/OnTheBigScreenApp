@@ -15,7 +15,7 @@ class MediaViewController: UIViewController {
     var mediaList: [Media]?
         
     //MARK: - ViewModels
-    var mediaListViewModel: MediaListViewModelProtocol!    
+    var mediaListViewModel: MediaViewModelProtocol!    
     
     private var nextPage = 2
     

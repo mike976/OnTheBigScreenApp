@@ -14,6 +14,8 @@ class MediaDetailViewController: UIViewController {
     
     var name: String?
     
+    var media: [Media]?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,6 +23,10 @@ class MediaDetailViewController: UIViewController {
             self.titleLabel.text = name
         }
         
+        if let receivedMedia = self.media {
+            
+//            print(receivedMedia)
+        }
     }
     
 

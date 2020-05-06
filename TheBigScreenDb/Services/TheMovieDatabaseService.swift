@@ -17,18 +17,33 @@ enum MediaEndpoint : String, MediaEndpointProtocol {
        case discover_movies = "/discover/movie"
        case search_movies = "/search/multi"
        case trending_tvshows = "/trending/tv/day"
-   }
+    
+       case tvShowDetails = "/tv/{tvId}"
+       case movieDetails = "/movie/{movieId}"
+    
+       case tvShowCredits = "/tv/{tvId}/credits"
+       case movieCredits = "/movie/{movieId}/credits"
+
+
+
+    //       case .person="/person/\(personId)" -- implement this endpoint in subsequent versions
+}
 
 
 protocol TheMovieDatabaseServiceProtocol {
     
-    //MARK: - return list of movies By Search
     //MARK: - return Movie Metadata
     //MARK: - return Cast Members for movie
     //MARK: - return Cast Member details
     
     typealias getMediaOnComplete<T:MediaProtocol> = ([T], WebResponse) -> Void
     func getMediaList<T:MediaProtocol>(page: Int, path: MediaEndpoint, searchQuery: String?, onComplete : @escaping getMediaOnComplete<T>)
+    
+    typealias getMediaDetailOnComplete = (MediaDetail, WebResponse) -> Void
+    func getMediaDetail(path: MediaEndpoint, mediaType: MediaType, mediaId: Int?, onComplete : @escaping getMediaDetailOnComplete)
+    
+    typealias getMediaCreditsOnComplete = (MediaCredits, WebResponse) -> Void
+    func getMediaCredits(path: MediaEndpoint, mediaType: MediaType, mediaId: Int?, onComplete : @escaping getMediaCreditsOnComplete)
 }
 
 class TheMovieDatabaseService : TheMovieDatabaseServiceProtocol {
@@ -106,5 +121,65 @@ class TheMovieDatabaseService : TheMovieDatabaseServiceProtocol {
         }
     }
     
+
+    typealias getMediaDetailOnComplete = (MediaDetail, WebResponse) -> Void
+    func getMediaDetail(path: MediaEndpoint, mediaType: MediaType, mediaId: Int?, onComplete : @escaping getMediaDetailOnComplete) {
+        
+        if mediaId == nil {
+            print("error no media id suppled to retrieve media detail")
+            return
+        }
+        
+        var parameters = [Parameter(parameter: Parameters.language), Parameter(parameter: Parameters.api_key), Parameter(parameter: Parameters.sort_by)]
+        
+        var parameterKeyToAdd = ""
+        if mediaType == .movie {
+            parameterKeyToAdd = "movie_id"
+        }
+        
+        if mediaType == .tvShow {
+            parameterKeyToAdd = "tv_id"
+        }
+        
+        parameters.append(Parameter(parameter: [parameterKeyToAdd: "\(mediaId!)"]))
+
+        let url = MediaUrl(path: path, parameters: parameters)
+
+        webClient.request(url: fillMediaUrl(url: url)) { (webResponse) in
+
+            onComplete(MediaDetail(json: webResponse.json!), webResponse)
+            
+            
+        }
+    }
     
+    typealias getMediaCreditsOnComplete = (MediaCredits, WebResponse) -> Void
+    func getMediaCredits(path: MediaEndpoint, mediaType: MediaType, mediaId: Int?, onComplete : @escaping getMediaCreditsOnComplete) {
+
+        if mediaId == nil {
+            print("error no media id suppled to retrieve media detail")
+            return
+        }
+        
+        var parameters = [Parameter(parameter: Parameters.language), Parameter(parameter: Parameters.api_key), Parameter(parameter: Parameters.sort_by)]
+        
+        var parameterKeyToAdd = ""
+        if mediaType == .movie {
+            parameterKeyToAdd = "movie_id"
+        }
+        
+        if mediaType == .tvShow {
+            parameterKeyToAdd = "tv_id"
+        }
+        
+        parameters.append(Parameter(parameter: [parameterKeyToAdd: "\(mediaId!)/credits"]))
+
+        let url = MediaUrl(path: path, parameters: parameters)
+
+        webClient.request(url: fillMediaUrl(url: url)) { (webResponse) in
+           onComplete(MediaCredits(json: webResponse.json!), webResponse)
+        }
+    }
+    
+            
 }

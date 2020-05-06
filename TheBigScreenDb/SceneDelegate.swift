@@ -33,7 +33,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 
              let webClient: WebClientProtocol = WebClient()
              let movieDatabaseService: TheMovieDatabaseServiceProtocol = TheMovieDatabaseService(webClient: webClient)
-             let mediaListViewModel = MediaListViewModel(movieDatabaseService: movieDatabaseService)
+             let mediaListViewModel = MediaViewModel(movieDatabaseService: movieDatabaseService)
             
             if let navigationController = viewController.children[0] as? UINavigationController {
                 
