@@ -388,6 +388,118 @@
             </objects>
             <point key="canvasLocation" x="749.27536231884062" y="359.59821428571428"/>
         </scene>
+        <!--About-->
+        <scene sceneID="Ujt-hu-EVM">
+            <objects>
+                <viewController id="Puq-rK-Y03" customClass="AboutViewController" customModule="TheBigScreenDb" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1pj-18-jXj">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v9r-2h-NhS">
+                                <rect key="frame" x="184" y="94" width="46.5" height="46"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="csQ-js-iw2">
+                                <rect key="frame" x="157" y="190" width="100" height="100"/>
+                                <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="tintColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="918-iB-tfJ"/>
+                                    <constraint firstAttribute="height" constant="100" id="GRe-cx-dCB"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="'On the Big Screen' is an open source project built by Michael Bullock using data from TMDb" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tAk-9c-YVi">
+                                <rect key="frame" x="30" y="344" width="354" height="33.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d7O-BL-GXE">
+                                <rect key="frame" x="50" y="400" width="314" height="1"/>
+                                <color key="backgroundColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="bd8-s3-slx"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="App Version &amp; Build" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Rh-jM-cm4">
+                                <rect key="frame" x="131.5" y="751" width="151" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleAspectFit" distribution="fillEqually" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="w5A-pB-vF3" userLabel="Icon Stack View">
+                                <rect key="frame" x="50" y="418" width="314" height="60"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C8I-qk-riN">
+                                        <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                        <state key="normal" title="share" image="Share_Icon"/>
+                                        <connections>
+                                            <action selector="buttonPressed:" destination="Puq-rK-Y03" eventType="touchUpInside" id="cLb-vJ-7V7"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IHK-WH-VM0">
+                                        <rect key="frame" x="85" y="0.0" width="59.5" height="60"/>
+                                        <state key="normal" title="email" image="Mail_Icon"/>
+                                        <connections>
+                                            <action selector="buttonPressed:" destination="Puq-rK-Y03" eventType="touchUpInside" id="a45-HU-MJw"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A1o-sc-FWz">
+                                        <rect key="frame" x="169.5" y="0.0" width="60" height="60"/>
+                                        <state key="normal" title="gitHub" image="GitHub_Icon"/>
+                                        <connections>
+                                            <action selector="buttonPressed:" destination="Puq-rK-Y03" eventType="touchUpInside" id="bd1-ZB-hhm"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9AL-6d-uc8">
+                                        <rect key="frame" x="254.5" y="0.0" width="59.5" height="60"/>
+                                        <state key="normal" title="linkedIn" image="LinkedIn_Icon"/>
+                                        <connections>
+                                            <action selector="buttonPressed:" destination="Puq-rK-Y03" eventType="touchUpInside" id="18G-IN-aCL"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="tintColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="UPN-ES-L7A"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="tAk-9c-YVi" firstAttribute="centerX" secondItem="1pj-18-jXj" secondAttribute="centerX" id="71A-eh-V4W"/>
+                            <constraint firstItem="w5A-pB-vF3" firstAttribute="centerX" secondItem="d7O-BL-GXE" secondAttribute="centerX" id="9DA-7t-jAl"/>
+                            <constraint firstItem="2Rh-jM-cm4" firstAttribute="centerX" secondItem="1pj-18-jXj" secondAttribute="centerX" id="BH3-B7-HNO"/>
+                            <constraint firstItem="v9r-2h-NhS" firstAttribute="top" secondItem="nKG-3c-hPH" secondAttribute="top" constant="50" id="Fb2-bF-Ew6"/>
+                            <constraint firstItem="tAk-9c-YVi" firstAttribute="top" secondItem="csQ-js-iw2" secondAttribute="bottom" constant="54" id="HUv-vb-PUu"/>
+                            <constraint firstItem="csQ-js-iw2" firstAttribute="top" secondItem="v9r-2h-NhS" secondAttribute="bottom" constant="50" id="IWF-Zk-tvT"/>
+                            <constraint firstItem="d7O-BL-GXE" firstAttribute="leading" secondItem="1pj-18-jXj" secondAttribute="leadingMargin" constant="30" id="Jje-98-xCr"/>
+                            <constraint firstItem="w5A-pB-vF3" firstAttribute="top" secondItem="d7O-BL-GXE" secondAttribute="bottom" constant="17" id="Li8-W1-xQM"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="d7O-BL-GXE" secondAttribute="trailing" constant="30" id="VZT-R8-znO"/>
+                            <constraint firstItem="w5A-pB-vF3" firstAttribute="width" secondItem="d7O-BL-GXE" secondAttribute="width" id="WDb-BH-6Dl"/>
+                            <constraint firstItem="csQ-js-iw2" firstAttribute="centerX" secondItem="v9r-2h-NhS" secondAttribute="centerX" id="Zf4-dn-Wmq"/>
+                            <constraint firstItem="d7O-BL-GXE" firstAttribute="centerX" secondItem="tAk-9c-YVi" secondAttribute="centerX" id="dHK-im-74a"/>
+                            <constraint firstItem="tAk-9c-YVi" firstAttribute="leading" secondItem="1pj-18-jXj" secondAttribute="leading" constant="30" id="ea9-ue-wSq"/>
+                            <constraint firstItem="2Rh-jM-cm4" firstAttribute="top" secondItem="d7O-BL-GXE" secondAttribute="bottom" constant="350" id="mta-ws-wqr"/>
+                            <constraint firstItem="d7O-BL-GXE" firstAttribute="top" secondItem="tAk-9c-YVi" secondAttribute="bottom" constant="22.5" id="myg-qX-QGj"/>
+                            <constraint firstItem="w5A-pB-vF3" firstAttribute="centerY" secondItem="1pj-18-jXj" secondAttribute="centerY" id="y4H-fP-jhu"/>
+                            <constraint firstItem="v9r-2h-NhS" firstAttribute="centerX" secondItem="1pj-18-jXj" secondAttribute="centerX" id="zbO-ow-JQY"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="nKG-3c-hPH"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="About" image="About_Icon" selectedImage="About_Icon" id="p4U-nV-RbL"/>
+                    <connections>
+                        <outlet property="appVersionAndBuildLabel" destination="2Rh-jM-cm4" id="MTt-AS-H3a"/>
+                        <outlet property="logoImageView" destination="csQ-js-iw2" id="fDf-do-3hR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RB8-nI-olt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="749" y="1023"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
             <objects>
@@ -400,6 +512,7 @@
                     <connections>
                         <segue destination="xWN-ge-luw" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
                         <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
+                        <segue destination="Puq-rK-Y03" kind="relationship" relationship="viewControllers" id="YlG-JC-KHB"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
@@ -430,7 +543,13 @@
         <segue reference="pAo-1B-OGR"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="About_Icon" width="30" height="30"/>
+        <image name="GitHub_Icon" width="120" height="117"/>
+        <image name="LinkedIn_Icon" width="111" height="111"/>
+        <image name="Logo_Icon" width="400" height="400"/>
+        <image name="Mail_Icon" width="120" height="120"/>
         <image name="Search_Icon" width="480" height="480"/>
+        <image name="Share_Icon" width="120" height="120"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="star" catalog="system" width="128" height="116"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>
