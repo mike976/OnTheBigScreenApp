@@ -7,12 +7,11 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var searchBarIcon: UIImageView!
+    @IBOutlet weak var searchLabel: UILabel!
     
     private var mediaList = [Media]()
     
     var mediaListViewModel: MediaListViewModelProtocol!
-
-    var searchLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,18 +21,22 @@ class SearchViewController: UIViewController {
         
         self.searchBar.delegate = self
         
-        self.searchBarIcon?.isHidden = false
-        self.collectionView?.backgroundColor = .clear
-                
-        searchLabel.text = "Search thousands of films, old and new on TMDb"
-        searchLabel.frame = CGRect(x: 0, y: self.view.bounds.height/2 + 10, width: self.view.bounds.width, height: 50)
-        searchLabel.font = UIFont(name: "Helvetica", size: 14)
-        searchLabel.textAlignment = .center
-        self.view.addSubview(searchLabel)
-        self.view.bringSubviewToFront(searchLabel)
-             
+        shouldShowSearchInstructions(show: true)
     }
 
+    func shouldShowSearchInstructions(show: Bool) {
+        if show {
+            self.searchLabel?.isHidden = false
+            self.searchBarIcon?.isHidden = false
+            self.collectionView?.backgroundColor = .clear
+            return
+        }
+        
+        self.searchLabel?.isHidden = true
+        self.searchBarIcon?.isHidden = true
+        self.collectionView.backgroundColor = .systemBackground
+    }
+    
     func loadMediaList(searchText: String) {
                            
         self.runOnBackgroundThread(page: 1, { page in
@@ -51,13 +54,9 @@ class SearchViewController: UIViewController {
                 
                 // show or hide the search instruction label
                 if self.searchBar.text?.count == 0  {
-                    self.searchLabel.isHidden = false
-                    self.searchBarIcon?.isHidden = false
-                    self.collectionView?.backgroundColor = .clear
+                    self.shouldShowSearchInstructions(show: true)
                 } else {
-                    self.searchLabel.isHidden = true
-                    self.searchBarIcon?.isHidden = true
-                    self.collectionView.backgroundColor = .systemBackground
+                    self.shouldShowSearchInstructions(show: false)
                 }
                
             }
@@ -111,7 +110,7 @@ extension SearchViewController : UICollectionViewDataSource, UICollectionViewDel
     // MARK: UICollectionViewDelegate
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width - 5, height:80)
+        return CGSize(width: collectionView.frame.width - 5, height:100)
     }
        
 }
