@@ -9,7 +9,7 @@
 import Foundation
 
 
-class MediaCredits {
+class MediaCredits : MediaMetadataProtocol {
 
     var name: String
     var character: String

@@ -392,18 +392,17 @@
         <scene sceneID="Ujt-hu-EVM">
             <objects>
                 <viewController id="Puq-rK-Y03" customClass="AboutViewController" customModule="TheBigScreenDb" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="1pj-18-jXj">
+                    <view key="view" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1pj-18-jXj">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v9r-2h-NhS">
-                                <rect key="frame" x="184" y="94" width="46.5" height="46"/>
+                                <rect key="frame" x="184" y="94" width="46.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="csQ-js-iw2">
-                                <rect key="frame" x="157" y="190" width="100" height="100"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" image="Logo_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="csQ-js-iw2" customClass="RoundView" customModule="TheBigScreenDb" customModuleProvider="target">
+                                <rect key="frame" x="157" y="183.5" width="100" height="100"/>
                                 <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="tintColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -411,8 +410,11 @@
                                     <constraint firstAttribute="height" constant="100" id="GRe-cx-dCB"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="'On the Big Screen' is an open source project built by Michael Bullock using data from TMDb" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tAk-9c-YVi">
-                                <rect key="frame" x="30" y="344" width="354" height="33.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="'On the Big Screen' is an open source project built by Michael Bullock using data from TMDb" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="tAk-9c-YVi">
+                                <rect key="frame" x="30" y="337.5" width="354" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="GeV-B3-klD"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -475,7 +477,6 @@
                             <constraint firstItem="2Rh-jM-cm4" firstAttribute="centerX" secondItem="1pj-18-jXj" secondAttribute="centerX" id="BH3-B7-HNO"/>
                             <constraint firstItem="v9r-2h-NhS" firstAttribute="top" secondItem="nKG-3c-hPH" secondAttribute="top" constant="50" id="Fb2-bF-Ew6"/>
                             <constraint firstItem="tAk-9c-YVi" firstAttribute="top" secondItem="csQ-js-iw2" secondAttribute="bottom" constant="54" id="HUv-vb-PUu"/>
-                            <constraint firstItem="csQ-js-iw2" firstAttribute="top" secondItem="v9r-2h-NhS" secondAttribute="bottom" constant="50" id="IWF-Zk-tvT"/>
                             <constraint firstItem="d7O-BL-GXE" firstAttribute="leading" secondItem="1pj-18-jXj" secondAttribute="leadingMargin" constant="30" id="Jje-98-xCr"/>
                             <constraint firstItem="w5A-pB-vF3" firstAttribute="top" secondItem="d7O-BL-GXE" secondAttribute="bottom" constant="17" id="Li8-W1-xQM"/>
                             <constraint firstAttribute="trailingMargin" secondItem="d7O-BL-GXE" secondAttribute="trailing" constant="30" id="VZT-R8-znO"/>

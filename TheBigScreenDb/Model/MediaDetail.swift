@@ -8,12 +8,11 @@
 
 import Foundation
 
-protocol MediaDetailProtocol {
+protocol MediaMetadataProtocol {
         
-    var productionCompanies : [ProductionCompany]? { get set }
 }
 
-class MediaDetail : MediaDetailProtocol {
+class MediaDetail : MediaMetadataProtocol {
  
     var productionCompanies : [ProductionCompany]?
     

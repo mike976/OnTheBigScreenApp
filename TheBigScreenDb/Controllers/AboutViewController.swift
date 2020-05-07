@@ -9,6 +9,7 @@
 import UIKit
 import MessageUI
 
+
 class AboutViewController: UIViewController {
 
     @IBOutlet weak var appVersionAndBuildLabel: UILabel!
@@ -21,10 +22,21 @@ class AboutViewController: UIViewController {
         let buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
         appVersionAndBuildLabel.font = UIFont.boldSystemFont(ofSize: 12)
         appVersionAndBuildLabel.text = "OnTheBigScreen v\(versionNumber) build \(buildNumber)"
-        
-        logoImageView?.layer.cornerRadius = logoImageView.frame.width/2
+                
         
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        logoImageView.contentMode = .scaleAspectFill
+        logoImageView.layer.cornerRadius = logoImageView.bounds.width/2
+        logoImageView.layer.borderColor = UIColor.white.cgColor
+        logoImageView.layer.borderWidth = 5
+        logoImageView.layer.masksToBounds = true
+        logoImageView.clipsToBounds = true
+    }
+   
 
     @IBAction func buttonPressed(_ sender: UIButton) {
      

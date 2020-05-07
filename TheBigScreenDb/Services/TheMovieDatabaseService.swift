@@ -32,10 +32,6 @@ enum MediaEndpoint : String, MediaEndpointProtocol {
 
 protocol TheMovieDatabaseServiceProtocol {
     
-    //MARK: - return Movie Metadata
-    //MARK: - return Cast Members for movie
-    //MARK: - return Cast Member details
-    
     typealias getMediaOnComplete<T:MediaProtocol> = ([T], WebResponse) -> Void
     func getMediaList<T:MediaProtocol>(page: Int, path: MediaEndpoint, searchQuery: String?, onComplete : @escaping getMediaOnComplete<T>)
     
