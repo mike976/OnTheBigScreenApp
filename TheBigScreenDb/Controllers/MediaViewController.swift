@@ -18,7 +18,8 @@ class MediaViewController: UIViewController {
     var mediaList: [Media]?
         
     //MARK: - ViewModels
-    var mediaListViewModel: MediaViewModelProtocol!    
+    var mediaViewModel: MediaViewModelProtocol!
+    var selectedMedia: Media?
     
     private var nextPage = 2
     private let disposeBag = DisposeBag()
@@ -107,7 +108,7 @@ class MediaViewController: UIViewController {
     
     private func getMoviesNowPlayingAsync(_ page : Int = 1){
                 
-        if let nowplayingMovies:[Movie] = self.mediaListViewModel?.getMediaListAsync (page: page, endpoint: MediaEndpoint.nowplaying_movies, nil) {
+        if let nowplayingMovies:[Movie] = self.mediaViewModel?.getMediaListAsync (page: page, endpoint: MediaEndpoint.nowplaying_movies, nil) {
             
             if self.mediaList!.count < 20{
                 self.stopPagination()
@@ -123,7 +124,7 @@ class MediaViewController: UIViewController {
     }
     
     private func getUpcomingMoviesAsync(_ page : Int = 1){
-        if let upComingMovies:[Movie] = self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.upcoming_movies, nil)  {
+        if let upComingMovies:[Movie] = self.mediaViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.upcoming_movies, nil)  {
                         
             if self.mediaList!.count < 20{
                 self.stopPagination()
@@ -140,7 +141,7 @@ class MediaViewController: UIViewController {
     
     private func getTrendingMoviesAsync(_ page : Int = 1){
 
-        if let trendingMovies:[Movie] = self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.trending_movies, nil){
+        if let trendingMovies:[Movie] = self.mediaViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.trending_movies, nil){
             
             if self.mediaList!.count < 20{
                 self.stopPagination()
@@ -157,7 +158,7 @@ class MediaViewController: UIViewController {
     
     private func getTrendingTvShowsAsync(_ page : Int = 1){
 
-        if let trendingTvShows:[TvShow] = self.self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.trending_tvshows, nil) {
+        if let trendingTvShows:[TvShow] = self.self.mediaViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.trending_tvshows, nil) {
             
             if mediaList!.count < 20{
                 self.stopPagination()
@@ -186,15 +187,26 @@ class MediaViewController: UIViewController {
    }
     
    private func subscribeToRxSwiftEvents() {
-        
-        MediaSelectionProvider.Instance.selectedMediaObservable.subscribe { (mediaEvent) in
+       
+       MediaSelectionProvider.Instance.selectedMediaObservable.subscribe { [weak self] (mediaEvent) in
 
-            if self.isActive {
-                if let media = mediaEvent.element as? Media {
-                    print(media.title)
-                }
+           if self!.isActive {
+               if let media = mediaEvent.element {
+                   self?.selectedMedia = media
+                   self?.performSegue(withIdentifier: "MediaListToMediaDetailSegue", sender: self)
+               }
+           }
+       }.disposed(by: disposeBag)
+   }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if let mediaController = sender as? MediaViewController {
+            if let vc = segue.destination as? MediaDetailViewController {
+                vc.mediaViewModel = mediaController.mediaViewModel
+                vc.media = mediaController.selectedMedia
             }
-        }.disposed(by: disposeBag)
+        }
     }
 }
 

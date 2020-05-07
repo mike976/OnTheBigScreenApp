@@ -15,6 +15,7 @@ class SearchViewController: UIViewController {
     private let disposeBag = DisposeBag()
     
     var mediaViewModel: MediaViewModelProtocol!
+    var selectedMedia: Media?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,14 +84,25 @@ class SearchViewController: UIViewController {
     
     private func subscribeToRxSwiftEvents() {
         
-        MediaSelectionProvider.Instance.selectedMediaObservable.subscribe { (mediaEvent) in
+        MediaSelectionProvider.Instance.selectedMediaObservable.subscribe { [weak self] (mediaEvent) in
 
-            if self.isActive {
-                if let media = mediaEvent.element as? Media {
-                    print(media.title)
+            if self!.isActive {
+                if let media = mediaEvent.element {
+                    self?.selectedMedia = media
+                    self?.performSegue(withIdentifier: "SearchToMediaDetailSegue", sender: self)
                 }
             }
         }.disposed(by: disposeBag)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if let searchController = sender as? SearchViewController {
+            if let vc = segue.destination as? MediaDetailViewController {
+                vc.mediaViewModel = searchController.mediaViewModel
+                vc.media = searchController.selectedMedia
+            }
+        }
     }
     
     typealias GetMediaListHandler = (Int) -> Void

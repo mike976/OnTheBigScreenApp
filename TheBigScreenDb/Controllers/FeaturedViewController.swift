@@ -19,7 +19,9 @@ class FeaturedViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private var trendingTvShows = [TvShow]()
     private var isActive: Bool = false
+    
 
+    var selectedMedia: Media?
     
     //MARK: - Featured Header properties
     var counter = 0
@@ -186,12 +188,13 @@ class FeaturedViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      
+        //navigate to media list page
         if let categoryIndex = sender as? Int {
             let vc = segue.destination as! MediaViewController
 
             vc.selectedCategoryIndex = categoryIndex
             vc.categories = self.categories
-            vc.mediaListViewModel = self.mediaListViewModel            
+            vc.mediaViewModel = self.mediaListViewModel            
             
             
             switch categoryIndex {
@@ -213,21 +216,29 @@ class FeaturedViewController: UIViewController {
             }                    
             
         }
+        
+        //navigate to media detail page
+        if let featuredController = sender as? FeaturedViewController {
+            if let vc = segue.destination as? MediaDetailViewController {
+             vc.mediaViewModel = featuredController.mediaListViewModel
+                vc.media = featuredController.selectedMedia
+            }
+        }
     }
     
-    func subscribeToRxSwiftEvents() {
+    private func subscribeToRxSwiftEvents() {
         
-        MediaSelectionProvider.Instance.selectedMediaObservable.subscribe { (mediaEvent) in
+        MediaSelectionProvider.Instance.selectedMediaObservable.subscribe { [weak self] (mediaEvent) in
 
-            if self.isActive {
-                if let media = mediaEvent.element as? Media {
-                    print(media.title)
+            if self!.isActive {
+                if let media = mediaEvent.element {
+                    self?.selectedMedia = media
+                    self?.performSegue(withIdentifier: "FeaturedToMediaDetailSegue", sender: self)
                 }
             }
-
-
         }.disposed(by: disposeBag)
     }
+    
 }
 
 

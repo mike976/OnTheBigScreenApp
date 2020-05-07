@@ -14,22 +14,19 @@ class MediaDetailViewController: UIViewController {
     
     var name: String?
     
-    var media: [Media]?
+    var media: Media?
+    
+    var mediaViewModel: MediaViewModelProtocol!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        if let name = self.name {
-            self.titleLabel.text = name
+       
+        if let receivedMedia = media {
+            print(receivedMedia.title)
+            titleLabel?.text = receivedMedia.title
+            navigationItem.title = receivedMedia.title
         }
         
-        if let receivedMedia = self.media {
-            
-//            print(receivedMedia)
-        }
     }
-    
-
-   
 
 }

@@ -100,6 +100,7 @@
                         <outlet property="tableView" destination="atU-90-oWD" id="R74-RL-rX3"/>
                         <segue destination="DHm-2i-abj" kind="show" identifier="showCollectionIdentifier" id="Fpo-5r-enm"/>
                         <segue destination="zc9-A0-q1c" kind="show" identifier="FeaturedVideoCellSelected" id="pAo-1B-OGR"/>
+                        <segue destination="AxG-mS-cdP" kind="show" identifier="FeaturedToMediaDetailSegue" id="cLA-yc-0Qx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
@@ -162,11 +163,12 @@
                     <connections>
                         <outlet property="collectionView" destination="oy2-b6-lnK" id="rfl-tl-fb0"/>
                         <segue destination="zc9-A0-q1c" kind="show" identifier="CollectionVideoCellSelected" id="cbr-aI-vQS"/>
+                        <segue destination="AxG-mS-cdP" kind="show" identifier="MediaListToMediaDetailSegue" id="rd7-v2-ocB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LPL-OJ-PSh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2407" y="-319"/>
+            <point key="canvasLocation" x="3372" y="-278"/>
         </scene>
         <!--Media Detail View Controller-->
         <scene sceneID="ZtG-Jn-WGI">
@@ -199,7 +201,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0uJ-Nl-k3I" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2388" y="-988"/>
+            <point key="canvasLocation" x="2445" y="-999"/>
         </scene>
         <!--Search-->
         <scene sceneID="wg7-f3-ORb">
@@ -382,11 +384,43 @@
                         <outlet property="searchBar" destination="scD-CK-bye" id="nOn-96-Gmq"/>
                         <outlet property="searchBarIcon" destination="ghD-44-NlK" id="8HV-Kd-2sm"/>
                         <outlet property="searchLabel" destination="uAR-lW-juF" id="qIi-jT-k8v"/>
+                        <segue destination="AxG-mS-cdP" kind="show" identifier="SearchToMediaDetailSegue" id="2uh-1F-aee"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1659.4202898550725" y="359.59821428571428"/>
+        </scene>
+        <!--Media Detail View Controller-->
+        <scene sceneID="nL4-PW-6Tb">
+            <objects>
+                <viewController id="AxG-mS-cdP" customClass="MediaDetailViewController" customModule="TheBigScreenDb" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="S0j-vH-jw2">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZMS-Zc-QN8">
+                                <rect key="frame" x="190.5" y="437.5" width="33.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="ZMS-Zc-QN8" firstAttribute="centerY" secondItem="S0j-vH-jw2" secondAttribute="centerY" id="KWq-eS-I0Y"/>
+                            <constraint firstItem="ZMS-Zc-QN8" firstAttribute="centerX" secondItem="S0j-vH-jw2" secondAttribute="centerX" id="vbE-or-Olf"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="CVD-uv-vEt"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="qTJ-Mi-rZd"/>
+                    <connections>
+                        <outlet property="titleLabel" destination="ZMS-Zc-QN8" id="Mhp-be-Waz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Dak-Mj-D3l" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2877" y="373"/>
         </scene>
         <!--About-->
         <scene sceneID="Ujt-hu-EVM">
@@ -560,7 +594,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="pAo-1B-OGR"/>
+        <segue reference="rd7-v2-ocB"/>
+        <segue reference="cbr-aI-vQS"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="About_Icon" width="30" height="30"/>
