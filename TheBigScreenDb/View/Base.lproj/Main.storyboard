@@ -99,7 +99,6 @@
                         <outlet property="featuredHeaderPoster" destination="csG-H5-r71" id="zLS-RK-piu"/>
                         <outlet property="tableView" destination="atU-90-oWD" id="R74-RL-rX3"/>
                         <segue destination="DHm-2i-abj" kind="show" identifier="showCollectionIdentifier" id="Fpo-5r-enm"/>
-                        <segue destination="zc9-A0-q1c" kind="show" identifier="FeaturedVideoCellSelected" id="pAo-1B-OGR"/>
                         <segue destination="AxG-mS-cdP" kind="show" identifier="FeaturedToMediaDetailSegue" id="cLA-yc-0Qx"/>
                     </connections>
                 </viewController>
@@ -162,46 +161,12 @@
                     <navigationItem key="navigationItem" id="4Lb-vQ-akO"/>
                     <connections>
                         <outlet property="collectionView" destination="oy2-b6-lnK" id="rfl-tl-fb0"/>
-                        <segue destination="zc9-A0-q1c" kind="show" identifier="CollectionVideoCellSelected" id="cbr-aI-vQS"/>
                         <segue destination="AxG-mS-cdP" kind="show" identifier="MediaListToMediaDetailSegue" id="rd7-v2-ocB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LPL-OJ-PSh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3372" y="-278"/>
-        </scene>
-        <!--Media Detail View Controller-->
-        <scene sceneID="ZtG-Jn-WGI">
-            <objects>
-                <viewController id="zc9-A0-q1c" customClass="MediaDetailViewController" customModule="TheBigScreenDb" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="9Oi-5H-KGr">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AnP-eo-xbJ">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="AnP-eo-xbJ" firstAttribute="top" secondItem="2CD-BZ-fBM" secondAttribute="top" id="90m-Uq-1r0"/>
-                            <constraint firstItem="2CD-BZ-fBM" firstAttribute="bottom" secondItem="AnP-eo-xbJ" secondAttribute="bottom" id="OfY-rb-OoP"/>
-                            <constraint firstItem="AnP-eo-xbJ" firstAttribute="leading" secondItem="2CD-BZ-fBM" secondAttribute="leading" id="ZaO-Kd-wf9"/>
-                            <constraint firstItem="2CD-BZ-fBM" firstAttribute="trailing" secondItem="AnP-eo-xbJ" secondAttribute="trailing" id="vLa-RT-eH0"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="2CD-BZ-fBM"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="rUQ-ie-niM"/>
-                    <connections>
-                        <outlet property="titleLabel" destination="AnP-eo-xbJ" id="XVx-6X-H1Z"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0uJ-Nl-k3I" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2445" y="-999"/>
         </scene>
         <!--Search-->
         <scene sceneID="wg7-f3-ORb">
@@ -405,9 +370,18 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0m1-zA-3PN">
+                                <rect key="frame" x="184" y="483" width="46" height="30"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="buttonPressed:" destination="AxG-mS-cdP" eventType="touchUpInside" id="0tx-t7-g3T"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="0m1-zA-3PN" firstAttribute="centerX" secondItem="S0j-vH-jw2" secondAttribute="centerX" id="8q7-od-vdX"/>
+                            <constraint firstItem="0m1-zA-3PN" firstAttribute="centerY" secondItem="S0j-vH-jw2" secondAttribute="centerY" constant="50" id="ALy-2a-wgK"/>
                             <constraint firstItem="ZMS-Zc-QN8" firstAttribute="centerY" secondItem="S0j-vH-jw2" secondAttribute="centerY" id="KWq-eS-I0Y"/>
                             <constraint firstItem="ZMS-Zc-QN8" firstAttribute="centerX" secondItem="S0j-vH-jw2" secondAttribute="centerX" id="vbE-or-Olf"/>
                         </constraints>
@@ -435,7 +409,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" image="Logo_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="csQ-js-iw2" customClass="RoundView" customModule="TheBigScreenDb" customModuleProvider="target">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" image="Logo_Icon" translatesAutoresizingMaskIntoConstraints="NO" id="csQ-js-iw2">
                                 <rect key="frame" x="157" y="183.5" width="100" height="100"/>
                                 <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="tintColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -595,7 +569,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="rd7-v2-ocB"/>
-        <segue reference="cbr-aI-vQS"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="About_Icon" width="30" height="30"/>

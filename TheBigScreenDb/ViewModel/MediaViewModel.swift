@@ -75,7 +75,7 @@ class MediaViewModel : MediaViewModelProtocol {
             self.movieDatabaseService.getMediaDetail(path: path, mediaType: mediaType, mediaId: mediaId)  { (mediaResult, webResponse) in
 
                 if !webResponse.isError{
-                    mediaDetail = mediaResult
+                    mediaDetail = mediaResult                    
                 } else {
                     print("MediaViewModel - getMediaDetailAsync - \(path) - Error:", webResponse.error?.localizedDescription ?? "no error description found")
                 }
@@ -86,7 +86,7 @@ class MediaViewModel : MediaViewModelProtocol {
 
         let timeoutInSecs = Double(5)
         _ = semaphore.wait(timeout: .now() + timeoutInSecs)
-                    
+                            
         return mediaDetail
                
     }

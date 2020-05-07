@@ -18,14 +18,9 @@ enum MediaEndpoint : String, MediaEndpointProtocol {
        case search_movies = "/search/multi"
        case trending_tvshows = "/trending/tv/day"
     
-       case tvShowDetails = "/tv/{tvId}"
-       case movieDetails = "/movie/{movieId}"
+       case tvShow = "/tv/"
+       case movie = "/movie/"
     
-       case tvShowCredits = "/tv/{tvId}/credits"
-       case movieCredits = "/movie/{movieId}/credits"
-
-
-
     //       case .person="/person/\(personId)" -- implement this endpoint in subsequent versions
 }
 
@@ -58,6 +53,7 @@ class TheMovieDatabaseService : TheMovieDatabaseServiceProtocol {
         static let sort_by = ["sort_by" : "popularity.desc"]
         static let page = ["page" : "1"]
         static let query = ["query": ""]
+        static let videos = ["append_to_response": "videos"]
     }
     
     private struct Parameter{
@@ -68,19 +64,21 @@ class TheMovieDatabaseService : TheMovieDatabaseServiceProtocol {
     }
     
        private struct MediaUrl{
-        let baseUrl = "https://api.themoviedb.org/3"
+        var baseUrl = "https://api.themoviedb.org/3"
         var path : MediaEndpoint
+        var pathArgs: String?
         var parameters : [Parameter]
         
-        init(path : MediaEndpoint, parameters : [Parameter]) {
+        init(path : MediaEndpoint, pathArgs: String?, parameters : [Parameter]) {
             self.path = path
+            self.pathArgs = pathArgs
             self.parameters = parameters
         }
     }
     
             
     private func fillMediaUrl(url : MediaUrl) -> URL?{
-        var urlComponents = URLComponents(string: url.baseUrl + url.path.rawValue)
+        var urlComponents = url.pathArgs == nil ?  URLComponents(string: url.baseUrl + url.path.rawValue) : URLComponents(string: url.baseUrl + url.path.rawValue + url.pathArgs!)
         var queryItens = [URLQueryItem]()
         
         url.parameters.forEach({ (parameter) in
@@ -110,7 +108,7 @@ class TheMovieDatabaseService : TheMovieDatabaseServiceProtocol {
             parameters.append(Parameter(parameter: query ))
         }
         
-        let url = MediaUrl(path: path, parameters: parameters)
+        let url = MediaUrl(path: path, pathArgs: nil,  parameters: parameters)
 
         webClient.request(url: fillMediaUrl(url: url)) { (webResponse) in
             onComplete(T.returnMediaList(json: webResponse.json!) as [T], webResponse)
@@ -126,20 +124,12 @@ class TheMovieDatabaseService : TheMovieDatabaseServiceProtocol {
             return
         }
         
-        var parameters = [Parameter(parameter: Parameters.language), Parameter(parameter: Parameters.api_key), Parameter(parameter: Parameters.sort_by)]
+        let parameters = [Parameter(parameter: Parameters.language), Parameter(parameter: Parameters.api_key), Parameter(parameter: Parameters.videos)]
         
-        var parameterKeyToAdd = ""
-        if mediaType == .movie {
-            parameterKeyToAdd = "movie_id"
-        }
+        let pathArgs = "\(mediaId!)"
         
-        if mediaType == .tvShow {
-            parameterKeyToAdd = "tv_id"
-        }
-        
-        parameters.append(Parameter(parameter: [parameterKeyToAdd: "\(mediaId!)"]))
 
-        let url = MediaUrl(path: path, parameters: parameters)
+        let url = MediaUrl(path: path, pathArgs: pathArgs, parameters: parameters)
 
         webClient.request(url: fillMediaUrl(url: url)) { (webResponse) in
 
@@ -157,20 +147,11 @@ class TheMovieDatabaseService : TheMovieDatabaseServiceProtocol {
             return
         }
         
-        var parameters = [Parameter(parameter: Parameters.language), Parameter(parameter: Parameters.api_key), Parameter(parameter: Parameters.sort_by)]
+        var parameters = [Parameter(parameter: Parameters.language), Parameter(parameter: Parameters.api_key)]
         
-        var parameterKeyToAdd = ""
-        if mediaType == .movie {
-            parameterKeyToAdd = "movie_id"
-        }
-        
-        if mediaType == .tvShow {
-            parameterKeyToAdd = "tv_id"
-        }
-        
-        parameters.append(Parameter(parameter: [parameterKeyToAdd: "\(mediaId!)/credits"]))
+        let pathArgs = "\(mediaId!)/credits"
 
-        let url = MediaUrl(path: path, parameters: parameters)
+        let url = MediaUrl(path: path, pathArgs: pathArgs, parameters: parameters)
 
         webClient.request(url: fillMediaUrl(url: url)) { (webResponse) in
            onComplete(MediaCredits(json: webResponse.json!), webResponse)

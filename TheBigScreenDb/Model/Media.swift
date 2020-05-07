@@ -28,6 +28,7 @@ protocol MediaProtocol {
 
 class Media : MediaProtocol {
     
+    var id: Int?
     var title : String
     var release_date : String
     var release_year: String
@@ -38,6 +39,7 @@ class Media : MediaProtocol {
     var vote_average: Double?
     
     init(json : [String : Any]) {
+        self.id = json["id"] as? Int ?? 0
         self.title = ""
         self.release_date = ""
         self.release_year = ""

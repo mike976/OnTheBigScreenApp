@@ -15,6 +15,7 @@ protocol MediaMetadataProtocol {
 class MediaDetail : MediaMetadataProtocol {
  
     var productionCompanies : [ProductionCompany]?
+    var trailers: [Trailer]?
     
     required init(json : [String : Any]) {
         
@@ -26,7 +27,7 @@ class MediaDetail : MediaMetadataProtocol {
             
                     if let companyName = parsedPc["name"] as! String? {
                         
-                         if let logoPath = URL(string: "https://image.tmdb.org/t/p/w500\(json["logo_path"] as? String ?? "")") {
+                         if let logoPath = URL(string: "https://image.tmdb.org/t/p/w500\(parsedPc["logo_path"] as? String ?? "")") {
                             
                             productioncompanyReturnList.append(ProductionCompany(name: companyName, logoPath: logoPath))
                         }
@@ -34,6 +35,27 @@ class MediaDetail : MediaMetadataProtocol {
                 })
             
             self.productionCompanies = productioncompanyReturnList
+        }
+        
+        if let videoDict = json["videos"] as? NSDictionary
+        {
+            if let results = videoDict["results"] as? NSArray {
+                var trailerReturnList = [Trailer]()
+                results.forEach( { (result) in
+                
+                    let parsedResult = result as! [String : Any]
+            
+                        if let _ = parsedResult["key"] as! String? {
+                            
+                            if let url = URL(string: "https://www.youtube.com/watch?v=\(parsedResult["key"] as? String ?? "")") {
+                            
+                                trailerReturnList.append(Trailer(url: url))
+                            }
+                        }
+                    })
+                           
+                self.trailers = trailerReturnList
+            }
         }
     }
 }
@@ -46,6 +68,14 @@ struct ProductionCompany {
     init(name: String, logoPath: URL?){
         self.name = name
         self.logoPath = logoPath
+    }
+}
+
+struct Trailer {
+    var url: URL?
+    
+    init(url: URL?){
+        self.url = url
     }
 }
 
