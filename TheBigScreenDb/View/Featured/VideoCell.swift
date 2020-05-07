@@ -50,7 +50,11 @@ class VideoCell : UICollectionViewCell {
                     let rating = Int(floor(voteavg)) / 2
                     ratingControl?.rating = min(rating, 5)
                 }
-                            
+                                
+                self.isUserInteractionEnabled = true
+                let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
+                self.addGestureRecognizer(tap)
+                
             }
         }
     }
@@ -65,6 +69,20 @@ class VideoCell : UICollectionViewCell {
         imageView.clipsToBounds = true
         
         imageView.sizeToFit()
+        imageView.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
+        imageView.addGestureRecognizer(tap)
+        
+    }
+    
+    // function which is triggered when handleTap is called
+    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+
+        if media == nil {
+            return
+        }
+        
+        MediaSelectionProvider.Instance.media = media
     }
     
     override func prepareForReuse() {

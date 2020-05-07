@@ -35,16 +35,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
              let movieDatabaseService: TheMovieDatabaseServiceProtocol = TheMovieDatabaseService(webClient: webClient)
              let mediaListViewModel = MediaViewModel(movieDatabaseService: movieDatabaseService)
             
-            if let navigationController = viewController.children[0] as? UINavigationController {
+            if let featuredNavigationController = viewController.children[0] as? UINavigationController {
                 
-                if let featuredViewController = navigationController.children[0] as? FeaturedViewController {                
+                if let featuredViewController = featuredNavigationController.children[0] as? FeaturedViewController {                
                     featuredViewController.mediaListViewModel = mediaListViewModel
                 }
             }
             
-            if let searchViewController = viewController.children[1] as? SearchViewController {
-                searchViewController.mediaListViewModel = mediaListViewModel
+            if let searchNavigationController = viewController.children[1] as? UINavigationController {
+                
+                if let searchViewController = searchNavigationController.children[0] as? SearchViewController {
+                    searchViewController.mediaViewModel = mediaListViewModel
+                }
             }
+            
+            
         }
     }
 

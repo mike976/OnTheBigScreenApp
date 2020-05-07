@@ -226,7 +226,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="znf-R4-kMY">
-                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <subviews>
                                     <searchBar contentMode="redraw" placeholder="Enter search text here" id="scD-CK-bye">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
@@ -234,7 +234,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </searchBar>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="UoY-eO-CrE">
-                                        <rect key="frame" x="0.0" y="56" width="414" height="796"/>
+                                        <rect key="frame" x="0.0" y="56" width="414" height="752"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <color key="tintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="RkQ-UK-xnf">
@@ -376,7 +376,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="O1u-W8-tvY"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Search" image="magnifyingglass" catalog="system" id="cPa-gy-q4n"/>
+                    <navigationItem key="navigationItem" title="Search" id="Qwx-ef-nMl"/>
                     <connections>
                         <outlet property="collectionView" destination="UoY-eO-CrE" id="F8f-Ju-w2z"/>
                         <outlet property="searchBar" destination="scD-CK-bye" id="nOn-96-Gmq"/>
@@ -386,7 +386,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="749.27536231884062" y="359.59821428571428"/>
+            <point key="canvasLocation" x="1659.4202898550725" y="359.59821428571428"/>
         </scene>
         <!--About-->
         <scene sceneID="Ujt-hu-EVM">
@@ -512,7 +512,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="xWN-ge-luw" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
-                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
+                        <segue destination="cXw-TX-kpb" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
                         <segue destination="Puq-rK-Y03" kind="relationship" relationship="viewControllers" id="YlG-JC-KHB"/>
                     </connections>
                 </tabBarController>
@@ -538,6 +538,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wGJ-rN-fvj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="747.82608695652175" y="-329.46428571428572"/>
+        </scene>
+        <!--Search-->
+        <scene sceneID="9fW-As-69r">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cXw-TX-kpb" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Search" image="magnifyingglass" catalog="system" id="cPa-gy-q4n"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="81e-no-kv3">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="rootViewController" id="7IZ-Hz-oKO"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gZH-kL-Mrm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="749.27536231884062" y="359.59821428571428"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

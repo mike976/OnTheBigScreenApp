@@ -1,7 +1,7 @@
 
 
 import UIKit
-
+import RxSwift
 
 class FeaturedViewController: UIViewController {
     
@@ -16,29 +16,15 @@ class FeaturedViewController: UIViewController {
     private var nowPlayingMovies = [Movie]()
     private var upComingMovies = [Movie]()
     private var trendingMovies = [Movie]()
-    
+    private let disposeBag = DisposeBag()
     private var trendingTvShows = [TvShow]()
+    private var isActive: Bool = false
 
     
     //MARK: - Featured Header properties
-    var timer: Timer? = nil
     var counter = 0
-    var selectedPosterIndex = -1
-    
-    var categories = ["Now Playing", "Coming Soon", "Trending Movies", "Trending TV Shows"]
-    var featuredHeaderImages: [String] {
         
-        get {
-            let x = [  "FeaturedHeaderImage1",
-                       "FeaturedHeaderImage2",
-                       "FeaturedHeaderImage3",
-                       "FeaturedHeaderImage4",
-                       "FeaturedHeaderImage5",
-                       "FeaturedHeaderImage6"]
-            
-            return x
-        }
-    }
+    var categories = ["Now Playing", "Coming Soon", "Trending Movies", "Trending TV Shows"]
     
     //MARK: - ViewModels
     var mediaListViewModel: MediaViewModelProtocol?
@@ -47,45 +33,41 @@ class FeaturedViewController: UIViewController {
             loadMediaList()
         }
     }
-     
+    
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.configureNavBar(hideBar: true)
                 
         self.Initialize()
-        
-        
     }
         
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         self.configureNavBar(hideBar: true)
-        
-        
-        //restart timer if it was initialised by the viewdidload
-        //if let safeTimer = self.timer {
-        if self.mediaListViewModel != nil {
-            self.timer?.invalidate()
-            self.timer?.fire()
-        }
-        //}
+        self.isActive = true
+            
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         self.configureNavBar(hideBar: false)
-        
+        self.isActive = false
     }
+
 
     private func Initialize() {
        
+       subscribeToRxSwiftEvents()
+        
        tableView.dataSource = self
        tableView.delegate = self
         
-       changeFeaturedHeaderImage()
+       setFeaturedHeaderImage()
        view.bringSubviewToFront(featuredHeaderPoster)
           
        featuredHeaderPoster.frame = CGRect(x: 0, y:0, width: view.frame.width, height: 200)
@@ -94,10 +76,8 @@ class FeaturedViewController: UIViewController {
        tableView.estimatedRowHeight = 300
        tableView.rowHeight = 200
        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-        
-       self.timer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(self.changeFeaturedHeaderImage), userInfo: nil, repeats: true)
     }
-    
+        
     
     func configureNavBar(hideBar: Bool = false) {
         
@@ -136,18 +116,11 @@ class FeaturedViewController: UIViewController {
     }
     
     
-    @objc func changeFeaturedHeaderImage() {
-
-        selectedPosterIndex = selectedPosterIndex + 1
-
-        if selectedPosterIndex > featuredHeaderImages.count-1 {
-            selectedPosterIndex = 0
-        }
+    func setFeaturedHeaderImage() {
 
         DispatchQueue.main.async {
 
-            let imageName = self.featuredHeaderImages[self.selectedPosterIndex]
-            self.featuredHeaderPoster.image = UIImage(named: imageName)
+            self.featuredHeaderPoster.image = UIImage(named: "FeaturedHeaderImage1")
         }
     }
     
@@ -240,6 +213,20 @@ class FeaturedViewController: UIViewController {
             }                    
             
         }
+    }
+    
+    func subscribeToRxSwiftEvents() {
+        
+        MediaSelectionProvider.Instance.selectedMediaObservable.subscribe { (mediaEvent) in
+
+            if self.isActive {
+                if let media = mediaEvent.element as? Media {
+                    print(media.title)
+                }
+            }
+
+
+        }.disposed(by: disposeBag)
     }
 }
 

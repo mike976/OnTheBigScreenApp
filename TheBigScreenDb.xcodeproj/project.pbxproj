@@ -38,6 +38,7 @@
 		2EB7B3EE246156DF00A9B029 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB7B3ED246156DF00A9B029 /* SearchViewController.swift */; };
 		2EC0EDB1246301D5001540E3 /* MediaDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC0EDB0246301D5001540E3 /* MediaDetail.swift */; };
 		2EC0EDB3246302CB001540E3 /* MediaCredits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC0EDB2246302CB001540E3 /* MediaCredits.swift */; };
+		2EC827B124640B2A00B8EA44 /* MediaSelectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC827B024640B2A00B8EA44 /* MediaSelectionProvider.swift */; };
 		2ED842FF2462DEDD00B9D1A5 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED842FE2462DEDD00B9D1A5 /* AboutViewController.swift */; };
 		584984E7E8B8D3E1D20004CF /* Pods_TheBigScreenDb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 618EA47A53A8A5197DD9FAE9 /* Pods_TheBigScreenDb.framework */; };
 		EBF085A5E6F1C2051E3280D6 /* Pods_TheBigScreenDb_TheBigScreenDbUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFCB6DB6BC29C79EECF6C411 /* Pods_TheBigScreenDb_TheBigScreenDbUITests.framework */; };
@@ -98,6 +99,7 @@
 		2EB7B3ED246156DF00A9B029 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		2EC0EDB0246301D5001540E3 /* MediaDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDetail.swift; sourceTree = "<group>"; };
 		2EC0EDB2246302CB001540E3 /* MediaCredits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaCredits.swift; sourceTree = "<group>"; };
+		2EC827B024640B2A00B8EA44 /* MediaSelectionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaSelectionProvider.swift; sourceTree = "<group>"; };
 		2ED842FE2462DEDD00B9D1A5 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		302AB8C52C575D937068D3C9 /* Pods-TheBigScreenDb-TheBigScreenDbUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheBigScreenDb-TheBigScreenDbUITests.debug.xcconfig"; path = "Target Support Files/Pods-TheBigScreenDb-TheBigScreenDbUITests/Pods-TheBigScreenDb-TheBigScreenDbUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		618EA47A53A8A5197DD9FAE9 /* Pods_TheBigScreenDb.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TheBigScreenDb.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -243,6 +245,7 @@
 				2EB53F7324603DCD006DCB2F /* MediaDetailViewController.swift */,
 				2EB7B3ED246156DF00A9B029 /* SearchViewController.swift */,
 				2ED842FE2462DEDD00B9D1A5 /* AboutViewController.swift */,
+				2EC827B224640B5300B8EA44 /* Helpers */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -284,6 +287,14 @@
 				2E44B5332459685A003386A9 /* WebResponse.swift */,
 			);
 			path = Web;
+			sourceTree = "<group>";
+		};
+		2EC827B224640B5300B8EA44 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				2EC827B024640B2A00B8EA44 /* MediaSelectionProvider.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		5830DEAE0752A85395B56A40 /* Pods */ = {
@@ -576,6 +587,7 @@
 				2E9EB4B22457061400C2C488 /* NSTimer+Closure.swift in Sources */,
 				2E9EB4C52457334400C2C488 /* Movie.swift in Sources */,
 				2EB2969B2458422D00E0D018 /* MediaViewModel.swift in Sources */,
+				2EC827B124640B2A00B8EA44 /* MediaSelectionProvider.swift in Sources */,
 				2E3EC33E245B173B0036D2FD /* FeaturedCategoryCell.swift in Sources */,
 				2E9EB4C32457332600C2C488 /* WebApi.swift in Sources */,
 				2E9EB478245703BF00C2C488 /* TheBigScreenDb.xcdatamodeld in Sources */,

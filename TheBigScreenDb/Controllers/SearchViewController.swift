@@ -1,4 +1,5 @@
 import UIKit
+import RxSwift
 
 private let reuseIdentifier = "VideoCell"
 
@@ -10,12 +11,16 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var searchLabel: UILabel!
     
     private var mediaList = [Media]()
+    private var isActive:Bool = false
+    private let disposeBag = DisposeBag()
     
-    var mediaListViewModel: MediaViewModelProtocol!
+    var mediaViewModel: MediaViewModelProtocol!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        self.subscribeToRxSwiftEvents()
+        
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
         
@@ -24,6 +29,19 @@ class SearchViewController: UIViewController {
         shouldShowSearchInstructions(show: true)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.isActive = true
+            
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+                
+        self.isActive = false
+    }
+    
     func shouldShowSearchInstructions(show: Bool) {
         if show {
             self.searchLabel?.isHidden = false
@@ -46,7 +64,7 @@ class SearchViewController: UIViewController {
         
     private func getMediaListAsync(_ page : Int = 1, _ searchText: String){
                      
-       if let mediaList:[Media] = self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.search_movies, searchText) {
+       if let mediaList:[Media] = self.mediaViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.search_movies, searchText) {
            self.mediaList = mediaList
            
             DispatchQueue.main.async {                
@@ -61,6 +79,18 @@ class SearchViewController: UIViewController {
                
             }
         }
+    }
+    
+    private func subscribeToRxSwiftEvents() {
+        
+        MediaSelectionProvider.Instance.selectedMediaObservable.subscribe { (mediaEvent) in
+
+            if self.isActive {
+                if let media = mediaEvent.element as? Media {
+                    print(media.title)
+                }
+            }
+        }.disposed(by: disposeBag)
     }
     
     typealias GetMediaListHandler = (Int) -> Void

@@ -1,5 +1,6 @@
 
 import UIKit
+import RxSwift
 
 private let reuseIdentifier = "VideoCell"
 
@@ -7,7 +8,9 @@ class MediaViewController: UIViewController {
     
     
     @IBOutlet weak var collectionView: UICollectionView!
-    
+
+    private var isActive: Bool = false
+
     var collectionViewLayout: UICollectionViewFlowLayout!
     
     var selectedCategoryIndex: Int!
@@ -18,6 +21,7 @@ class MediaViewController: UIViewController {
     var mediaListViewModel: MediaViewModelProtocol!    
     
     private var nextPage = 2
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +33,22 @@ class MediaViewController: UIViewController {
             navigationItem.title = categories[selectedCategoryIndex]
         }
         
+        subscribeToRxSwiftEvents()
+        
         collectionView.reloadData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.isActive = true
+            
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+                
+        self.isActive = false
     }
     
     private func setupCollectionView() {
@@ -165,6 +184,18 @@ class MediaViewController: UIViewController {
    private func stopPagination(){
        nextPage = -1
    }
+    
+   private func subscribeToRxSwiftEvents() {
+        
+        MediaSelectionProvider.Instance.selectedMediaObservable.subscribe { (mediaEvent) in
+
+            if self.isActive {
+                if let media = mediaEvent.element as? Media {
+                    print(media.title)
+                }
+            }
+        }.disposed(by: disposeBag)
+    }
 }
 
 
