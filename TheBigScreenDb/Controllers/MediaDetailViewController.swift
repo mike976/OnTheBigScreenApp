@@ -101,6 +101,7 @@ extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate
     {
     
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.textLabel?.textColor = .black
     
         if indexPath.section == 0 {
             //show title
@@ -188,12 +189,13 @@ extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate
             let label = UILabel()
             label.frame = CGRect.init(x: 10, y: 13, width: 200, height: 21)
             label.text = textLabel
-    //        label.textColor = .lightGray
+            label.textColor = .black
             label.font =  UIFont.boldSystemFont(ofSize: 16.0)
         
             let headerView = UIView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height))
             headerView.addSubview(label)
 
+            
             return headerView
             
         }
