@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Jessica Alba.jpg",
+      "filename" : "FeaturedHeaderImage1.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "FeaturedHeaderImage1-1.jpg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "FeaturedHeaderImage1-2.jpg",
       "idiom" : "universal",
       "scale" : "3x"
     }

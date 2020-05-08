@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Angelina Jolie.jpg",
+      "filename" : "FeaturedHeaderImage2.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "FeaturedHeaderImage2-1.jpg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "FeaturedHeaderImage2-2.jpg",
       "idiom" : "universal",
       "scale" : "3x"
     }

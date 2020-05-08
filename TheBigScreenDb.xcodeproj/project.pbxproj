@@ -32,6 +32,7 @@
 		2E9EB4C32457332600C2C488 /* WebApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9EB4C22457332600C2C488 /* WebApi.swift */; };
 		2E9EB4C52457334400C2C488 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9EB4C42457334400C2C488 /* Movie.swift */; };
 		2EAFF679245D6FEE00B07216 /* MediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAFF678245D6FEE00B07216 /* MediaViewController.swift */; };
+		2EB145D52465695700AAEC53 /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB145D42465695700AAEC53 /* UIImageViewExtension.swift */; };
 		2EB2969B2458422D00E0D018 /* MediaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB2969A2458422D00E0D018 /* MediaViewModel.swift */; };
 		2EB53F7424603DCD006DCB2F /* MediaDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB53F7324603DCD006DCB2F /* MediaDetailViewController.swift */; };
 		2EB53F76246060AF006DCB2F /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB53F75246060AE006DCB2F /* Media.swift */; };
@@ -93,6 +94,7 @@
 		2E9EB4C22457332600C2C488 /* WebApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebApi.swift; sourceTree = "<group>"; };
 		2E9EB4C42457334400C2C488 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		2EAFF678245D6FEE00B07216 /* MediaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaViewController.swift; sourceTree = "<group>"; };
+		2EB145D42465695700AAEC53 /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		2EB2969A2458422D00E0D018 /* MediaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaViewModel.swift; sourceTree = "<group>"; };
 		2EB53F7324603DCD006DCB2F /* MediaDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDetailViewController.swift; sourceTree = "<group>"; };
 		2EB53F75246060AE006DCB2F /* Media.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 				2E9EB4AC2457061400C2C488 /* UIColor+Theme.swift */,
 				2E9EB4AD2457061400C2C488 /* NSTimer+Closure.swift */,
 				2E44B5312459669B003386A9 /* StringExtension.swift */,
+				2EB145D42465695700AAEC53 /* UIImageViewExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -591,6 +594,7 @@
 				2E3EC33E245B173B0036D2FD /* FeaturedCategoryCell.swift in Sources */,
 				2E9EB4C32457332600C2C488 /* WebApi.swift in Sources */,
 				2E9EB478245703BF00C2C488 /* TheBigScreenDb.xcdatamodeld in Sources */,
+				2EB145D52465695700AAEC53 /* UIImageViewExtension.swift in Sources */,
 				2E3EC340245B1CE40036D2FD /* VideoCell.swift in Sources */,
 				2EB7B3EE246156DF00A9B029 /* SearchViewController.swift in Sources */,
 				2EB53F76246060AF006DCB2F /* Media.swift in Sources */,

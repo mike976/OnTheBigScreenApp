@@ -298,10 +298,10 @@ extension FeaturedViewController : UITableViewDataSource, UITableViewDelegate {
         let frame = tableView.frame
         
         
-        let button = UIButton(frame: CGRect(x: frame.width-80, y: 13, width: 90, height: 15))
+        let button = UIButton(frame: CGRect(x: frame.width-90, y: 13, width: 100, height: 20))
         button.tag = section
-        button.setTitle("View All", for: .normal)
-        button.setTitleColor(.lightGray, for: .normal)
+        button.setTitle("See All", for: .normal)
+        button.setTitleColor(.systemBlue, for: .normal)
         button.titleLabel?.font = UIFont(name: "Helvetica", size: CGFloat(12))
         button.addTarget(self,action:#selector(buttonClicked),for:.touchUpInside)
 
@@ -309,10 +309,10 @@ extension FeaturedViewController : UITableViewDataSource, UITableViewDelegate {
     
                 
         let label = UILabel()
-        label.frame = CGRect.init(x: 10, y: 13, width: 200, height: 17)
+        label.frame = CGRect.init(x: 10, y: 13, width: 200, height: 21)
         label.text = categories[section]
-        label.textColor = .lightGray
-        label.font =  UIFont.boldSystemFont(ofSize: 16.0)
+//        label.textColor = .lightGray
+        label.font =  UIFont.boldSystemFont(ofSize: 20.0)
         
 
         
