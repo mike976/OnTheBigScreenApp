@@ -11,7 +11,7 @@ class FeaturedViewController: UIViewController {
     
     //MARK: - IB Outlets
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var featuredHeaderPoster: UIImageView!
+    @IBOutlet weak var featuredHeaderScrollView: UIScrollView!
     
     private var nowPlayingMovies = [Movie]()
     private var upComingMovies = [Movie]()
@@ -21,6 +21,12 @@ class FeaturedViewController: UIViewController {
     private var isActive: Bool = false
     
 
+    private var featuredHeaderImages = [
+        "FeaturedHeaderImage1",
+        "FeaturedHeaderImage2",
+        "FeaturedHeaderImage3"
+    ]
+    
     var selectedMedia: Media?
     
     //MARK: - Featured Header properties
@@ -68,11 +74,43 @@ class FeaturedViewController: UIViewController {
         
        tableView.dataSource = self
        tableView.delegate = self
+
+       let pageControl = UIPageControl()
+       pageControl.frame = CGRect(x: (view.frame.width/2) - 75 , y: 200 - 20, width: 150, height: 40)
+       pageControl.numberOfPages = 3
         
-       setFeaturedHeaderImage()
-       view.bringSubviewToFront(featuredHeaderPoster)
-          
-       featuredHeaderPoster.frame = CGRect(x: 0, y:0, width: view.frame.width, height: 200)
+
+ 
+        featuredHeaderScrollView.frame = CGRect(x: 0, y:0, width: view.frame.width, height: 200)
+       
+        for i in 0..<featuredHeaderImages.count {
+            let imageView = UIImageView()
+            imageView.contentMode = .scaleAspectFill
+            imageView.image = UIImage(named: featuredHeaderImages[i])
+            let xPos = CGFloat(i)*view.frame.width
+            imageView.frame = CGRect(x: xPos , y: 0, width: view.frame.width, height: 200)
+            featuredHeaderScrollView.contentSize.width = view.frame.width*CGFloat(i+1)
+            featuredHeaderScrollView.addSubview(imageView)
+            featuredHeaderScrollView.backgroundColor = .black
+        }
+        
+        featuredHeaderScrollView.delegate = self
+        featuredHeaderScrollView.tag = 999
+
+        view.addSubview(pageControl)
+        
+//        for i in 0..<view.subviews.count {
+//            if let mvv = view.subviews[i] as? UIPageControl {
+//                print(i)
+//            }
+//        }
+        
+        //print(view.subviews.count)
+        
+        view.bringSubviewToFront(featuredHeaderScrollView)
+        view.bringSubviewToFront(pageControl)
+        
+       
         
        tableView.contentInset = UIEdgeInsets(top: 150, left: 0, bottom: 0, right: 0)
        tableView.estimatedRowHeight = 300
@@ -117,14 +155,6 @@ class FeaturedViewController: UIViewController {
        
     }
     
-    
-    func setFeaturedHeaderImage() {
-
-        DispatchQueue.main.async {
-
-            self.featuredHeaderPoster.image = UIImage(named: "FeaturedHeaderImage1")
-        }
-    }
     
     //MARK: - Media requested from MediaListViewModel
     
@@ -289,11 +319,46 @@ extension FeaturedViewController : UITableViewDataSource, UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let y = -scrollView.contentOffset.y
 
-        let height = y //max(y, 88)
+        
+        if scrollView.tag == 999 {
+            
+            let page = scrollView.contentOffset.x/scrollView.frame.width
+            if let pc = view.subviews[2] as? UIPageControl {
+                pc.currentPage = Int(page)
 
-        featuredHeaderPoster?.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: height)
+            }
+            
+            
+        } else {
+            
+                    let height = y //max(y, 88)
+            
+            
+                    featuredHeaderScrollView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: height)
+            
+            
+            
+                    for i in 0..<featuredHeaderScrollView.subviews.count {
+            
+            
+                        let xPos = CGFloat(i)*view.frame.width
+            
+                        if let imageV = featuredHeaderScrollView.subviews[i] as? UIImageView {
+                            imageV.frame = CGRect(x: xPos , y: 0, width: featuredHeaderScrollView.frame.width, height: height)
+                        }
+                    }
+            
+            
+                    if let pc = view.subviews[2] as? UIPageControl {
+                        pc.frame = CGRect(x: (featuredHeaderScrollView.frame.width/2)-75 , y: height-40, width: 150, height: 40)
+
+                    }
+        }
+        
+
     }
-    
+
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let frame = tableView.frame
         
@@ -335,3 +400,6 @@ extension FeaturedViewController : UITableViewDataSource, UITableViewDelegate {
     
     
 }
+
+
+

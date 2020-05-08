@@ -16,10 +16,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="csG-H5-r71">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yAo-C1-TqU">
                                 <rect key="frame" x="87" y="384" width="240" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
+                                <viewLayoutGuide key="contentLayoutGuide" id="PZe-c1-cad"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="QXk-a1-WMc"/>
+                            </scrollView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="atU-90-oWD" userLabel="Featured Table View">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -96,7 +98,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="yzb-9k-oMK"/>
                     <connections>
-                        <outlet property="featuredHeaderPoster" destination="csG-H5-r71" id="zLS-RK-piu"/>
+                        <outlet property="featuredHeaderScrollView" destination="yAo-C1-TqU" id="gTK-ZQ-44b"/>
                         <outlet property="tableView" destination="atU-90-oWD" id="R74-RL-rX3"/>
                         <segue destination="DHm-2i-abj" kind="show" identifier="showCollectionIdentifier" id="Fpo-5r-enm"/>
                         <segue destination="AxG-mS-cdP" kind="show" identifier="FeaturedToMediaDetailSegue" id="cLA-yc-0Qx"/>
