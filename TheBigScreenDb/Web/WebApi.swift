@@ -21,7 +21,7 @@ class WebClient : WebClientProtocol {
     func request(url : URL?, onComplete : @escaping requestOnComplete){
         
         guard let url = url else { return }
-        print("-----------\n\nRequest URL: \(url)\n\n-----------")
+        //print("-----------\n\nRequest URL: \(url)\n\n-----------")
         
         let task = URLSession.shared.dataTask(with: url) { (data, urlResponse, error) in
             if let error = error{

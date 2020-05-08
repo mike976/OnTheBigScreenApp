@@ -25,14 +25,19 @@ class MediaDetail : MediaMetadataProtocol {
                 
                 let parsedPc = pc as! [String : Any]
             
-                    if let companyName = parsedPc["name"] as! String? {
+                if let companyName = parsedPc["name"] as! String? {
                         
-                         if let logoPath = URL(string: "https://image.tmdb.org/t/p/w500\(parsedPc["logo_path"] as? String ?? "")") {
-                            
-                            productioncompanyReturnList.append(ProductionCompany(name: companyName, logoPath: logoPath))
-                        }
+                    var logoPath: URL?
+                    if let url = URL(string: "https://image.tmdb.org/t/p/w500\(parsedPc["logo_path"] as? String ?? "")") {
+
+                        logoPath = url
                     }
-                })
+
+                        
+                    productioncompanyReturnList.append(ProductionCompany(name: companyName, logoPath: logoPath))
+                }
+                    
+            })
             
             self.productionCompanies = productioncompanyReturnList
         }
@@ -45,14 +50,13 @@ class MediaDetail : MediaMetadataProtocol {
                 
                     let parsedResult = result as! [String : Any]
             
-                        if let _ = parsedResult["key"] as! String? {
-                            
-                            if let url = URL(string: "https://www.youtube.com/watch?v=\(parsedResult["key"] as? String ?? "")") {
-                            
-                                trailerReturnList.append(Trailer(url: url))
-                            }
-                        }
-                    })
+                    var trailerUrl: URL?
+                    if let url = URL(string: "https://www.youtube.com/watch?v=\(parsedResult["key"] as? String ?? "")") {
+                        trailerUrl = url
+                    }
+                    
+                    trailerReturnList.append(Trailer(url: trailerUrl))
+                })
                            
                 self.trailers = trailerReturnList
             }

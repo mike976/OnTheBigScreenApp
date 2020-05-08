@@ -147,7 +147,7 @@ class TheMovieDatabaseService : TheMovieDatabaseServiceProtocol {
             return
         }
         
-        var parameters = [Parameter(parameter: Parameters.language), Parameter(parameter: Parameters.api_key)]
+        let parameters = [Parameter(parameter: Parameters.language), Parameter(parameter: Parameters.api_key)]
         
         let pathArgs = "\(mediaId!)/credits"
 

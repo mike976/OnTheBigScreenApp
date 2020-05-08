@@ -64,11 +64,10 @@ class MediaDetailViewController: UIViewController {
 //        if let mediaDetail = mediaViewModel.getMediaDetailAsync(path: mediaEndPoint, mediaType: mediaType, mediaId: media_Id) {
 //
 //            DispatchQueue.main.async {
-//                print(mediaDetail)
 //
 //                if mediaDetail.productionCompanies != nil {
 //                    for pc in mediaDetail.productionCompanies! {
-//                        print(pc.name + ":" + pc.logoPath!.absoluteString)
+//                        print(pc.name + ":" + pc.logoPath!.absoluteString )
 //                    }
 //                }
 //
@@ -80,23 +79,25 @@ class MediaDetailViewController: UIViewController {
 //            }
 //        }
         
-        if let mediaCredits = mediaViewModel.getMediaCreditsAsync(path: mediaEndPoint, mediaType: mediaType, mediaId: media_Id) {
-            
-            DispatchQueue.main.async {
-                print(mediaCredits)
-              
-//                if mediaDetail.productionCompanies != nil {
-//                    for pc in mediaDetail.productionCompanies! {
-//                        print(pc.name + ":" + pc.logoPath!.absoluteString)
+//        if let mediaCredits = mediaViewModel.getMediaCreditsAsync(path: mediaEndPoint, mediaType: mediaType, mediaId: media_Id) {
+//
+//            DispatchQueue.main.async {
+//
+//                if mediaCredits.cast != nil {
+//                    for cast in mediaCredits.cast! {
+//                        print(cast.name + " : " + cast.character + " : " + cast.imageUrl!.absoluteString)
 //                    }
+//
 //                }
 //
-//                if mediaDetail.trailers != nil {
-//                    for tr in mediaDetail.trailers! {
-//                        print(tr.url!.absoluteString)
+//               if mediaCredits.crew != nil {
+//                    for crew in mediaCredits.crew! {
+//                        print(crew.name + " : " + crew.job + " : " + crew.imageUrl!.absoluteString)
 //                    }
+//
 //                }
-            }
-        }
+//
+//            }
+//        }
     }
 }
