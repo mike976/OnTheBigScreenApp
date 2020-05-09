@@ -99,13 +99,6 @@ class FeaturedViewController: UIViewController {
 
         view.addSubview(pageControl)
         
-//        for i in 0..<view.subviews.count {
-//            if let mvv = view.subviews[i] as? UIPageControl {
-//                print(i)
-//            }
-//        }
-        
-        //print(view.subviews.count)
         
         view.bringSubviewToFront(featuredHeaderScrollView)
         view.bringSubviewToFront(pageControl)
@@ -376,7 +369,6 @@ extension FeaturedViewController : UITableViewDataSource, UITableViewDelegate {
         let label = UILabel()
         label.frame = CGRect.init(x: 10, y: 13, width: 200, height: 21)
         label.text = categories[section]
-//        label.textColor = .lightGray
         label.font =  UIFont.boldSystemFont(ofSize: 20.0)
         
 

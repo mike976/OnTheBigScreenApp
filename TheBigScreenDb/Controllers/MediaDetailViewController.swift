@@ -7,9 +7,25 @@
 //
 
 import UIKit
+import AlamofireImage
+
+
+class MyTableViewCell : UITableViewCell {
+ 
+    override init(style: CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
 
 class MediaDetailViewController: UIViewController {
         
+    var castCollectionViewDelegate = CastCollectionViewDelegate()
+    var crewCollectionViewDelegate = CrewCollectionViewDelegate()
+    var trailersCollectionViewDelegate = TrailersCollectionViewDelegate()
+    
     deinit {
         print("OS reclaiming memory - MediaDetailViewController - no retain cycle/memory leaks here")
     }
@@ -44,11 +60,13 @@ class MediaDetailViewController: UIViewController {
            
            self.configureNavBar(hideBar: false)
        }
+        
 
     
     func Initialize() {
 
         self.navigationController?.navigationBar.backgroundColor = nil
+        
         self.tableView.dataSource = self
         self.tableView.delegate = self
         
@@ -69,8 +87,10 @@ class MediaDetailViewController: UIViewController {
         backdropImageView.downloadImage(with: (media?.backdrop_path)!)
 
         tableView.contentInset = UIEdgeInsets(top: 200, left: 0, bottom: 0, right: 0)
+        tableView.reloadData()
         
     }
+    
     
     func configureNavBar(hideBar: Bool = false) {
         
@@ -88,29 +108,54 @@ class MediaDetailViewController: UIViewController {
     //MARK: - TableViewController section
 extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate {
     
+    
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-           return 6
+           return 7
        }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
      
         return 1
     }
+
+    //To calculate height for label based on text size and width
+    func heightForView(text:String, font:UIFont, width:CGFloat) -> CGFloat {
+        let label:UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: CGFloat.greatestFiniteMagnitude))
+        label.numberOfLines = 0
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        label.font = font
+        label.text = text
+
+        label.sizeToFit()
+        return label.frame.height
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
     
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+    
+        cell.prepareForReuse()
+    
+        
+        cell.textLabel?.text = ""
         cell.textLabel?.textColor = .black
+        cell.selectionStyle = UITableViewCell.SelectionStyle.none;
     
         if indexPath.section == 0 {
-            //show title
-            cell.textLabel?.text = "\(media?.title ?? "") (\(media?.release_year ?? ""))"
-            cell.textLabel?.lineBreakMode = .byWordWrapping
-            cell.textLabel?.numberOfLines = 0
-            cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-
+            
+            if let title = media?.title, let releaseYear = media?.release_year {
+            
+                cell.textLabel?.text = "\(title) (\(releaseYear))"
+                cell.textLabel?.lineBreakMode = .byWordWrapping
+                cell.textLabel?.numberOfLines = 0
+                cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+                cell.textLabel?.sizeToFit()
+            }
+    
         } else if indexPath.section == 1 {
+                    
             
             let fullString = NSMutableAttributedString(string: "")
             let imageTextAttachment = NSTextAttachment()
@@ -118,108 +163,188 @@ extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate
             let imageString = NSAttributedString(attachment: imageTextAttachment)
             fullString.append(imageString)
             fullString.append(NSAttributedString(string: " \(media?.vote_average! ?? 0)/10"))
-            
+
             let scoreLabel = UILabel()
             scoreLabel.font = UIFont.boldSystemFont(ofSize: 16)
             scoreLabel.textColor = .yellow
             scoreLabel.text = "Review Score: \(media?.vote_average! ?? 0)/10"
             scoreLabel.textAlignment = .center
             scoreLabel.frame = CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height)
-            
-            let scoreImageView = UIImageView()
-            scoreImageView.frame = CGRect(x: 0, y: 0, width: cell.bounds.width, height: cell.bounds.height)
-            scoreImageView.backgroundColor = .darkGray
-            
+
             let blurEffect = UIBlurEffect(style: .light)
             let blurView = UIVisualEffectView(effect:blurEffect)
             blurView.frame = backgroundImageView.bounds
-            scoreImageView.alpha = 1.0
-            scoreImageView.tintColor = .gray
-            scoreImageView.addSubview(blurView)
-
-    
+            
+            for i in cell.contentView.subviews {
+                i.removeFromSuperview()
+            }
+            
             cell.contentView.addSubview(blurView)
             cell.contentView.addSubview(scoreLabel)
             cell.contentView.bringSubviewToFront(scoreLabel)
-            
+
             cell.sizeToFit()
             
         } else if indexPath.section == 2 {
-            cell.textLabel?.text = media?.overview
-            cell.textLabel?.lineBreakMode = .byWordWrapping
-            cell.textLabel?.numberOfLines = 0
-            cell.textLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+                        
+            if let overviewText = media?.overview {
+            
+                cell.textLabel?.text = overviewText
+                cell.textLabel?.lineBreakMode = .byWordWrapping
+                cell.textLabel?.numberOfLines = 0
+                cell.textLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+                cell.textLabel?.sizeToFit()
+            }
+           
 
         } else if indexPath.section == 3 {
-            cell.textLabel?.text = "Cast collection View"
             
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .horizontal
+            layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
             
+            let sv = UICollectionView(frame: CGRect(x: 0, y: 20, width: cell.frame.width, height: 140), collectionViewLayout: layout)
+            sv.automaticallyAdjustsScrollIndicatorInsets = true
+            sv.contentInsetAdjustmentBehavior = .automatic
+            sv.register(MediaDetailCollectionViewCell.self, forCellWithReuseIdentifier: "cell_1")
+            sv.backgroundColor = .clear
+            
+            self.castCollectionViewDelegate = CastCollectionViewDelegate()
+            
+            sv.delegate = self.castCollectionViewDelegate
+            sv.dataSource = self.castCollectionViewDelegate
+            sv.reloadData()
+            
+            for i in cell.contentView.subviews {
+                i.removeFromSuperview()
+            }
+            
+            cell.contentView.addSubview(sv)
+            cell.contentView.bringSubviewToFront(sv)
+            
+           if self.castCollectionViewDelegate.mediaCredits == nil {
+                DispatchQueue.main.async { [weak self] in
+                   if let mc = self?.getMediaCreditsAsync() {
+                      
+                        if self?.castCollectionViewDelegate.mediaCredits == nil {
+                            self?.castCollectionViewDelegate.mediaCredits = mc
+                            sv.reloadData()
+                        }
+                   }
+                }
+            }
             
         } else if indexPath.section == 4 {
-            cell.textLabel?.text = "Crew Collection View"
+            
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .horizontal
+            layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
+            
+            let sv = UICollectionView(frame: CGRect(x: 0, y: 20, width: cell.frame.width, height: 140), collectionViewLayout: layout)
+            sv.automaticallyAdjustsScrollIndicatorInsets = true
+            sv.contentInsetAdjustmentBehavior = .automatic
+            sv.register(MediaDetailCollectionViewCell.self, forCellWithReuseIdentifier: "cell_2")
+            sv.backgroundColor = .clear
+            
+            self.crewCollectionViewDelegate = CrewCollectionViewDelegate()
+            
+            sv.delegate = self.crewCollectionViewDelegate
+            sv.dataSource = self.crewCollectionViewDelegate
+            sv.reloadData()
+            
+            for i in cell.contentView.subviews {
+                i.removeFromSuperview()
+            }
+            
+            cell.contentView.addSubview(sv)
+            cell.contentView.bringSubviewToFront(sv)
+            
+            if self.crewCollectionViewDelegate.mediaCredits == nil {
+                DispatchQueue.main.async { [weak self] in
+                   if let mc = self?.getMediaCreditsAsync() {
+                      
+                        if self?.crewCollectionViewDelegate.mediaCredits == nil {
+                            self?.crewCollectionViewDelegate.mediaCredits = mc
+                            sv.reloadData()
+                        }
+                   }
+                }
+            }
+            
+            
+            
         } else if indexPath.section == 5 {
-            cell.textLabel?.text = "Videos Collection View"
+            
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .horizontal
+            layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
+            
+            let sv = UICollectionView(frame: CGRect(x: 0, y: 20, width: cell.frame.width, height: 140), collectionViewLayout: layout)
+            sv.automaticallyAdjustsScrollIndicatorInsets = true
+            sv.contentInsetAdjustmentBehavior = .automatic
+            sv.register(MediaDetailCollectionViewCell.self, forCellWithReuseIdentifier: "cell_3")
+            sv.backgroundColor = .clear
+            sv.delegate = self.trailersCollectionViewDelegate
+            sv.dataSource = self.trailersCollectionViewDelegate
+            sv.reloadData()
+            
+            for i in cell.contentView.subviews {
+                i.removeFromSuperview()
+            }
+            
+            cell.contentView.addSubview(sv)
+            cell.contentView.bringSubviewToFront(sv)
+            
+            if self.trailersCollectionViewDelegate.mediaDetail == nil {
+                DispatchQueue.main.async { [weak self] in
+                   if let mc = self?.getMediaDetailAsync() {
+                      
+                        if self?.trailersCollectionViewDelegate.mediaDetail == nil {
+                            self?.trailersCollectionViewDelegate.mediaDetail = mc
+                            sv.reloadData()
+                        }
+                   }
+                }
+            }
+            
+            
+            
+        } else if indexPath.section == 6 {
+
+            for i in cell.contentView.subviews {
+                i.removeFromSuperview()
+            }
+            let myLabel = UILabel()
+            myLabel.text = "Hi Mike"
+            myLabel.text = media?.overview
+            myLabel.lineBreakMode = .byWordWrapping
+            myLabel.numberOfLines = 0
+            myLabel.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+
+            cell.contentView.addSubview(myLabel)
+            cell.contentView.bringSubviewToFront(myLabel)
+
         }
         
         
         return cell
     }
     
-     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-
-        var textLabel = ""
-        switch section {
-        case 3:
-            textLabel = "CAST"
-            break
-        case 4:
-            textLabel = "CREW"
-            break
-        case 5:
-            textLabel = "VIDEOS"
-            break
-        default:
-            textLabel = ""
-            break
-        }
-        
-        if section > 2 {
-                        
-            let frame = tableView.frame
-            let label = UILabel()
-            label.frame = CGRect.init(x: 10, y: 13, width: 200, height: 21)
-            label.text = textLabel
-            label.textColor = .black
-            label.font =  UIFont.boldSystemFont(ofSize: 16.0)
-        
-            let headerView = UIView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height))
-            headerView.addSubview(label)
-
-            
-            return headerView
-            
-        }
-
-        
-        return tableView.headerView(forSection: section)
-     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
-        if section < 3 {
-            return 0
-        } else {
-            return tableView.sectionHeaderHeight
-        }
-        
+       return 0
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        
+                
         if indexPath.section == 1 {
             
             return 25
+        }
+               
+        if indexPath.section > 2 {
+            return 140
         }
         
         return tableView.rowHeight
@@ -229,72 +354,244 @@ extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
           let y = -scrollView.contentOffset.y
 
-        let height = y //max((y - self.topbarHeight) , 200)
+        let height = y  //y //max((y - self.topbarHeight) , 200)
 
         backdropImageView?.frame = CGRect(x: 0, y: self.topbarHeight, width: view.frame.width, height: height)
       }
     
-}
     
-//    typealias GetMediaListHandler = (Int) -> Void
-//    func runOnBackgroundThread(page: Int, _ getMediaList: @escaping GetMediaListHandler) {
-//
-//           let dispatchQueue = DispatchQueue.global(qos: .background)
-//
-//           dispatchQueue.async {
-//
-//               getMediaList(page)
-//           }
-//    }
-//
-//    private func getMediaDetailAsync(_ page : Int = 1){
-//
-//        let media_Id = self.media?.id
-//
-//        var mediaType = MediaType.movie
-//        var mediaEndPoint = MediaEndpoint.movie
-//        if media?.media_Type! == MediaType.tvShow {
-//            mediaType = MediaType.tvShow
-//            mediaEndPoint = MediaEndpoint.tvShow
-//        }
-//
-//        if let mediaDetail = mediaViewModel.getMediaDetailAsync(path: mediaEndPoint, mediaType: mediaType, mediaId: media_Id) {
-//
-//            DispatchQueue.main.async {
-//
-//                if mediaDetail.productionCompanies != nil {
-//                    for pc in mediaDetail.productionCompanies! {
-//                        print(pc.name + ":" + pc.logoPath!.absoluteString )
-//                    }
-//                }
-//
-//                if mediaDetail.trailers != nil {
-//                    for tr in mediaDetail.trailers! {
-//                        print(tr.url!.absoluteString)
-//                    }
-//                }
-//            }
-//        }
-//
-//        if let mediaCredits = mediaViewModel.getMediaCreditsAsync(path: mediaEndPoint, mediaType: mediaType, mediaId: media_Id) {
-//
-//            DispatchQueue.main.async {
-//
-//                if mediaCredits.cast != nil {
-//                    for cast in mediaCredits.cast! {
-//                        print(cast.name + " : " + cast.character + " : " + cast.imageUrl!.absoluteString)
-//                    }
-//
-//                }
-//
-//               if mediaCredits.crew != nil {
-//                    for crew in mediaCredits.crew! {
-//                        print(crew.name + " : " + crew.job + " : " + crew.imageUrl!.absoluteString)
-//                    }
-//
-//                }
-//
-//            }
-//        }
-//    }
+    
+    
+}
 
+//MARK: - functions to retrieve media data
+extension MediaDetailViewController {
+    
+    func getMediaCreditsAsync(_ page: Int = 1) -> MediaCredits? {
+
+        var mediaCredits: MediaCredits? = nil
+        let semaphore = DispatchSemaphore(value: 0)
+        let dispatchQueue = DispatchQueue.global(qos: .background)
+        
+        dispatchQueue.async { [weak self] in
+                if let media_Id = self?.media?.id {
+                    var mediaType = self?.media?.media_Type!
+                    var mediaEndPoint = MediaEndpoint.movie
+                    if mediaType == MediaType.tvShow {
+                        mediaType = MediaType.tvShow
+                        mediaEndPoint = MediaEndpoint.tvShow
+                    }
+                
+                    mediaCredits = self?.mediaViewModel.getMediaCreditsAsync(path: mediaEndPoint, mediaType: mediaType!, mediaId: media_Id)
+                    
+                    semaphore.signal()
+                }
+            }
+        
+        let timeoutInSecs = Double(5)
+        _ = semaphore.wait(timeout: .now() + timeoutInSecs)
+        return mediaCredits
+    }
+    
+    func getMediaDetailAsync(_ page: Int = 1) -> MediaDetail? {
+
+        var mediaDetail: MediaDetail? = nil
+        let semaphore = DispatchSemaphore(value: 0)
+        let dispatchQueue = DispatchQueue.global(qos: .background)
+        
+        dispatchQueue.async { [weak self] in
+                if let media_Id = self?.media?.id {
+                    var mediaType = self?.media?.media_Type!
+                    var mediaEndPoint = MediaEndpoint.movie
+                    if mediaType == MediaType.tvShow {
+                        mediaType = MediaType.tvShow
+                        mediaEndPoint = MediaEndpoint.tvShow
+                    }
+                
+                    mediaDetail = self?.mediaViewModel.getMediaDetailAsync(path: mediaEndPoint, mediaType: mediaType!, mediaId: media_Id)
+                    
+                    semaphore.signal()
+                }
+            }
+        
+        let timeoutInSecs = Double(5)
+        _ = semaphore.wait(timeout: .now() + timeoutInSecs)
+        return mediaDetail
+    }
+}
+
+
+
+//MARK: - collectionView delegate responsible for providing a collection of the media's cast
+class CastCollectionViewDelegate : NSObject, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+    
+    var mediaCredits: MediaCredits?
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return mediaCredits?.cast?.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+           return 1
+    }
+       
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+           
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell_1", for: indexPath) as! MediaDetailCollectionViewCell
+        cell.prepareForReuse()
+        cell.backgroundColor = .clear
+
+        let placeholderImage = UIImage(named: "placeholder")
+        
+        if let imageUrl = mediaCredits?.cast?[indexPath.section].imageUrl {
+            cell.imageView?.af.setImage(withURL: imageUrl, placeholderImage: placeholderImage, runImageTransitionIfCached: true)
+        }
+                
+        if let name = mediaCredits?.cast?[indexPath.section].name {
+            
+            if let character = mediaCredits?.cast?[indexPath.section].character {
+                cell.titleLabel?.text = "\(name)\nas \(character)"
+            }
+        }
+        
+        return cell
+    }
+       
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+       
+       return CGSize(width: 140, height: 140)
+    }
+}
+
+//MARK: - collectionView delegate responsible for providing a collection of the media's crew
+class CrewCollectionViewDelegate : NSObject, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+    
+    var mediaCredits: MediaCredits?
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return mediaCredits?.crew?.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+           return 1
+    }
+       
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+           
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell_2", for: indexPath) as! MediaDetailCollectionViewCell
+        cell.prepareForReuse()
+        
+        
+        cell.backgroundColor = .clear
+
+        let placeholderImage = UIImage(named: "placeholder")
+        
+        if let imageUrl = mediaCredits?.crew?[indexPath.section].imageUrl {
+            cell.imageView?.af.setImage(withURL: imageUrl, placeholderImage: placeholderImage, runImageTransitionIfCached: true)
+        }
+        
+        if let name = mediaCredits?.crew?[indexPath.section].name {
+            
+            if let job = mediaCredits?.crew?[indexPath.section].job {
+                cell.titleLabel?.text = "\(name)\n \(job)"
+            }
+        }
+        
+        return cell
+    }
+       
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+       
+       return CGSize(width: 140, height: 140)
+    }
+}
+
+
+//MARK: - collectionView delegate responsible for providing a collection of the media trailers
+class TrailersCollectionViewDelegate : NSObject, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+    
+    var mediaDetail: MediaDetail?
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return mediaDetail?.trailers?.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+           return 1
+    }
+       
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+           
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell_3", for: indexPath) as! MediaDetailCollectionViewCell
+        cell.prepareForReuse()
+        cell.backgroundColor = .clear
+
+        let placeholderImage = UIImage(named: "placeholder")
+        
+        
+        if let imageUrl = mediaDetail?.trailers?[indexPath.section].url {
+            cell.imageView?.af.setImage(withURL: imageUrl, placeholderImage: placeholderImage, runImageTransitionIfCached: true)
+        }
+        
+        return cell
+    }
+       
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+       
+       return CGSize(width: 140, height: 140)
+    }
+}
+
+
+//MARK: - View Cell to display the Crew, Cast and Videos
+class MediaDetailCollectionViewCell: UICollectionViewCell {
+
+    var titleLabel: UILabel!
+    var imageView: UIImageView!
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+                        
+        self.imageView = UIImageView()
+        self.imageView.frame = CGRect(x: (contentView.frame.width/2)-40 , y: 0, width: 80, height: 80)
+        self.imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = self.imageView.frame.width/2;
+        imageView.layer.masksToBounds = false;
+        imageView.clipsToBounds = true
+
+        contentView.addSubview(imageView)
+        contentView.bringSubviewToFront(imageView)
+        
+        self.titleLabel = UILabel(frame: CGRect(x: (contentView.frame.width/2)-60, y: 70, width: 120, height: 50))
+        self.titleLabel.textColor = .black
+        self.titleLabel.font = UIFont.init(name: "Helvetica", size: 10)
+        self.titleLabel.textAlignment = .center
+        self.titleLabel.lineBreakMode = .byWordWrapping
+        self.titleLabel.numberOfLines = 0
+
+        contentView.addSubview(titleLabel)
+        contentView.bringSubviewToFront(titleLabel)
+    }
+    
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        if imageView != nil {
+            imageView.af.cancelImageRequest()
+            imageView.layer.removeAllAnimations()
+            imageView.image = nil
+        }
+        
+        if titleLabel != nil {
+            titleLabel.text = ""
+        }
+    }
+    
+
+
+}
