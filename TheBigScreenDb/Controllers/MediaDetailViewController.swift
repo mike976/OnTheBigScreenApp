@@ -118,18 +118,6 @@ extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate
      
         return 1
     }
-
-    //To calculate height for label based on text size and width
-    func heightForView(text:String, font:UIFont, width:CGFloat) -> CGFloat {
-        let label:UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: CGFloat.greatestFiniteMagnitude))
-        label.numberOfLines = 0
-        label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = font
-        label.text = text
-
-        label.sizeToFit()
-        return label.frame.height
-    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
@@ -152,6 +140,10 @@ extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate
                 cell.textLabel?.numberOfLines = 0
                 cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 20)
                 cell.textLabel?.sizeToFit()
+            }
+            
+            for i in cell.contentView.subviews {
+                i.removeFromSuperview()
             }
     
         } else if indexPath.section == 1 {
@@ -195,6 +187,10 @@ extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate
                 cell.textLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
                 cell.textLabel?.sizeToFit()
             }
+            
+            for i in cell.contentView.subviews {
+                i.removeFromSuperview()
+            }
            
 
         } else if indexPath.section == 3 {
@@ -203,7 +199,7 @@ extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate
             layout.scrollDirection = .horizontal
             layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
             
-            let sv = UICollectionView(frame: CGRect(x: 0, y: 20, width: cell.frame.width, height: 140), collectionViewLayout: layout)
+            let sv = UICollectionView(frame: CGRect(x: 0, y: 30, width: cell.frame.width, height: 140), collectionViewLayout: layout)
             sv.automaticallyAdjustsScrollIndicatorInsets = true
             sv.contentInsetAdjustmentBehavior = .automatic
             sv.register(MediaDetailCollectionViewCell.self, forCellWithReuseIdentifier: "cell_1")
@@ -215,12 +211,20 @@ extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate
             sv.dataSource = self.castCollectionViewDelegate
             sv.reloadData()
             
+
+            let sectionLabel = UILabel()
+            sectionLabel.text = "CAST"
+            sectionLabel.font = UIFont.boldSystemFont(ofSize: 14)
+            sectionLabel.frame = CGRect(x: 20, y: 0, width: cell.frame.width, height: 20)
+
             for i in cell.contentView.subviews {
                 i.removeFromSuperview()
             }
             
+            cell.contentView.addSubview(sectionLabel)
             cell.contentView.addSubview(sv)
             cell.contentView.bringSubviewToFront(sv)
+            cell.contentView.bringSubviewToFront(sectionLabel)
             
            if self.castCollectionViewDelegate.mediaCredits == nil {
                 DispatchQueue.main.async { [weak self] in
@@ -240,7 +244,7 @@ extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate
             layout.scrollDirection = .horizontal
             layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
             
-            let sv = UICollectionView(frame: CGRect(x: 0, y: 20, width: cell.frame.width, height: 140), collectionViewLayout: layout)
+            let sv = UICollectionView(frame: CGRect(x: 0, y: 30, width: cell.frame.width, height: 140), collectionViewLayout: layout)
             sv.automaticallyAdjustsScrollIndicatorInsets = true
             sv.contentInsetAdjustmentBehavior = .automatic
             sv.register(MediaDetailCollectionViewCell.self, forCellWithReuseIdentifier: "cell_2")
@@ -252,12 +256,19 @@ extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate
             sv.dataSource = self.crewCollectionViewDelegate
             sv.reloadData()
             
+            let sectionLabel = UILabel()
+            sectionLabel.text = "CREW"
+            sectionLabel.font = UIFont.boldSystemFont(ofSize: 14)
+            sectionLabel.frame = CGRect(x: 20, y: 0, width: cell.frame.width, height: 20)
+            
             for i in cell.contentView.subviews {
                 i.removeFromSuperview()
             }
             
+            cell.contentView.addSubview(sectionLabel)
             cell.contentView.addSubview(sv)
             cell.contentView.bringSubviewToFront(sv)
+            cell.contentView.bringSubviewToFront(sectionLabel)
             
             if self.crewCollectionViewDelegate.mediaCredits == nil {
                 DispatchQueue.main.async { [weak self] in
@@ -279,7 +290,7 @@ extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate
             layout.scrollDirection = .horizontal
             layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
             
-            let sv = UICollectionView(frame: CGRect(x: 0, y: 20, width: cell.frame.width, height: 140), collectionViewLayout: layout)
+            let sv = UICollectionView(frame: CGRect(x: 0, y: 30, width: cell.frame.width, height: 140), collectionViewLayout: layout)
             sv.automaticallyAdjustsScrollIndicatorInsets = true
             sv.contentInsetAdjustmentBehavior = .automatic
             sv.register(MediaDetailCollectionViewCell.self, forCellWithReuseIdentifier: "cell_3")
@@ -288,12 +299,19 @@ extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate
             sv.dataSource = self.trailersCollectionViewDelegate
             sv.reloadData()
             
+            let sectionLabel = UILabel()
+            sectionLabel.text = "TRAILERS"
+            sectionLabel.font = UIFont.boldSystemFont(ofSize: 14)
+            sectionLabel.frame = CGRect(x: 20, y: 0, width: cell.frame.width, height: 20)
+            
             for i in cell.contentView.subviews {
                 i.removeFromSuperview()
             }
-            
+ 
+            cell.contentView.addSubview(sectionLabel)
             cell.contentView.addSubview(sv)
             cell.contentView.bringSubviewToFront(sv)
+            cell.contentView.bringSubviewToFront(sectionLabel)
             
             if self.trailersCollectionViewDelegate.mediaDetail == nil {
                 DispatchQueue.main.async { [weak self] in
@@ -311,19 +329,16 @@ extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate
             
         } else if indexPath.section == 6 {
 
+               cell.textLabel?.text = "Hi Mike"
+               cell.textLabel?.lineBreakMode = .byWordWrapping
+               cell.textLabel?.numberOfLines = 0
+               cell.textLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+               cell.textLabel?.sizeToFit()
+
             for i in cell.contentView.subviews {
                 i.removeFromSuperview()
             }
-            let myLabel = UILabel()
-            myLabel.text = "Hi Mike"
-            myLabel.text = media?.overview
-            myLabel.lineBreakMode = .byWordWrapping
-            myLabel.numberOfLines = 0
-            myLabel.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-
-            cell.contentView.addSubview(myLabel)
-            cell.contentView.bringSubviewToFront(myLabel)
-
+            
         }
         
         
@@ -344,8 +359,9 @@ extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate
         }
                
         if indexPath.section > 2 {
-            return 140
+            return 170
         }
+              
         
         return tableView.rowHeight
         
