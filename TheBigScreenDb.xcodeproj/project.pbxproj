@@ -71,7 +71,7 @@
 		2E3EC33F245B1CE40036D2FD /* VideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
 		2E44B5312459669B003386A9 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		2E44B5332459685A003386A9 /* WebResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebResponse.swift; sourceTree = "<group>"; };
-		2E9EB468245703BF00C2C488 /* TheBigScreenDb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheBigScreenDb.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E9EB468245703BF00C2C488 /* On the Big Screen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "On the Big Screen.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E9EB46B245703BF00C2C488 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2E9EB46D245703BF00C2C488 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		2E9EB46F245703BF00C2C488 /* FeaturedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedViewController.swift; sourceTree = "<group>"; };
@@ -167,7 +167,7 @@
 		2E9EB469245703BF00C2C488 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2E9EB468245703BF00C2C488 /* TheBigScreenDb.app */,
+				2E9EB468245703BF00C2C488 /* On the Big Screen.app */,
 				2E9EB483245703C300C2C488 /* TheBigScreenDbTests.xctest */,
 				2E9EB48E245703C300C2C488 /* TheBigScreenDbUITests.xctest */,
 			);
@@ -345,7 +345,7 @@
 			);
 			name = TheBigScreenDb;
 			productName = TheBigScreenDb;
-			productReference = 2E9EB468245703BF00C2C488 /* TheBigScreenDb.app */;
+			productReference = 2E9EB468245703BF00C2C488 /* On the Big Screen.app */;
 			productType = "com.apple.product-type.application";
 		};
 		2E9EB482245703C300C2C488 /* TheBigScreenDbTests */ = {
@@ -791,12 +791,13 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FKC8M8F26D;
 				INFOPLIST_FILE = TheBigScreenDb/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.isimplifysolutionsltd.TheBigScreenDb;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "On the Big Screen";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -811,12 +812,13 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FKC8M8F26D;
 				INFOPLIST_FILE = TheBigScreenDb/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.isimplifysolutionsltd.TheBigScreenDb;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "On the Big Screen";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
