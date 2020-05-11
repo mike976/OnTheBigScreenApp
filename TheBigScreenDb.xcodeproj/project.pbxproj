@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		290DEFEF873C643B9B2E9144 /* Pods_TheBigScreenDbTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7694CFD288A0B6A0BA99E6A2 /* Pods_TheBigScreenDbTests.framework */; };
+		2E068EB72469348900721543 /* Services.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E068EB62469348900721543 /* Services.plist */; };
 		2E234019245C741200BBBB9B /* TvShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E234018245C741200BBBB9B /* TvShow.swift */; };
 		2E3EC33E245B173B0036D2FD /* FeaturedCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3EC33D245B173B0036D2FD /* FeaturedCategoryCell.swift */; };
 		2E3EC340245B1CE40036D2FD /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3EC33F245B1CE40036D2FD /* VideoCell.swift */; };
@@ -64,6 +65,7 @@
 
 /* Begin PBXFileReference section */
 		2C8684502CCA576C389915AC /* Pods-TheBigScreenDb-TheBigScreenDbUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheBigScreenDb-TheBigScreenDbUITests.release.xcconfig"; path = "Target Support Files/Pods-TheBigScreenDb-TheBigScreenDbUITests/Pods-TheBigScreenDb-TheBigScreenDbUITests.release.xcconfig"; sourceTree = "<group>"; };
+		2E068EB62469348900721543 /* Services.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Services.plist; sourceTree = "<group>"; };
 		2E234018245C741200BBBB9B /* TvShow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TvShow.swift; sourceTree = "<group>"; };
 		2E3EC33D245B173B0036D2FD /* FeaturedCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedCategoryCell.swift; sourceTree = "<group>"; };
 		2E3EC33F245B1CE40036D2FD /* VideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				2E9EB46D245703BF00C2C488 /* SceneDelegate.swift */,
 				2E9EB479245703C300C2C488 /* Assets.xcassets */,
 				2E9EB47E245703C300C2C488 /* Info.plist */,
+				2E068EB62469348900721543 /* Services.plist */,
 				2E9EB4A2245704A700C2C488 /* View */,
 				2E9EB4A3245704B400C2C488 /* Controllers */,
 				2E9EB4A4245704BC00C2C488 /* ViewModel */,
@@ -433,6 +436,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E068EB72469348900721543 /* Services.plist in Resources */,
 				2E9EB47D245703C300C2C488 /* LaunchScreen.storyboard in Resources */,
 				2E9EB47A245703C300C2C488 /* Assets.xcassets in Resources */,
 				2E9EB475245703BF00C2C488 /* Main.storyboard in Resources */,

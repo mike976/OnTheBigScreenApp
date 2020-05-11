@@ -50,12 +50,17 @@ class MediaDetail : MediaMetadataProtocol {
                 
                     let parsedResult = result as! [String : Any]
             
-                    var trailerUrl: URL?
+                    var youtubeUrl: URL?
                     if let url = URL(string: "https://www.youtube.com/watch?v=\(parsedResult["key"] as? String ?? "")") {
-                        trailerUrl = url
+                        youtubeUrl = url
                     }
                     
-                    trailerReturnList.append(Trailer(url: trailerUrl))
+                    var youtubeThumbnailUrl: URL?
+                    if let url = URL(string: "https://img.youtube.com/vi/\(parsedResult["key"] as? String ?? "")/0.jpg") {
+                        youtubeThumbnailUrl = url
+                    }
+                    
+                    trailerReturnList.append(Trailer(youtubeUrl: youtubeUrl,youtubeThumbnailUrl: youtubeThumbnailUrl))
                 })
                            
                 self.trailers = trailerReturnList
@@ -76,10 +81,12 @@ struct ProductionCompany {
 }
 
 struct Trailer {
-    var url: URL?
+    var youtubeUrl: URL?
+    var youtubeThumbnailUrl: URL?
     
-    init(url: URL?){
-        self.url = url
+    init(youtubeUrl: URL?, youtubeThumbnailUrl: URL?) {
+        self.youtubeUrl = youtubeUrl
+        self.youtubeThumbnailUrl = youtubeThumbnailUrl
     }
 }
 

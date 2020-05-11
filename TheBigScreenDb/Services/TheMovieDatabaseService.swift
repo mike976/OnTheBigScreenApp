@@ -42,6 +42,13 @@ class TheMovieDatabaseService : TheMovieDatabaseServiceProtocol {
     deinit {
         print("OS reclaiming memory - MoviesService - no retain cycle/memory leaks here")
     }
+    
+    private static var apiKey: String = {
+        guard let filePath: String = Bundle.main.path(forResource: "Services", ofType: "plist") else { fatalError("Couldn't find Services.plist") }
+        guard let dict = NSDictionary(contentsOfFile: filePath) else { fatalError("Can't read Services.plist") }
+        guard let apiKey = dict["TMDbAPIKey"] as? String else { fatalError("Couldn't find a value for 'TMDbAPIKey'") }
+        return apiKey
+    }()
                 
     private var webClient: WebClientProtocol!
             
@@ -49,7 +56,7 @@ class TheMovieDatabaseService : TheMovieDatabaseServiceProtocol {
            
     private struct Parameters{
         static let language = ["language" : "en-GB"]
-        static let api_key = ["api_key" : "5cd88ad1ae9b1b0d53d5e8467fe9c9bb"]
+        static let api_key = ["api_key" : "\(apiKey)"]
         static let sort_by = ["sort_by" : "popularity.desc"]
         static let page = ["page" : "1"]
         static let query = ["query": ""]

@@ -25,6 +25,7 @@ class MediaDetailViewController: UIViewController {
     var castCollectionViewDelegate = CastCollectionViewDelegate()
     var crewCollectionViewDelegate = CrewCollectionViewDelegate()
     var trailersCollectionViewDelegate = TrailersCollectionViewDelegate()
+    var productionCollectionViewDelegate = ProductionCollectionViewDelegate()
     
     deinit {
         print("OS reclaiming memory - MediaDetailViewController - no retain cycle/memory leaks here")
@@ -111,7 +112,7 @@ extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate
     
     
     func numberOfSections(in tableView: UITableView) -> Int {
-           return 7
+           return 8
        }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -329,18 +330,52 @@ extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate
             
         } else if indexPath.section == 6 {
 
-               cell.textLabel?.text = "Hi Mike"
-               cell.textLabel?.lineBreakMode = .byWordWrapping
-               cell.textLabel?.numberOfLines = 0
-               cell.textLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-               cell.textLabel?.sizeToFit()
-
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .horizontal
+            layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
+            
+            let sv = UICollectionView(frame: CGRect(x: 0, y: 30, width: cell.frame.width, height: 140), collectionViewLayout: layout)
+            sv.automaticallyAdjustsScrollIndicatorInsets = true
+            sv.contentInsetAdjustmentBehavior = .automatic
+            sv.register(MediaDetailCollectionViewCell.self, forCellWithReuseIdentifier: "cell_4")
+            sv.backgroundColor = .clear
+            sv.delegate = self.productionCollectionViewDelegate
+            sv.dataSource = self.productionCollectionViewDelegate
+            sv.reloadData()
+            
+            let sectionLabel = UILabel()
+            sectionLabel.text = "PRODUCERS"
+            sectionLabel.font = UIFont.boldSystemFont(ofSize: 14)
+            sectionLabel.frame = CGRect(x: 20, y: 0, width: cell.frame.width, height: 20)
+            
             for i in cell.contentView.subviews {
                 i.removeFromSuperview()
             }
+
+            cell.contentView.addSubview(sectionLabel)
+            cell.contentView.addSubview(sv)
+            cell.contentView.bringSubviewToFront(sv)
+            cell.contentView.bringSubviewToFront(sectionLabel)
             
+            if self.productionCollectionViewDelegate.mediaDetail == nil {
+                DispatchQueue.main.async { [weak self] in
+                   if let md = self?.getMediaDetailAsync() {
+                      
+                        if self?.productionCollectionViewDelegate.mediaDetail == nil {
+                            self?.productionCollectionViewDelegate.mediaDetail = md
+                            sv.reloadData()
+                        }
+                   }
+                }
+            }
+                        
+        }  else if indexPath.section == 7 {
+            
+            //TODO revisit - fix to resolve cell repeating issue
+            for i in cell.contentView.subviews {
+                i.removeFromSuperview()
+            }
         }
-        
         
         return cell
     }
@@ -370,7 +405,12 @@ extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
           let y = -scrollView.contentOffset.y
 
-        let height = y  //y //max((y - self.topbarHeight) , 200)
+
+        //hides the image so if does not appear in the nav bar when user scrolls up
+        var height = y
+        if floor(height) < 0 {
+            height = 0
+        }
 
         backdropImageView?.frame = CGRect(x: 0, y: self.topbarHeight, width: view.frame.width, height: height)
       }
@@ -461,6 +501,9 @@ class CastCollectionViewDelegate : NSObject, UICollectionViewDelegate, UICollect
         
         if let imageUrl = mediaCredits?.cast?[indexPath.section].imageUrl {
             cell.imageView?.af.setImage(withURL: imageUrl, placeholderImage: placeholderImage, runImageTransitionIfCached: true)
+            cell.imageView?.layer.cornerRadius = cell.imageView.frame.width/2
+            cell.imageView?.layer.masksToBounds = false;
+            cell.imageView?.clipsToBounds = true
         }
                 
         if let name = mediaCredits?.cast?[indexPath.section].name {
@@ -504,6 +547,9 @@ class CrewCollectionViewDelegate : NSObject, UICollectionViewDelegate, UICollect
         
         if let imageUrl = mediaCredits?.crew?[indexPath.section].imageUrl {
             cell.imageView?.af.setImage(withURL: imageUrl, placeholderImage: placeholderImage, runImageTransitionIfCached: true)
+            cell.imageView?.layer.cornerRadius = cell.imageView.frame.width/2
+            cell.imageView?.layer.masksToBounds = false;
+            cell.imageView?.clipsToBounds = true
         }
         
         if let name = mediaCredits?.crew?[indexPath.section].name {
@@ -545,8 +591,64 @@ class TrailersCollectionViewDelegate : NSObject, UICollectionViewDelegate, UICol
         let placeholderImage = UIImage(named: "placeholder")
         
         
-        if let imageUrl = mediaDetail?.trailers?[indexPath.section].url {
+        if let imageUrl = mediaDetail?.trailers?[indexPath.section].youtubeThumbnailUrl {
             cell.imageView?.af.setImage(withURL: imageUrl, placeholderImage: placeholderImage, runImageTransitionIfCached: true)
+
+            let trailerTapGesture = TrailerTapGestureRecognizer(target: self, action: #selector(self.playTrailer))
+            trailerTapGesture.trailerUrl = mediaDetail?.trailers?[indexPath.section].youtubeUrl
+            cell.addGestureRecognizer(trailerTapGesture)
+
+        }
+        
+        return cell
+    }
+       
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+       
+       return CGSize(width: 140, height: 140)
+    }
+        
+    @objc func playTrailer(_ sender : TrailerTapGestureRecognizer) {
+
+        guard let url = sender.trailerUrl else { return }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+
+    class TrailerTapGestureRecognizer: UITapGestureRecognizer {
+        var trailerUrl: URL?
+    }
+}
+
+
+//MARK: - collectionView delegate responsible for providing a collection of the media production studios
+class ProductionCollectionViewDelegate : NSObject, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+    
+    var mediaDetail: MediaDetail?
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return mediaDetail?.productionCompanies?.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+           return 1
+    }
+       
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+           
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell_4", for: indexPath) as! MediaDetailCollectionViewCell
+        cell.prepareForReuse()
+        cell.backgroundColor = .clear
+
+        let placeholderImage = UIImage(named: "placeholder")
+        
+        
+        if let imageUrl = mediaDetail?.productionCompanies?[indexPath.section].logoPath {
+            cell.imageView?.af.setImage(withURL: imageUrl, placeholderImage: placeholderImage, runImageTransitionIfCached: true)
+            cell.imageView.contentMode = .scaleAspectFit
+        }
+        
+        if let name = mediaDetail?.productionCompanies?[indexPath.section].name {
+            cell.titleLabel?.text = "\(name)"
         }
         
         return cell
@@ -557,7 +659,6 @@ class TrailersCollectionViewDelegate : NSObject, UICollectionViewDelegate, UICol
        return CGSize(width: 140, height: 140)
     }
 }
-
 
 //MARK: - View Cell to display the Crew, Cast and Videos
 class MediaDetailCollectionViewCell: UICollectionViewCell {
@@ -571,9 +672,6 @@ class MediaDetailCollectionViewCell: UICollectionViewCell {
         self.imageView = UIImageView()
         self.imageView.frame = CGRect(x: (contentView.frame.width/2)-40 , y: 0, width: 80, height: 80)
         self.imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = self.imageView.frame.width/2;
-        imageView.layer.masksToBounds = false;
-        imageView.clipsToBounds = true
 
         contentView.addSubview(imageView)
         contentView.bringSubviewToFront(imageView)
@@ -607,7 +705,4 @@ class MediaDetailCollectionViewCell: UICollectionViewCell {
             titleLabel.text = ""
         }
     }
-    
-
-
 }
