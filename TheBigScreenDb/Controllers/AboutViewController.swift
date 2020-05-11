@@ -21,8 +21,7 @@ class AboutViewController: UIViewController {
         let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
         let buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
         appVersionAndBuildLabel.font = UIFont.boldSystemFont(ofSize: 12)
-        appVersionAndBuildLabel.text = "OnTheBigScreen v\(versionNumber) build \(buildNumber)"
-                
+        appVersionAndBuildLabel.text = "On The Big Screen v\(versionNumber) build \(buildNumber)"
         
     }
     

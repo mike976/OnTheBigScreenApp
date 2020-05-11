@@ -495,6 +495,18 @@
                                     <constraint firstAttribute="height" constant="60" id="UPN-ES-L7A"/>
                                 </constraints>
                             </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This product uses the TMDb API but is not endorsed or certified by TMDb" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GyS-cZ-4eZ">
+                                <rect key="frame" x="50" y="690" width="314" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TmDB_Logo" translatesAutoresizingMaskIntoConstraints="NO" id="mb2-9M-0pZ">
+                                <rect key="frame" x="50" y="629" width="66" height="42"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="42" id="jM2-JB-Rc7"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -502,16 +514,22 @@
                             <constraint firstItem="w5A-pB-vF3" firstAttribute="centerX" secondItem="d7O-BL-GXE" secondAttribute="centerX" id="9DA-7t-jAl"/>
                             <constraint firstItem="2Rh-jM-cm4" firstAttribute="centerX" secondItem="1pj-18-jXj" secondAttribute="centerX" id="BH3-B7-HNO"/>
                             <constraint firstItem="v9r-2h-NhS" firstAttribute="top" secondItem="nKG-3c-hPH" secondAttribute="top" constant="50" id="Fb2-bF-Ew6"/>
+                            <constraint firstItem="2Rh-jM-cm4" firstAttribute="top" secondItem="GyS-cZ-4eZ" secondAttribute="bottom" constant="32" id="GAr-rd-9kE"/>
                             <constraint firstItem="tAk-9c-YVi" firstAttribute="top" secondItem="csQ-js-iw2" secondAttribute="bottom" constant="54" id="HUv-vb-PUu"/>
                             <constraint firstItem="d7O-BL-GXE" firstAttribute="leading" secondItem="1pj-18-jXj" secondAttribute="leadingMargin" constant="30" id="Jje-98-xCr"/>
                             <constraint firstItem="w5A-pB-vF3" firstAttribute="top" secondItem="d7O-BL-GXE" secondAttribute="bottom" constant="17" id="Li8-W1-xQM"/>
                             <constraint firstAttribute="trailingMargin" secondItem="d7O-BL-GXE" secondAttribute="trailing" constant="30" id="VZT-R8-znO"/>
                             <constraint firstItem="w5A-pB-vF3" firstAttribute="width" secondItem="d7O-BL-GXE" secondAttribute="width" id="WDb-BH-6Dl"/>
+                            <constraint firstItem="nKG-3c-hPH" firstAttribute="trailing" secondItem="mb2-9M-0pZ" secondAttribute="trailing" constant="298" id="Yby-YV-ycf"/>
+                            <constraint firstItem="GyS-cZ-4eZ" firstAttribute="leading" secondItem="nKG-3c-hPH" secondAttribute="leading" constant="50" id="YvV-bv-qZP"/>
                             <constraint firstItem="csQ-js-iw2" firstAttribute="centerX" secondItem="v9r-2h-NhS" secondAttribute="centerX" id="Zf4-dn-Wmq"/>
                             <constraint firstItem="d7O-BL-GXE" firstAttribute="centerX" secondItem="tAk-9c-YVi" secondAttribute="centerX" id="dHK-im-74a"/>
                             <constraint firstItem="tAk-9c-YVi" firstAttribute="leading" secondItem="1pj-18-jXj" secondAttribute="leading" constant="30" id="ea9-ue-wSq"/>
+                            <constraint firstItem="GyS-cZ-4eZ" firstAttribute="top" secondItem="mb2-9M-0pZ" secondAttribute="bottom" constant="19" id="enu-ir-ubU"/>
+                            <constraint firstItem="mb2-9M-0pZ" firstAttribute="leading" secondItem="nKG-3c-hPH" secondAttribute="leading" constant="50" id="lau-9A-9gx"/>
                             <constraint firstItem="2Rh-jM-cm4" firstAttribute="top" secondItem="d7O-BL-GXE" secondAttribute="bottom" constant="350" id="mta-ws-wqr"/>
                             <constraint firstItem="d7O-BL-GXE" firstAttribute="top" secondItem="tAk-9c-YVi" secondAttribute="bottom" constant="22.5" id="myg-qX-QGj"/>
+                            <constraint firstItem="nKG-3c-hPH" firstAttribute="trailing" secondItem="GyS-cZ-4eZ" secondAttribute="trailing" constant="50" id="nsh-0r-W9M"/>
                             <constraint firstItem="w5A-pB-vF3" firstAttribute="centerY" secondItem="1pj-18-jXj" secondAttribute="centerY" id="y4H-fP-jhu"/>
                             <constraint firstItem="v9r-2h-NhS" firstAttribute="centerX" secondItem="1pj-18-jXj" secondAttribute="centerX" id="zbO-ow-JQY"/>
                         </constraints>
@@ -525,7 +543,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RB8-nI-olt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="749" y="1023"/>
+            <point key="canvasLocation" x="747.82608695652175" y="1022.5446428571428"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -596,6 +614,7 @@
         <image name="Mail_Icon" width="120" height="120"/>
         <image name="Search_Icon" width="480" height="480"/>
         <image name="Share_Icon" width="120" height="120"/>
+        <image name="TmDB_Logo" width="640" height="461.5"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="star" catalog="system" width="128" height="116"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>
