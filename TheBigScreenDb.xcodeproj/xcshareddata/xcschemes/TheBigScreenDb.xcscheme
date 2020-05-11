@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2E9EB467245703BF00C2C488"
-               BuildableName = "TheBigScreenDb.app"
+               BuildableName = "On the Big Screen.app"
                BlueprintName = "TheBigScreenDb"
                ReferencedContainer = "container:TheBigScreenDb.xcodeproj">
             </BuildableReference>
@@ -65,7 +65,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2E9EB467245703BF00C2C488"
-            BuildableName = "TheBigScreenDb.app"
+            BuildableName = "On the Big Screen.app"
             BlueprintName = "TheBigScreenDb"
             ReferencedContainer = "container:TheBigScreenDb.xcodeproj">
          </BuildableReference>
@@ -82,7 +82,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2E9EB467245703BF00C2C488"
-            BuildableName = "TheBigScreenDb.app"
+            BuildableName = "On the Big Screen.app"
             BlueprintName = "TheBigScreenDb"
             ReferencedContainer = "container:TheBigScreenDb.xcodeproj">
          </BuildableReference>
