@@ -22,4 +22,4 @@ You can update the key it in the file `Services.plist`
 
 ## 📫 Author
 
-Michael Bullock - <mbullock976@hotmail.com>
+Michael Bullock - <mikebullock976@gmail.com>
