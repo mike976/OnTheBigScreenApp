@@ -10,6 +10,7 @@
 		290DEFEF873C643B9B2E9144 /* Pods_TheBigScreenDbTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7694CFD288A0B6A0BA99E6A2 /* Pods_TheBigScreenDbTests.framework */; };
 		2E068EB72469348900721543 /* Services.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E068EB62469348900721543 /* Services.plist */; };
 		2E234019245C741200BBBB9B /* TvShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E234018245C741200BBBB9B /* TvShow.swift */; };
+		2E238ACE246A910A00993B94 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E238ACD246A910A00993B94 /* UIImageExtension.swift */; };
 		2E3EC33E245B173B0036D2FD /* FeaturedCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3EC33D245B173B0036D2FD /* FeaturedCategoryCell.swift */; };
 		2E3EC340245B1CE40036D2FD /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3EC33F245B1CE40036D2FD /* VideoCell.swift */; };
 		2E44B5322459669B003386A9 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E44B5312459669B003386A9 /* StringExtension.swift */; };
@@ -67,6 +68,7 @@
 		2C8684502CCA576C389915AC /* Pods-TheBigScreenDb-TheBigScreenDbUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheBigScreenDb-TheBigScreenDbUITests.release.xcconfig"; path = "Target Support Files/Pods-TheBigScreenDb-TheBigScreenDbUITests/Pods-TheBigScreenDb-TheBigScreenDbUITests.release.xcconfig"; sourceTree = "<group>"; };
 		2E068EB62469348900721543 /* Services.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Services.plist; sourceTree = "<group>"; };
 		2E234018245C741200BBBB9B /* TvShow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TvShow.swift; sourceTree = "<group>"; };
+		2E238ACD246A910A00993B94 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		2E3EC33D245B173B0036D2FD /* FeaturedCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedCategoryCell.swift; sourceTree = "<group>"; };
 		2E3EC33F245B1CE40036D2FD /* VideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
 		2E44B5312459669B003386A9 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
@@ -274,6 +276,7 @@
 				2E9EB4AD2457061400C2C488 /* NSTimer+Closure.swift */,
 				2E44B5312459669B003386A9 /* StringExtension.swift */,
 				2EB145D42465695700AAEC53 /* UIImageViewExtension.swift */,
+				2E238ACD246A910A00993B94 /* UIImageExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -603,6 +606,7 @@
 				2EB7B3EE246156DF00A9B029 /* SearchViewController.swift in Sources */,
 				2EB53F76246060AF006DCB2F /* Media.swift in Sources */,
 				2E9EB4B12457061400C2C488 /* UIColor+Theme.swift in Sources */,
+				2E238ACE246A910A00993B94 /* UIImageExtension.swift in Sources */,
 				2E9EB470245703BF00C2C488 /* FeaturedViewController.swift in Sources */,
 				2E44B5342459685A003386A9 /* WebResponse.swift in Sources */,
 				2EC0EDB1246301D5001540E3 /* MediaDetail.swift in Sources */,

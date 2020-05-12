@@ -22,10 +22,10 @@ class MyTableViewCell : UITableViewCell {
 
 class MediaDetailViewController: UIViewController {
         
-    var castCollectionViewDelegate = CastCollectionViewDelegate()
-    var crewCollectionViewDelegate = CrewCollectionViewDelegate()
-    var trailersCollectionViewDelegate = TrailersCollectionViewDelegate()
-    var productionCollectionViewDelegate = ProductionCollectionViewDelegate()
+    private let castCollectionViewDelegate = CastCollectionViewDelegate()
+    private let crewCollectionViewDelegate = CrewCollectionViewDelegate()
+    private let trailersCollectionViewDelegate = TrailersCollectionViewDelegate()
+    private let productionCollectionViewDelegate = ProductionCollectionViewDelegate()
     
     deinit {
         print("OS reclaiming memory - MediaDetailViewController - no retain cycle/memory leaks here")
@@ -206,8 +206,6 @@ extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate
             sv.register(MediaDetailCollectionViewCell.self, forCellWithReuseIdentifier: "cell_1")
             sv.backgroundColor = .clear
             
-            self.castCollectionViewDelegate = CastCollectionViewDelegate()
-            
             sv.delegate = self.castCollectionViewDelegate
             sv.dataSource = self.castCollectionViewDelegate
             sv.reloadData()
@@ -228,9 +226,9 @@ extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate
             cell.contentView.bringSubviewToFront(sectionLabel)
             
            if self.castCollectionViewDelegate.mediaCredits == nil {
-                DispatchQueue.main.async { [weak self] in
-                   if let mc = self?.getMediaCreditsAsync() {
-                      
+
+               if let mc = self.getMediaCreditsAsync() {
+                    DispatchQueue.main.async { [weak self] in
                         if self?.castCollectionViewDelegate.mediaCredits == nil {
                             self?.castCollectionViewDelegate.mediaCredits = mc
                             sv.reloadData()
@@ -251,8 +249,6 @@ extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate
             sv.register(MediaDetailCollectionViewCell.self, forCellWithReuseIdentifier: "cell_2")
             sv.backgroundColor = .clear
             
-            self.crewCollectionViewDelegate = CrewCollectionViewDelegate()
-            
             sv.delegate = self.crewCollectionViewDelegate
             sv.dataSource = self.crewCollectionViewDelegate
             sv.reloadData()
@@ -272,14 +268,13 @@ extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate
             cell.contentView.bringSubviewToFront(sectionLabel)
             
             if self.crewCollectionViewDelegate.mediaCredits == nil {
-                DispatchQueue.main.async { [weak self] in
-                   if let mc = self?.getMediaCreditsAsync() {
-                      
+                if let mc = self.getMediaCreditsAsync() {
+                    DispatchQueue.main.async { [weak self] in
                         if self?.crewCollectionViewDelegate.mediaCredits == nil {
                             self?.crewCollectionViewDelegate.mediaCredits = mc
                             sv.reloadData()
                         }
-                   }
+                    }
                 }
             }
             
@@ -315,14 +310,13 @@ extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate
             cell.contentView.bringSubviewToFront(sectionLabel)
             
             if self.trailersCollectionViewDelegate.mediaDetail == nil {
-                DispatchQueue.main.async { [weak self] in
-                   if let mc = self?.getMediaDetailAsync() {
-                      
+                if let mc = self.getMediaDetailAsync() {
+                    DispatchQueue.main.async { [weak self] in
                         if self?.trailersCollectionViewDelegate.mediaDetail == nil {
                             self?.trailersCollectionViewDelegate.mediaDetail = mc
                             sv.reloadData()
                         }
-                   }
+                    }
                 }
             }
             
@@ -358,9 +352,8 @@ extension MediaDetailViewController : UITableViewDataSource, UITableViewDelegate
             cell.contentView.bringSubviewToFront(sectionLabel)
             
             if self.productionCollectionViewDelegate.mediaDetail == nil {
-                DispatchQueue.main.async { [weak self] in
-                   if let md = self?.getMediaDetailAsync() {
-                      
+                if let md = self.getMediaDetailAsync() {
+                   DispatchQueue.main.async { [weak self] in
                         if self?.productionCollectionViewDelegate.mediaDetail == nil {
                             self?.productionCollectionViewDelegate.mediaDetail = md
                             sv.reloadData()
@@ -497,7 +490,7 @@ class CastCollectionViewDelegate : NSObject, UICollectionViewDelegate, UICollect
         cell.prepareForReuse()
         cell.backgroundColor = .clear
 
-        let placeholderImage = UIImage(named: "placeholder")
+        let placeholderImage = UIImage(named: "placeholder")?.setAlpha(alpha: 0.5)
         
         if let imageUrl = mediaCredits?.cast?[indexPath.section].imageUrl {
             cell.imageView?.af.setImage(withURL: imageUrl, placeholderImage: placeholderImage, runImageTransitionIfCached: true)
@@ -543,7 +536,7 @@ class CrewCollectionViewDelegate : NSObject, UICollectionViewDelegate, UICollect
         
         cell.backgroundColor = .clear
 
-        let placeholderImage = UIImage(named: "placeholder")
+        let placeholderImage = UIImage(named: "placeholder")?.setAlpha(alpha: 0.5)
         
         if let imageUrl = mediaCredits?.crew?[indexPath.section].imageUrl {
             cell.imageView?.af.setImage(withURL: imageUrl, placeholderImage: placeholderImage, runImageTransitionIfCached: true)
@@ -588,7 +581,7 @@ class TrailersCollectionViewDelegate : NSObject, UICollectionViewDelegate, UICol
         cell.prepareForReuse()
         cell.backgroundColor = .clear
 
-        let placeholderImage = UIImage(named: "placeholder")
+        let placeholderImage = UIImage(named: "placeholder")?.setAlpha(alpha: 0.5)
         
         
         if let imageUrl = mediaDetail?.trailers?[indexPath.section].youtubeThumbnailUrl {
@@ -639,9 +632,8 @@ class ProductionCollectionViewDelegate : NSObject, UICollectionViewDelegate, UIC
         cell.prepareForReuse()
         cell.backgroundColor = .clear
 
-        let placeholderImage = UIImage(named: "placeholder")
-        
-        
+        let placeholderImage = UIImage(named: "placeholder")?.setAlpha(alpha: 0.5)
+
         if let imageUrl = mediaDetail?.productionCompanies?[indexPath.section].logoPath {
             cell.imageView?.af.setImage(withURL: imageUrl, placeholderImage: placeholderImage, runImageTransitionIfCached: true)
             cell.imageView.contentMode = .scaleAspectFit
