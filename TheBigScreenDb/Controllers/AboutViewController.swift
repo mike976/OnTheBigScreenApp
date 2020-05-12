@@ -80,7 +80,7 @@ class AboutViewController: UIViewController {
             let buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
             let mailComposerViewController = MFMailComposeViewController()
             mailComposerViewController.mailComposeDelegate = self
-            mailComposerViewController.setToRecipients(["isimplifysolutionsltd@gmail.com"])
+            mailComposerViewController.setToRecipients(["mikebullock976@gmail.com"])
             mailComposerViewController.setSubject("Hello!")
             mailComposerViewController.setMessageBody("\n\n\n\nSent from OnTheBigScreen iOS - v\(versionNumber) build \(buildNumber)", isHTML: false)
             self.present(mailComposerViewController, animated: true, completion: nil)
@@ -111,7 +111,7 @@ class AboutViewController: UIViewController {
     
     private func open(url: URL, withAlertMessage message: String) {
         
-        UserDefaults.performOnce(forKey: "com.isimplifysolutionsltd.OnTheBigScreen.leavingAppAlert", perform: {
+        UserDefaults.performOnce(forKey: "com.mbullock976.OnTheBigScreen.leavingAppAlert", perform: {
             let alert = UIAlertController(title: "Leave the app?", message: message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Continue", style: .default) { _ in
                 alert.dismiss(animated: true, completion: nil)
