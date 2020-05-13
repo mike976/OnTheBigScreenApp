@@ -10,7 +10,10 @@ Features coming soon include:
 - Search by Genre and Actor
 - Explore related movies and tv shows by Actor
 
-v1.0 is now available for download on your iOS devices
+v1.0 is now available for download on your iOS devices 
+
+
+[![Download on the App Store](http://linkmaker.itunes.apple.com/assets/shared/badges/en-gb/appstore-lrg.svg)](https://apps.apple.com/us/app/on-the-big-screen/id1512929950?ls=1)
 
 
 <p>
