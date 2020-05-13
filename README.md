@@ -39,5 +39,5 @@ Development Time to Release = 2 weeks
 
 - Protocol based design 
 - Implementation follows the MVVM design pattern
-- Async Await Task pattern implemented to retrieve via the TmDB Web API
+- Async Await Task pattern implemented to retrieve data via the TmDB Web API
 - RxSwift was used to observe the user's selection
