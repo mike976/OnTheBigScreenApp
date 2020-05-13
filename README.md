@@ -33,9 +33,10 @@ You can update the key it in the file `Services.plist`
 
 Michael Bullock - <mikebullock976@gmail.com>
 
-Development Time to Release = 2 weeks
 
 ## App Design
+
+v1.0 - from development time to release = 2 weeks
 
 - Protocol based design 
 - Implementation follows the MVVM design pattern
