@@ -12,6 +12,17 @@ Features coming soon include:
 
 v1.0 is now available for download on your iOS devices
 
+
+<p>
+  <img src="https://user-images.githubusercontent.com/63581689/81798327-d0495d00-9507-11ea-9cd0-e3fc1c0f86fe.png" width="210">
+  
+  <img src="https://user-images.githubusercontent.com/63581689/81798363-dd664c00-9507-11ea-89cd-f780b264124b.png" width="210">
+
+  <img src="https://user-images.githubusercontent.com/63581689/81798412-ece59500-9507-11ea-824a-a22a856f7b71.png" width="210">
+
+  <img src="https://user-images.githubusercontent.com/63581689/81798450-f7079380-9507-11ea-9961-9daa0f6b30c8.png" width="210">
+</p>
+
 ## 🔎 About
 
 On the Big Screen is built using Swift and XCode 11
