@@ -53,6 +53,7 @@ Michael Bullock - <mikebullock976@gmail.com>
 v1.0 - from development time to release = 2 weeks
 
 - Protocol based design 
+- Dependency constructor/init injection via Swinject. Services and ViewModel are registered and resolved via a IOC Container. 
 - Implementation follows the MVVM design pattern
 - Use of Restful API with back-end services #themoviedb.
 - Async Await Task pattern implemented to retrieve data via the TmDB Web API
