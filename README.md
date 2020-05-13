@@ -28,7 +28,7 @@ v1.0 is now available for download on your iOS devices
 
 ## 🔎 About
 
-On the Big Screen is built using Swift and XCode 11
+On the Big Screen is built using Swift 5 and XCode 11
 
 Cocoa Pods used include:
 
