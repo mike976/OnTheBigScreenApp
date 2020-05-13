@@ -1,17 +1,26 @@
 # 
 # 🎬 On The Big Screen
 
-iOS app that provides information about Movies and TV using TMDb API. 
+Discover new releases and search through The Movie Database (TMDb) for old and recent movies.This app provides details and descriptions for your favourites movies and tv shows, along with images and links to film trailers.
 
-Browse through a list of popular films whether they're coming up soon in theaters or already released in DVD. 
-Search specific movies and tv shows old and new and go through the cast and crew of each production.
-Watch Trailers
+Supports iOS Dark Mode
+
+Features coming soon include:
+- Actor Bio
+- Search by Genre and Actor
+- Explore related movies and tv shows by Actor
 
 v1.0 is now available for download on your iOS devices
 
 ## 🔎 About
 
-On the Big Screen is built using [Swift] and [Cocoa]
+On the Big Screen is built using Swift and XCode 11
+
+Cocoa Pods used include:
+
+- RxSwift
+- AlamoFire & AlamoFireImage
+- STRRatingControl
 
 ## 🔧 Usage
 
@@ -23,3 +32,12 @@ You can update the key it in the file `Services.plist`
 ## 📫 Author
 
 Michael Bullock - <mikebullock976@gmail.com>
+
+Development Time to Release = 2 weeks
+
+## App Design
+
+- Protocol based design 
+- Implementation follows the MVVM design pattern
+- Async Await Task pattern implemented to retrieve via the TmDB Web API
+- RxSwift was used to observe the user's selection
