@@ -17,14 +17,14 @@ target 'TheBigScreenDb' do
     pod 'STRatingControl'
     pod 'RxSwift'
 
+    pod 'Swinject'
 
 
   target 'TheBigScreenDbTests' do
     inherit! :search_paths
     # Pods for testing
 
-
-# Networking APIS
+    # Networking APIS
     pod 'Alamofire', '~> 5.1'
     pod 'AlamofireImage', '~> 4.1'
     pod 'SwiftyJSON'
@@ -34,7 +34,7 @@ target 'TheBigScreenDb' do
     pod 'STRatingControl'
     pod 'RxSwift'
         
-
+    pod 'Swinject'
 
   end
 
@@ -53,6 +53,7 @@ target 'TheBigScreenDb' do
     pod 'STRatingControl'
     pod 'RxSwift'
 
+    pod 'Swinject'
 
   end
 

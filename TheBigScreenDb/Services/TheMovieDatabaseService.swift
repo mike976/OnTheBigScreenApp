@@ -98,7 +98,7 @@ class TheMovieDatabaseService : TheMovieDatabaseServiceProtocol {
            
     required init(webClient: WebClientProtocol) {
         
-        self.webClient = webClient
+        self.webClient = webClient        
     }
     
     // MARK: Public Functions that call Web API

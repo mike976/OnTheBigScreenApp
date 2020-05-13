@@ -7,50 +7,65 @@
 //
 
 import UIKit
+import Swinject
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
+    let container = Container()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
-        
-               
-        simulateAnIOCContainer()        
-    }
-    
-    
-    //Due to issues using SwinInject and tabbarcontroller for dependency injection IOC registration.
-    //I've created this function that is essentially a makeshift way of resolving dependencies via initializer injection, and this indrectly shows the object graph had this been an actual IOC container
-    func simulateAnIOCContainer () {
+                       
+        CreateDepedencyIocContainer()
         
         //Featured Tab Section Dependencies Resolved
         if let viewController = self.window?.rootViewController {
-                
-             let webClient: WebClientProtocol = WebClient()
-             let movieDatabaseService: TheMovieDatabaseServiceProtocol = TheMovieDatabaseService(webClient: webClient)
-             let mediaListViewModel = MediaViewModel(movieDatabaseService: movieDatabaseService)
-            
-            if let featuredNavigationController = viewController.children[0] as? UINavigationController {
-                
-                if let featuredViewController = featuredNavigationController.children[0] as? FeaturedViewController {                
-                    featuredViewController.mediaListViewModel = mediaListViewModel
-                }
-            }
-            
-            if let searchNavigationController = viewController.children[1] as? UINavigationController {
-                
-                if let searchViewController = searchNavigationController.children[0] as? SearchViewController {
-                    searchViewController.mediaViewModel = mediaListViewModel
-                }
-            }
-            
-            
+                                                 
+            let mediaListViewModel = self.container.resolve(MediaViewModelProtocol.self)!
+
+              if let featuredNavigationController = viewController.children[0] as? UINavigationController {
+
+                  if let featuredViewController = featuredNavigationController.children[0] as? FeaturedViewController {
+                      featuredViewController.mediaListViewModel = mediaListViewModel
+                  }
+              }
+              
+              if let searchNavigationController = viewController.children[1] as? UINavigationController {
+                  
+                  if let searchViewController = searchNavigationController.children[0] as? SearchViewController {
+                      searchViewController.mediaViewModel = mediaListViewModel
+                  }
+              }
+          
+          
         }
+    }
+    
+    
+    //register and resolve dependencies via constructor/init injection
+    func CreateDepedencyIocContainer() {            
+        
+        //register Web Client
+        self.container.register(WebClientProtocol.self) { r in
+            WebClient()
+        }.inObjectScope(.container)
+        
+        //register Rest API Service
+        self.container.register(TheMovieDatabaseServiceProtocol.self) { r in
+            TheMovieDatabaseService(webClient: r.resolve(WebClientProtocol.self)!)
+        }
+        
+        //register ViewModel
+        self.container.register(MediaViewModelProtocol.self) { r in
+            MediaViewModel(movieDatabaseService: r.resolve(TheMovieDatabaseServiceProtocol.self)!)
+        }
+        
+      
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

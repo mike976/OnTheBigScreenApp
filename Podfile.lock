@@ -6,6 +6,7 @@ PODS:
   - RxSwift (5.1.1)
   - STRatingControl (1.1.2)
   - SwiftyJSON (5.0.0)
+  - Swinject (2.7.1)
 
 DEPENDENCIES:
   - Alamofire (~> 5.1)
@@ -14,6 +15,7 @@ DEPENDENCIES:
   - RxSwift
   - STRatingControl
   - SwiftyJSON
+  - Swinject
 
 SPEC REPOS:
   trunk:
@@ -23,6 +25,7 @@ SPEC REPOS:
     - RxSwift
     - STRatingControl
     - SwiftyJSON
+    - Swinject
 
 SPEC CHECKSUMS:
   Alamofire: 9d5c5f602928e512395b30950c5984eca840093c
@@ -31,7 +34,8 @@ SPEC CHECKSUMS:
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   STRatingControl: 254ee5f6dd174e3fa9d8365a08326291fd0bd950
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
+  Swinject: ddf78b8486dd9b71a667b852cad919ab4484478e
 
-PODFILE CHECKSUM: ff33c96a4b800d1219f6b7ee4102f2047d382284
+PODFILE CHECKSUM: 5a294e51b6084321b1e69a312e91382c3a9adcc7
 
 COCOAPODS: 1.9.1

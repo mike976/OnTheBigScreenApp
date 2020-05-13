@@ -42,8 +42,6 @@ class FeaturedViewController: UIViewController {
         }
     }
     
-
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
