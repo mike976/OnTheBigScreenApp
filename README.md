@@ -3,7 +3,7 @@
 
 Discover new releases and search through The Movie Database (TMDb) for old and recent movies.This app provides details and descriptions for your favourites movies and tv shows, along with images and links to film trailers.
 
-Supports iOS Dark Mode
+Supports iOS 13 Dark Mode
 
 Features coming soon include:
 - Actor Bio
@@ -51,5 +51,10 @@ v1.0 - from development time to release = 2 weeks
 
 - Protocol based design 
 - Implementation follows the MVVM design pattern
+- Use of Restful API with back-end services #themoviedb.
 - Async Await Task pattern implemented to retrieve data via the TmDB Web API
+- Use of Generics to return the Featured Movie Types from Rest API
 - RxSwift was used to observe the user's selection
+- Inifinite Scrolling and pagination that loads more data from Rest API implemented for Featured Movie lists
+
+
