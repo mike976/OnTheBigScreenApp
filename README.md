@@ -1,7 +1,7 @@
 # 
 # 🎬 On The Big Screen
 
-Discover new releases and search through The Movie Database (TMDb) for old and recent movies.This app provides details and descriptions for your favourites movies and tv shows, along with images and links to film trailers.
+Discover new releases and search through The Movie Database (TMDb) for old and recent movies. This app provides details and descriptions for your favourites movies and tv shows, along with images and links to film trailers.
 
 Supports iOS 13 Dark Mode
 
