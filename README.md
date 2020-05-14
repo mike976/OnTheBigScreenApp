@@ -60,5 +60,9 @@ v1.0 - from development time to release = 2 weeks
 - Use of Generics to return the Featured Movie Types from Rest API
 - RxSwift was used to observe the user's selection
 - Inifinite Scrolling and pagination that loads more data from Rest API implemented for Featured Movie lists
+- Unit Tests utilizing mock and resolves protocol types via Dependency IOC Container via Swinject
+- App has been checked for memory leaks using XCode Instruments Leak Profiler
+ 
+ 
  
 
