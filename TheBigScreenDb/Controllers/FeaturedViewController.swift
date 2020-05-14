@@ -35,10 +35,10 @@ class FeaturedViewController: UIViewController {
     var categories = ["Now Playing", "Coming Soon", "Trending Movies", "Trending TV Shows"]
     
     //MARK: - ViewModels
-    var mediaListViewModel: MediaViewModelProtocol?
+    var mediaViewModel: MediaViewModelProtocol?
     {
         didSet{
-            loadMediaList()
+            loadMediaList()            
         }
     }
     
@@ -152,7 +152,7 @@ class FeaturedViewController: UIViewController {
     private func getMoviesNowPlayingAsync(_ page : Int = 1){
         
         
-        if let nowplayingMovies:[Movie] = self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.nowplaying_movies, nil) {
+        if let nowplayingMovies:[Movie] = self.mediaViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.nowplaying_movies, nil) {
             self.nowPlayingMovies = nowplayingMovies
                     
             
@@ -164,7 +164,7 @@ class FeaturedViewController: UIViewController {
     }
     
     private func getUpcomingMoviesAsync(_ page : Int = 1){
-        if let upComingMovies:[Movie] = self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.upcoming_movies, nil) {
+        if let upComingMovies:[Movie] = self.mediaViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.upcoming_movies, nil) {
             self.upComingMovies = upComingMovies
 
             DispatchQueue.main.async {
@@ -176,7 +176,7 @@ class FeaturedViewController: UIViewController {
 
     private func getTrendingMoviesAsync(_ page : Int = 1){
 
-        if let trendingMovies:[Movie] = self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.trending_movies, nil) {
+        if let trendingMovies:[Movie] = self.mediaViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.trending_movies, nil) {
             self.trendingMovies = trendingMovies
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -187,7 +187,7 @@ class FeaturedViewController: UIViewController {
 
     private func getTrendingTvShowsAsync(_ page : Int = 1){
 
-        if let trendingTvShows:[TvShow] = self.mediaListViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.trending_tvshows, nil) {
+        if let trendingTvShows:[TvShow] = self.mediaViewModel?.getMediaListAsync(page: page, endpoint: MediaEndpoint.trending_tvshows, nil) {
             self.trendingTvShows = trendingTvShows
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -215,7 +215,7 @@ class FeaturedViewController: UIViewController {
 
             vc.selectedCategoryIndex = categoryIndex
             vc.categories = self.categories
-            vc.mediaViewModel = self.mediaListViewModel            
+            vc.mediaViewModel = self.mediaViewModel            
             
             
             switch categoryIndex {
@@ -241,7 +241,7 @@ class FeaturedViewController: UIViewController {
         //navigate to media detail page
         if let featuredController = sender as? FeaturedViewController {
             if let vc = segue.destination as? MediaDetailViewController {
-             vc.mediaViewModel = featuredController.mediaListViewModel
+             vc.mediaViewModel = featuredController.mediaViewModel
                 vc.media = featuredController.selectedMedia
             }
         }

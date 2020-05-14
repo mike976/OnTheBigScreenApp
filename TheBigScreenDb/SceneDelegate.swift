@@ -13,43 +13,41 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-    let container = Container()
-
+    private var container: Container!
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
-                       
-        CreateDepedencyIocContainer()
-        
-        //Featured Tab Section Dependencies Resolved
-        if let viewController = self.window?.rootViewController {
-                                                 
-            let mediaListViewModel = self.container.resolve(MediaViewModelProtocol.self)!
-
-              if let featuredNavigationController = viewController.children[0] as? UINavigationController {
-
-                  if let featuredViewController = featuredNavigationController.children[0] as? FeaturedViewController {
-                      featuredViewController.mediaListViewModel = mediaListViewModel
-                  }
-              }
-              
-              if let searchNavigationController = viewController.children[1] as? UINavigationController {
-                  
-                  if let searchViewController = searchNavigationController.children[0] as? SearchViewController {
-                      searchViewController.mediaViewModel = mediaListViewModel
-                  }
-              }
-          
-          
-        }
+                            
+        BuildIocContainer()
+                        
     }
     
     
-    //register and resolve dependencies via constructor/init injection
-    func CreateDepedencyIocContainer() {            
+    //register services/viewmodel resolve dependencies via constructor/init injection
+    func BuildIocContainer() {
         
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            container = appDelegate.iocContainer
+        }
+        
+        registerServices()
+        registerViewModels()
+        registerControllers()
+                       
+        //resolve Controllers with property dp injection
+        let featuredViewController = container.resolve(FeaturedViewController.self)!
+        featuredViewController.mediaViewModel = container.resolve(MediaViewModelProtocol.self)! //property dependency injection of viewModel
+
+        let searchViewController = container.resolve(SearchViewController.self)!
+        searchViewController.mediaViewModel = container.resolve(MediaViewModelProtocol.self)! //property dependency injection of viewModel
+      
+    }
+    
+    func registerServices() {
+
         //register Web Client
         self.container.register(WebClientProtocol.self) { r in
             WebClient()
@@ -58,14 +56,53 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //register Rest API Service
         self.container.register(TheMovieDatabaseServiceProtocol.self) { r in
             TheMovieDatabaseService(webClient: r.resolve(WebClientProtocol.self)!)
-        }
+        }.inObjectScope(.container)
+                   
+    }
+    
+    func registerViewModels() {
         
         //register ViewModel
         self.container.register(MediaViewModelProtocol.self) { r in
             MediaViewModel(movieDatabaseService: r.resolve(TheMovieDatabaseServiceProtocol.self)!)
-        }
-        
-      
+        }.inObjectScope(.container)
+    }
+    
+    func registerControllers () {
+        //register FeaturedViewController and property dp injection of viewmodel
+           self.container.register(FeaturedViewController.self) { r in
+               
+               guard let rootController = self.window?.rootViewController else { return FeaturedViewController() }
+               
+               guard let featuredNavigationController = rootController.children[0] as? UINavigationController else {
+                   print("CreateDepedencyIocContainer - featuredNavigationController - something went wrong - the first child of root controller is not a NavigationController")
+                   return FeaturedViewController()
+               }
+
+               guard let featuredViewController = featuredNavigationController.children[0] as? FeaturedViewController else  {
+                   print("CreateDepedencyIocContainer -something went wrong - the first child of navigation controller is not a FeaturedViewController")
+                   return FeaturedViewController()
+               }
+
+               return featuredViewController
+           }
+           
+           self.container.register(SearchViewController.self) { r in
+               
+               guard let rootController = self.window?.rootViewController else { return SearchViewController() }
+               
+               guard let featuredNavigationController = rootController.children[1] as? UINavigationController else {
+                   print("CreateDepedencyIocContainer - featuredNavigationController - something went wrong - the second child of root controller is not a NavigationController")
+                   return SearchViewController()
+               }
+
+               guard let searchViewController = featuredNavigationController.children[0] as? SearchViewController else  {
+                   print("CreateDepedencyIocContainer - searchViewController - something went wrong - the first child of second child navigation item is not a SearchViewController")
+                   return SearchViewController()
+               }
+
+               return searchViewController
+           }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
