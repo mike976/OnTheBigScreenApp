@@ -16,6 +16,8 @@
 		2E44B5322459669B003386A9 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E44B5312459669B003386A9 /* StringExtension.swift */; };
 		2E44B5342459685A003386A9 /* WebResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E44B5332459685A003386A9 /* WebResponse.swift */; };
 		2E920D3F246C4E5A00B8B05C /* TheMovieDatabaseServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E920D3E246C4E5A00B8B05C /* TheMovieDatabaseServiceTests.swift */; };
+		2E920D42246D39E800B8B05C /* nowPlayingMovie.json in Resources */ = {isa = PBXBuildFile; fileRef = 2E920D41246D39E700B8B05C /* nowPlayingMovie.json */; };
+		2E920D44246D4A2000B8B05C /* MockWebClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E920D43246D4A2000B8B05C /* MockWebClient.swift */; };
 		2E9EB46C245703BF00C2C488 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9EB46B245703BF00C2C488 /* AppDelegate.swift */; };
 		2E9EB46E245703BF00C2C488 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9EB46D245703BF00C2C488 /* SceneDelegate.swift */; };
 		2E9EB470245703BF00C2C488 /* FeaturedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9EB46F245703BF00C2C488 /* FeaturedViewController.swift */; };
@@ -75,6 +77,8 @@
 		2E44B5312459669B003386A9 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		2E44B5332459685A003386A9 /* WebResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebResponse.swift; sourceTree = "<group>"; };
 		2E920D3E246C4E5A00B8B05C /* TheMovieDatabaseServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheMovieDatabaseServiceTests.swift; sourceTree = "<group>"; };
+		2E920D41246D39E700B8B05C /* nowPlayingMovie.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = nowPlayingMovie.json; sourceTree = "<group>"; };
+		2E920D43246D4A2000B8B05C /* MockWebClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWebClient.swift; sourceTree = "<group>"; };
 		2E9EB468245703BF00C2C488 /* On The Big Screen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "On The Big Screen.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E9EB46B245703BF00C2C488 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2E9EB46D245703BF00C2C488 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -156,6 +160,14 @@
 			path = Featured;
 			sourceTree = "<group>";
 		};
+		2E920D40246D399B00B8B05C /* TestData */ = {
+			isa = PBXGroup;
+			children = (
+				2E920D41246D39E700B8B05C /* nowPlayingMovie.json */,
+			);
+			path = TestData;
+			sourceTree = "<group>";
+		};
 		2E9EB45F245703BF00C2C488 = {
 			isa = PBXGroup;
 			children = (
@@ -201,8 +213,10 @@
 		2E9EB486245703C300C2C488 /* TheBigScreenDbTests */ = {
 			isa = PBXGroup;
 			children = (
+				2E920D40246D399B00B8B05C /* TestData */,
 				2E9EB487245703C300C2C488 /* MediaViewModelTests.swift */,
 				2E920D3E246C4E5A00B8B05C /* TheMovieDatabaseServiceTests.swift */,
+				2E920D43246D4A2000B8B05C /* MockWebClient.swift */,
 				2E9EB489245703C300C2C488 /* Info.plist */,
 			);
 			path = TheBigScreenDbTests;
@@ -453,6 +467,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E920D42246D39E800B8B05C /* nowPlayingMovie.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -626,6 +641,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E920D44246D4A2000B8B05C /* MockWebClient.swift in Sources */,
 				2E9EB488245703C300C2C488 /* MediaViewModelTests.swift in Sources */,
 				2E920D3F246C4E5A00B8B05C /* TheMovieDatabaseServiceTests.swift in Sources */,
 			);
@@ -861,7 +877,7 @@
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TheBigScreenDb.app/TheBigScreenDb";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/On The Big Screen.app/On The Big Screen";
 			};
 			name = Debug;
 		};
@@ -890,7 +906,7 @@
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TheBigScreenDb.app/TheBigScreenDb";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/On The Big Screen.app/On The Big Screen";
 			};
 			name = Release;
 		};
